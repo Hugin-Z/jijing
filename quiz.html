@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>测一测 · 几境</title>
+<style>
+@font-face{font-family:'MaShanLocal';src:url('fonts/mashanzheng.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'SerifLocal';src:url('fonts/notoserifsc.woff2') format('woff2');font-weight:400 500;font-display:swap}
+@font-face{font-family:'SerifLocal';src:url('fonts/notoserifsc-bold.woff2') format('woff2');font-weight:600 700;font-display:swap}
+@font-face{font-family:'SansLocal';src:url('fonts/notosanssc-light.woff2') format('woff2');font-weight:300;font-display:swap}
+@font-face{font-family:'SansLocal';src:url('fonts/notosanssc.woff2') format('woff2');font-weight:400 500;font-display:swap}
+</style>
+<style>
+
+:root{
+  --ink:#0d1115;--panel:#171f25;--panel2:#1c252b;--rice:#ece6d6;--rice-dim:#b8b3a4;--muted:#8b938d;
+  --jade:#5bb295;--jade-d:#3f8f76;--gold:#c9a45c;--gold-l:#e6c074;--cinnabar:#d05f4c;--azure:#6db0c4;
+  --line:rgba(220,210,185,.12);--serif:'SerifLocal','Songti SC','SimSun',serif;--sans:'SansLocal','PingFang SC','Microsoft YaHei',sans-serif;--brush:'MaShanLocal','Songti SC',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-gradient(800px 520px at 72% 22%,rgba(91,178,149,.10),transparent 58%),radial-gradient(700px 460px at 16% 80%,rgba(201,164,92,.07),transparent 55%),linear-gradient(180deg,#0c1014,#0e141a 45%,#0c1014)}/*BGFIX*/
+
+body{color:var(--rice);font-family:var(--serif);-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fade .5s both}
+
+.jjnav{flex:0 0 auto;display:flex;align-items:center;gap:2px;justify-content:center;padding:9px 12px;border-bottom:1px solid var(--line);font-family:var(--sans);font-size:13px;position:relative;z-index:5}
+.jjnav a{color:var(--rice-dim);text-decoration:none;padding:5px 12px;border-radius:8px;transition:.2s;letter-spacing:.04em}
+.jjnav a:hover{color:var(--rice);background:rgba(255,255,255,.05)}
+.jjnav a.brand{font-family:var(--brush);font-size:20px;color:var(--gold);padding-right:4px}
+.jjnav a.on{color:var(--jade)}
+.jjnav .sp{width:1px;height:15px;background:rgba(220,210,185,.2);margin:0 3px}
+
+.wrap{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0;position:relative;z-index:2;padding:clamp(10px,2vh,20px) 18px clamp(14px,2.4vh,22px)}
+.screen{display:none;width:100%;max-width:560px;flex-direction:column;align-items:center;text-align:center}
+.screen.on{display:flex;animation:fade .4s both}
+
+/* ===== intro ===== */
+.kicker{font-family:var(--sans);font-size:11.5px;letter-spacing:.22em;color:var(--jade);text-transform:uppercase}
+.title{font-family:var(--brush);font-size:clamp(46px,9vh,72px);line-height:1;color:var(--gold-l);text-shadow:0 0 34px rgba(201,164,92,.3);margin-top:8px}
+.title .s{display:block;font-family:var(--sans);font-size:clamp(12px,1.7vh,14px);font-weight:300;letter-spacing:.16em;color:var(--rice-dim);margin-top:11px}
+.ornament{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:13px}
+.ornament .ln{width:clamp(38px,12vw,62px);height:1px;background:linear-gradient(90deg,transparent,rgba(201,164,92,.7))}
+.ornament .ln.r{transform:scaleX(-1)}
+.ornament .dot{color:var(--gold);font-size:13px;text-shadow:0 0 10px rgba(201,164,92,.6)}
+.tagline{font-size:clamp(13px,1.95vh,15px);color:var(--rice-dim);line-height:1.7;margin-top:clamp(12px,2vh,18px)}
+.tagline b{color:var(--jade);font-weight:600}
+.tagline .x{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(208,95,76,.6)}
+.pyramid{margin:clamp(16px,2.8vh,26px) 0;width:100%;max-width:430px}
+.divider{font-family:var(--sans);font-size:9px;letter-spacing:.14em;color:var(--muted);margin:5px 0 3px;text-align:center}
+.divider.inner{color:#a99cc0}
+.tier{margin:3.5px auto;height:clamp(24px,3.3vh,32px);display:flex;align-items:center;justify-content:center;gap:9px;border-radius:7px;border:1px solid var(--line);background:rgba(255,255,255,.02);transition:.2s}
+.tier .nm{font-family:var(--brush);font-size:clamp(16px,2.6vh,20px);line-height:1}
+.tier .es{font-family:var(--sans);font-size:clamp(9px,1.3vh,10.5px);color:var(--muted);letter-spacing:.04em}
+.tier.lock{opacity:.5}.tier.lock .nm::after{content:" 🔒";font-size:8px}
+.t0{width:100%}.t1{width:93%}.t2{width:86%}.t3{width:78%}.t4{width:70%}.t5{width:62%}.t6{width:54%}.t7{width:46%}.t8{width:39%}
+.t0 .nm{color:#9aa39e}.t1 .nm{color:#9fb0a8}.t2{border-color:rgba(91,178,149,.4)}.t2 .nm{color:var(--jade)}
+.t3{border-color:rgba(201,164,92,.4)}.t3 .nm{color:var(--gold)}.t4 .nm{color:var(--azure)}.t5 .nm{color:#ecdfb6}
+.t6 .nm{color:#a99cc0}.t7 .nm{color:#bba6cc}.t8 .nm{color:#cdb9d6}
+
+.btn{font-family:var(--sans);font-size:15px;font-weight:500;color:var(--ink);background:linear-gradient(180deg,var(--jade),var(--jade-d));border:none;border-radius:30px;padding:13px 38px;cursor:pointer;letter-spacing:.06em;box-shadow:0 8px 22px -8px var(--jade);transition:.2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px -8px var(--jade)}
+.btn.ghost{background:none;color:var(--rice-dim);border:1px solid var(--line);box-shadow:none;font-size:13px;padding:10px 24px;margin-top:16px}
+.btn.ghost:hover{color:var(--rice);transform:none;border-color:var(--rice-dim)}
+.foot-note{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:14px;letter-spacing:.03em}
+
+/* ===== quiz ===== */
+.prog{width:100%;max-width:480px;display:flex;align-items:center;gap:12px;margin-bottom:clamp(14px,3vh,26px)}
+.prog-txt{font-family:var(--sans);font-size:12px;color:var(--muted);flex:0 0 auto;letter-spacing:.08em}
+.prog-bar{flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;width:0;background:linear-gradient(90deg,var(--jade),var(--gold));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.q-axis{display:inline-block;font-family:var(--sans);font-size:11px;letter-spacing:.16em;color:var(--jade);border:1px solid rgba(91,178,149,.4);border-radius:18px;padding:3px 14px}
+.q-text{font-size:clamp(18px,3vh,23px);font-weight:600;color:var(--rice);line-height:1.45;margin:14px 0 6px}
+.q-hint{font-size:12.5px;color:var(--muted);font-style:italic;margin-bottom:clamp(14px,2.6vh,22px)}
+.opts{display:flex;flex-direction:column;gap:9px;width:100%;max-width:480px}
+.opt{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;font-family:var(--serif);font-size:clamp(13.5px,1.95vh,15px);color:var(--rice);background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:11px;padding:11px 16px;cursor:pointer;transition:.2s;line-height:1.4}
+.opt:hover{border-color:var(--jade);transform:translateX(4px);box-shadow:-5px 0 16px -10px var(--jade)}
+.opt .tag{flex:0 0 auto;font-family:var(--sans);font-size:9.5px;color:var(--muted);letter-spacing:.04em;border:1px solid var(--line);border-radius:5px;padding:2px 7px;white-space:nowrap}
+.back{font-family:var(--sans);font-size:12.5px;color:var(--muted);background:none;border:none;cursor:pointer;margin-top:16px}
+.back:hover{color:var(--rice)}
+
+/* ===== result ===== */
+.res-card{width:100%;max-width:470px;background:linear-gradient(180deg,var(--panel),#12171c);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,2.6vh,26px) clamp(18px,4vw,28px);text-align:center}
+.res-eyebrow{font-family:var(--sans);font-size:11px;letter-spacing:.18em;color:var(--muted)}
+.res-realm{font-family:var(--brush);font-size:clamp(46px,8vh,66px);line-height:1;margin:5px 0 3px}
+.res-sub{font-family:var(--sans);font-size:12.5px;color:var(--rice-dim);letter-spacing:.08em}
+.res-stage{font-family:var(--sans);font-size:11.5px;color:var(--jade);margin-top:5px}
+.mini-pyr{margin:clamp(13px,2.2vh,18px) 0;display:flex;flex-direction:column;align-items:center;gap:3px}
+.mt{height:clamp(15px,2.05vh,19px);display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:9.5px;color:var(--muted);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:4px;letter-spacing:.04em}
+.mt.lk{opacity:.4}
+.mt.here{color:var(--ink);font-weight:600;background:linear-gradient(90deg,var(--gold-l),var(--jade));border-color:transparent;box-shadow:0 0 16px -3px var(--jade);font-size:11px}
+.res-block{text-align:left;margin-top:clamp(12px,2vh,16px);border-top:1px dashed var(--line);padding-top:clamp(10px,1.6vh,13px)}
+.res-block .lab{font-family:var(--sans);font-size:11px;letter-spacing:.12em;color:var(--jade);margin-bottom:5px}
+.res-block .lab.cb{color:var(--cinnabar)}
+.res-block p{font-size:13px;color:var(--rice-dim);line-height:1.62}
+.demon-seal{display:inline-block;font-family:var(--brush);border:1.5px solid var(--cinnabar);color:#f0c4bb;border-radius:8px;padding:5px 16px;background:rgba(208,95,76,.1)}
+.demon-seal.good{border-color:var(--jade);color:#a7e0cc;background:rgba(91,178,149,.1)}
+.demon-seal .dn{font-size:20px}
+.share-tip{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:14px;text-align:center}
+</style>
+</head>
+<body>
+<nav class="jjnav">
+  <a class="brand" href="index.html">几境</a>
+  <span class="sp"></span>
+  <a href="realms.html">境界</a>
+  <a href="scripture.html">藏经阁</a>
+  <a class="on" href="quiz.html">测一测</a>
+</nav>
+
+<div class="wrap">
+<!-- ============ INTRO ============ -->
+<div class="screen on" id="intro">
+  <div class="kicker fade">人机协作 · 修为自测</div>
+  <h1 class="title fade" style="animation-delay:.1s">几境<span class="s">AI 修为 · 九重天梯自测</span></h1>
+  <div class="ornament fade" style="animation-delay:.2s"><span class="ln l"></span><span class="dot">❖</span><span class="ln r"></span></div>
+  <div class="pyramid fade" style="animation-delay:.28s">
+    <div class="tier t8 lock"><span class="nm">道祖</span><span class="es">范式创生</span></div>
+    <div class="tier t7 lock"><span class="nm">合道</span><span class="es">领域立法</span></div>
+    <div class="tier t6 lock"><span class="nm">返虚</span><span class="es">组织重塑</span></div>
+    <div class="tier t5"><span class="nm">化神</span><span class="es">跨场景迁移</span></div>
+    <div class="tier t4"><span class="nm">元婴</span><span class="es">别人也能用</span></div>
+    <div class="tier t3"><span class="nm">金丹</span><span class="es">稳定闭环</span></div>
+    <div class="tier t2"><span class="nm">筑基</span><span class="es">个人工作法</span></div>
+    <div class="tier t1"><span class="nm">炼气</span><span class="es">问答把玩</span></div>
+    <div class="tier t0"><span class="nm">凡人</span><span class="es">未入门</span></div>
+  </div>
+  <button class="btn fade" style="animation-delay:.5s" onclick="start()">开始测 · 共 6 问</button>
+</div>
+<!-- ============ QUIZ ============ -->
+<div class="screen" id="quiz">
+  <div class="prog">
+    <span class="prog-txt" id="pnum">1 / 6</span>
+    <div class="prog-bar"><div class="prog-fill" id="pfill"></div></div>
+  </div>
+  <div id="qbody"></div>
+  <button class="back" id="backBtn" onclick="back()" style="display:none">← 上一题</button>
+</div>
+<!-- ============ RESULT ============ -->
+<div class="screen" id="result"></div>
+</div>
+<script>
+/* ===================== 引擎数据 ===================== */
+// 境界阶梯：0凡人 1炼气 2筑基 3金丹 4元婴 5化神 | 6返虚 7合道 8道祖(封印)
+var REALM = [
+  {nm:"凡人",sub:"未入门",break:"先承认 AI 会一本正经地胡说。挑一件你常做的小事，让它给你出个初稿试试。"},
+  {nm:"炼气",sub:"初触灵气",break:"沉淀 5 个你反复要用的任务模板，并写清每个「不能用在什么场景」。"},
+  {nm:"筑基",sub:"道基初成",break:"把一个真实任务做成 SOP：输入是什么、怎么处理、怎么检查、输出什么。"},
+  {nm:"金丹",sub:"结丹成流",break:"让一个流程在 3 个以上真实变体上跑通，每次留记录、修问题、迭代版本。"},
+  {nm:"元婴",sub:"第二元神",break:"把判别力沉淀成可复用的 eval / 验收协议，让标准替你盯；再找一个外部的人照你的说明跑通。"},
+  {nm:"化神",sub:"神识外放",break:"把方法抽象成框架，证明它在第 4、第 5 个不同项目里仍然成立；开始造工具、定标准。"},
+  {nm:"返虚",sub:"组织重塑",break:"封印位 · 解锁条件：有一个真实团队按你的体系持续运作一个月以上。"},
+  {nm:"合道",sub:"领域立法",break:"封印位 · 解锁条件：你的方法或框架被同行、社区采用并传播。"},
+  {nm:"道祖",sub:"范式创生",break:"封印位 · 传说之境：形成行业级影响、事实标准与生态。"}
+];
+var COLOR = ["#7c847e","#9fb0a8","#5bb295","#c9a45c","#6db0c4","#ecdfb6","#a99cc0","#bba6cc","#cdb9d6"];
+
+// 心魔（放手程度 × 神识）
+var DEMON = {
+  fire:{nm:"走火入魔",good:false,txt:"你敢放手，却分不清好坏——最容易把幻觉当真理。补「神识」：产出后做系统检查，别让 AI 一个人开车。"},
+  guard:{nm:"谨守心神",good:false,txt:"你看得清好坏，却不敢放手，事必躬亲。补「委托」：挑低风险的活，试着定好要求让它自己跑完，你再验收。"},
+  novice:{nm:"初心未炼",good:false,txt:"放手和判别都还在养。先从「让 AI 做低风险初稿、再自己逐项核对」开始练。"},
+  way:{nm:"渐入正道",good:true,txt:"放手与神识齐涨，走的是正道。继续把判别标准沉淀成可复用的协议，让神识外放。"}
+};
+
+/* ===================== 题目 ===================== */
+// 每个选项可设置某条轴的「封顶值」(cap)；境界 = 各轴 cap 取最低
+var QS = [
+  { axis:"证据", q:"你能拿出的、最硬的那件「作品」是什么？",
+    hint:"作品是法器，不是境界——但它划定你的上限。",
+    opts:[
+      {t:"几乎不用 AI，偶尔玩玩",                 tag:"封顶 · 凡人",        cap:{ev:0}},
+      {t:"就在聊天框里问答、复制结果",             tag:"封顶 · 炼气",        cap:{ev:1}},
+      {t:"有自己反复用的模板 / 提示词",            tag:"封顶 · 筑基",        cap:{ev:2}},
+      {t:"做出过 1 个能跑的 demo / 小工具",        tag:"法器一件 · 封顶 筑基", cap:{ev:2}},
+      {t:"同一套流程在 3+ 个真实任务上跑过",       tag:"封顶 · 金丹",        cap:{ev:3}},
+      {t:"有 repo + 文档 + 测试 / eval",          tag:"封顶 · 元婴候选",     cap:{ev:4}},
+      {t:"一套方法迁移到多个不同项目都成立",       tag:"封顶 · 化神",        cap:{ev:5}}
+    ]},
+  { axis:"次数", q:"你最得意的那套 AI 工作法，到底跑过几次？",
+    hint:"一次是运气，三次是方法，十次才是能力。",
+    opts:[
+      {t:"就成功过一两次",                tag:"运气 / 灵感 · 封顶 筑基", cap:{cnt:2}},
+      {t:"大概 3–5 次，基本稳定了",        tag:"初步方法 · 封顶 金丹",   cap:{cnt:3}},
+      {t:"十几次以上，闭着眼也能跑",       tag:"稳定能力",              cap:{cnt:5}}
+    ]},
+  { axis:"迁移", q:"这套工作法，换了任务、换了人，还成立吗？",
+    hint:"绑死一个任务是术，换场景仍有效才是法。",
+    opts:[
+      {t:"就一个任务，而且只有我自己跑过",  tag:"封顶 · 金丹",  cap:{mig:3}},
+      {t:"不同任务我都跑过，都还行",        tag:"封顶 · 化神",  cap:{mig:5}},
+      {t:"别人也照着跑通过",                tag:"可传承",      cap:{mig:7}}
+    ]},
+  { axis:"神识", q:"AI 给的东西出错时，你通常是什么状态？",
+    hint:"会不会兜底，是高手与车手的分水岭。",
+    opts:[
+      {t:"我多半看不出对错，先信了再说",    tag:"神识未开 · 封顶 筑基", cap:{shen:2}, sh:0},
+      {t:"大致觉得哪里怪，但说不太清",      tag:"神识初成",            cap:{shen:4}, sh:1},
+      {t:"有检查清单，能定位到哪步错、怎么修", tag:"神识已成",           cap:{shen:9}, sh:2}
+    ]},
+  { axis:"采用", q:"你做的东西，有没有被「真实用起来」？",
+    hint:"没被真实使用过的，最多算金丹。",
+    opts:[
+      {t:"只有我自己玩 / 给人看过 demo",    tag:"封顶 · 金丹",       cap:{adopt:3}},
+      {t:"我自己日常一直在用",              tag:"封顶 · 化神",       cap:{adopt:5}},
+      {t:"同事 / 朋友也照着在用",           tag:"封顶 · 化神",       cap:{adopt:5}},
+      {t:"有团队在持续用我定的流程",        tag:"内功解锁 · 返虚",    cap:{adopt:6}},
+      {t:"有同行 / 社区在用我的方法",       tag:"内功解锁 · 合道",    cap:{adopt:7}}
+    ]},
+  { axis:"心魔", q:"面对一个多步骤的任务，你更像哪一种？",
+    hint:"这一题只诊断心魔，不定境界。",
+    opts:[
+      {t:"自己一步步盯着 AI 做，不敢撒手",   tag:"事必躬亲", let:0},
+      {t:"定好要求让它自己跑完，我再验收",   tag:"在环之上", let:1},
+      {t:"基本扔给它，不太回头看",           tag:"全然放手", let:1}
+    ]}
+];
+
+/* ===================== 流程控制 ===================== */
+var idx=0, ans=[];
+function show(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on')});document.getElementById(id).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}
+function start(){idx=0;ans=[];show('quiz');render();}
+function render(){
+  var q=QS[idx];
+  document.getElementById('pnum').textContent=(idx+1)+' / '+QS.length;
+  document.getElementById('pfill').style.width=((idx)/QS.length*100)+'%';
+  document.getElementById('backBtn').style.display=idx>0?'inline-block':'none';
+  var h='<div class="fade"><div class="q-axis">'+q.axis+'</div><div class="q-text">'+q.q+'</div><div class="q-hint">'+q.hint+'</div><div class="opts">';
+  q.opts.forEach(function(o,i){h+='<button class="opt" onclick="pick('+i+')">'+o.t+(o.tag?'<span class="tag">'+o.tag+'</span>':'')+'</button>';});
+  h+='</div></div>';
+  document.getElementById('qbody').innerHTML=h;
+}
+function pick(i){ans[idx]=QS[idx].opts[i];if(idx<QS.length-1){idx++;render();}else{finish();}}
+function back(){if(idx>0){idx--;render();}}
+
+/* ===================== 计分引擎 ===================== */
+function finish(){
+  document.getElementById('pfill').style.width='100%';
+  // 取各轴 cap，缺省给极大值；境界 = 取最低
+  var caps={ev:99,cnt:99,mig:99,shen:99,adopt:99};
+  var sh=2, lt=1;
+  ans.forEach(function(o){
+    if(o.cap){for(var k in o.cap){if(o.cap[k]<caps[k])caps[k]=o.cap[k];}}
+    if(o.sh!==undefined)sh=o.sh;
+    if(o.let!==undefined)lt=o.let;
+  });
+  var axisName={ev:"证据",cnt:"次数",mig:"迁移",shen:"神识",adopt:"采用"};
+  var lvl=99, binders=[];
+  for(var k in caps){if(caps[k]<lvl)lvl=caps[k];}
+  if(lvl>8)lvl=5; // 兜底
+  for(var k in caps){if(caps[k]===lvl)binders.push(k);}
+  // 短板优先级：神识 > 采用 > 证据 > 迁移 > 次数
+  var pri=["shen","adopt","ev","mig","cnt"];
+  var binder=pri.filter(function(p){return binders.indexOf(p)>=0;})[0]||binders[0];
+  // 子标签：若多数轴都高于短板，则「后期·已显苗头」
+  var above=0;for(var k in caps){if(caps[k]>lvl)above++;}
+  var stageLabel = (lvl<5 && above>=4) ? "后期 · 已显下一境苗头" : (above>=3 && lvl<5 ? "中期" : "");
+  // 短板提示
+  var binderHint={
+    shen:"封住你的是【神识】——你还看不太出 AI 的对错。这是最该先补的：建检查清单、做系统验证。不会兜底，最多筑基。",
+    adopt:"封住你的是【采用】——你做的东西还没被真实用起来。让它进入真实使用：自己日常用，或给同事用一次。",
+    ev:"封住你的是【证据】——把你手头最好的那次，做成更硬的形态（SOP → 带测试的 repo → 能让别人跑通）。",
+    mig:"封住你的是【迁移】——你只在一个任务、一个人身上验证过。换个任务、让别人也跑一次。",
+    cnt:"封住你的是【次数】——你做到过，但跑得太少。同一套再多跑几轮，让它稳定下来。"
+  };
+  // 心魔
+  var demon = (lt===1 && sh<=0)?DEMON.fire : (lt===0 && sh>=1)?DEMON.guard : (lt===0 && sh<=0)?DEMON.novice : DEMON.way;
+  renderResult(lvl,stageLabel,binder,binderHint[binder],demon);
+}
+
+function renderResult(lvl,stage,binder,bhint,demon){
+  var r=REALM[lvl], col=COLOR[lvl];
+  var locked = lvl>=6;
+  var stageLine = stage ? '<div class="res-stage">'+r.nm+' · '+stage+'</div>' : '';
+  // mini 金字塔（外功 0-5 + 内功 6-8 锁）
+  var mini='';
+  for(var i=8;i>=0;i--){
+    var cls='mt'+(i===lvl?' here':'')+(i>=6?' lk':'');
+    mini+='<div class="'+cls+'" style="width:'+(34+(8-i)*8.2)+'%">'+REALM[i].nm+(i===lvl?' · 你在此':'')+'</div>';
+  }
+  var demonLab = demon.good?'你的修行姿态':'你的心魔';
+  var h=
+  '<div class="res-card">'+
+    '<div class="res-eyebrow">你修到 · 第 '+(lvl+1)+' 重</div>'+
+    '<div class="res-realm" style="color:'+col+';text-shadow:0 0 46px '+col+'55">'+r.nm+'</div>'+
+    '<div class="res-sub">'+r.sub+'</div>'+ stageLine +
+    '<div class="mini-pyr">'+mini+'</div>'+
+    '<div class="res-block"><div class="lab">是谁封住了你的顶</div><p>'+ (locked?'你已踏入封印之境，前路需外部证据为凭。':bhint) +'</p></div>'+
+    '<div class="res-block"><div class="lab">破境心法</div><p>'+r.break+'</p></div>'+
+    '<div class="res-block"><div class="lab cb">'+demonLab+'</div>'+
+      '<div class="demon-seal'+(demon.good?' good':'')+'"><span class="dn">'+demon.nm+'</span></div>'+
+      '<p style="margin-top:12px">'+demon.txt+'</p></div>'+
+  '</div>'+
+  '<a class="btn" style="margin-top:18px;text-decoration:none;display:inline-block" href="scripture.html#realm'+(lvl<1?1:(lvl>6?6:lvl))+'">去藏经阁 · 取你这一境的典籍 →</a>'+
+  '<p class="share-tip">截图你的境界 + 心魔，发出来对个号 ↑</p>'+
+  '<button class="btn ghost" onclick="show(\'intro\')">← 重新测一次</button>';
+  document.getElementById('result').innerHTML=h;
+  show('result');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>几境 · AI 修为天梯</title>
+<style>
+@font-face{font-family:'MaShanLocal';src:url('fonts/mashanzheng.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'SerifLocal';src:url('fonts/notoserifsc.woff2') format('woff2');font-weight:400 500;font-display:swap}
+@font-face{font-family:'SerifLocal';src:url('fonts/notoserifsc-bold.woff2') format('woff2');font-weight:600 700;font-display:swap}
+@font-face{font-family:'SansLocal';src:url('fonts/notosanssc-light.woff2') format('woff2');font-weight:300;font-display:swap}
+@font-face{font-family:'SansLocal';src:url('fonts/notosanssc.woff2') format('woff2');font-weight:400 500;font-display:swap}
+</style>
+<style>
+
+:root{
+  --ink:#0d1115;--panel:#171f25;--panel2:#1c252b;--rice:#ece6d6;--rice-dim:#b8b3a4;--muted:#8b938d;
+  --jade:#5bb295;--jade-d:#3f8f76;--gold:#c9a45c;--gold-l:#e6c074;--cinnabar:#d05f4c;--azure:#6db0c4;
+  --line:rgba(220,210,185,.12);--serif:'SerifLocal','Songti SC','SimSun',serif;--sans:'SansLocal','PingFang SC','Microsoft YaHei',sans-serif;--brush:'MaShanLocal','Songti SC',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-gradient(800px 520px at 72% 30%,rgba(91,178,149,.12),transparent 58%),radial-gradient(720px 460px at 18% 70%,rgba(201,164,92,.08),transparent 55%),linear-gradient(180deg,#0c1014,#0e141a 45%,#0c1014)}/*BGFIX*/
+
+body{color:var(--rice);font-family:var(--serif);-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.r{opacity:0;animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+
+.jjnav{flex:0 0 auto;display:flex;align-items:center;gap:2px;justify-content:center;padding:9px 12px;border-bottom:1px solid var(--line);font-family:var(--sans);font-size:13px;position:relative;z-index:5}
+.jjnav a{color:var(--rice-dim);text-decoration:none;padding:5px 12px;border-radius:8px;transition:.2s;letter-spacing:.04em}
+.jjnav a:hover{color:var(--rice);background:rgba(255,255,255,.05)}
+.jjnav a.brand{font-family:var(--brush);font-size:20px;color:var(--gold);padding-right:4px}
+.jjnav a.on{color:var(--jade)}
+.jjnav .sp{width:1px;height:15px;background:rgba(220,210,185,.2);margin:0 3px}
+
+.stage{flex:1 0 auto;display:grid;align-content:center;justify-content:center;gap:clamp(16px,3vh,30px);padding:clamp(12px,2vh,26px) 22px;position:relative;z-index:2}
+
+#brand{text-align:center}
+#brand h1{font-family:var(--brush);font-size:clamp(54px,11vh,104px);font-weight:400;line-height:.88;text-shadow:0 0 50px rgba(91,178,149,.22)}
+#brand .s{font-family:var(--sans);font-size:clamp(12px,1.8vh,15px);letter-spacing:.2em;color:var(--gold-l);font-weight:300;margin-top:12px}
+#brand .law{font-family:var(--sans);font-size:clamp(11px,1.5vh,13px);color:var(--muted);margin-top:10px;letter-spacing:.03em}
+#brand .law b{color:var(--rice-dim);font-weight:400}
+
+/* pyramid — explicit width so % tiers compute right */
+#pyramid{justify-self:center;width:clamp(264px,40vh,344px)}
+.pyramid{display:flex;flex-direction:column;align-items:center;gap:clamp(2px,.55vh,5px)}
+.tier{position:relative;text-decoration:none;text-align:center;height:clamp(26px,3.7vh,34px);display:flex;align-items:center;justify-content:center;clip-path:polygon(7% 0,93% 0,100% 100%,0 100%);border-top:1px solid rgba(255,255,255,.05);transition:.22s}
+.tier:hover{filter:brightness(1.2);transform:scale(1.025)}
+.tier .nm{font-family:var(--brush);font-size:clamp(17px,2.5vh,23px);line-height:1;white-space:nowrap;letter-spacing:.08em}
+.tier.lock{opacity:.5}
+.t8{width:32%;background:linear-gradient(135deg,#2b2b30,#3a3a40)}.t8 .nm{color:#cdb9d6}
+.t7{width:40%;background:linear-gradient(135deg,#28232e,#3a3242)}.t7 .nm{color:#bba6cc}
+.t6{width:48%;background:linear-gradient(135deg,#24222c,#332f3e)}.t6 .nm{color:#a99cc0}
+.t5{width:57%;background:linear-gradient(135deg,#2a2f38,#3a3d44)}.t5 .nm{color:#ecdfb6}
+.t4{width:66%;background:linear-gradient(135deg,#1a2b32,#234049)}.t4 .nm{color:var(--azure)}
+.t3{width:75%;background:linear-gradient(135deg,#2b2415,#403318)}.t3 .nm{color:var(--gold)}
+.t2{width:84%;background:linear-gradient(135deg,#15241f,#1f3a31)}.t2 .nm{color:var(--jade)}
+.t1{width:92%;background:linear-gradient(135deg,#1a1f1d,#262b28)}.t1 .nm{color:#9fb0a8}
+.t0{width:100%;background:linear-gradient(135deg,#16191c,#202320)}.t0 .nm{color:#9aa39e}
+.split{width:64%;display:flex;align-items:center;gap:9px;color:#9d92b3;font-family:var(--sans);font-size:clamp(8.5px,1.3vh,10.5px);letter-spacing:.14em;white-space:nowrap;margin:clamp(2px,.5vh,5px) auto}
+.split::before,.split::after{content:"";height:1px;flex:1;background:rgba(157,146,179,.32)}
+
+/* doors — wide, stacked, no wrap */
+#doors{display:flex;flex-direction:column;gap:11px;width:clamp(264px,90vw,344px);justify-self:center}
+.door{display:flex;align-items:center;gap:14px;text-decoration:none;background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:13px;padding:13px 18px;transition:.26s cubic-bezier(.2,.7,.2,1);position:relative;overflow:hidden}
+.door::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px}
+.door:hover{transform:translateX(4px);border-color:rgba(91,178,149,.4)}
+.door .gly{font-family:var(--brush);font-size:32px;line-height:1;flex:0 0 auto;width:34px;text-align:center}
+.door .tx{flex:1;display:flex;align-items:baseline;gap:9px;white-space:nowrap}
+.door .ttl{font-size:17px;font-weight:600;color:var(--rice)}
+.door .d{font-family:var(--sans);font-size:12px;color:var(--rice-dim);font-weight:300}
+.door .go{font-family:var(--sans);font-size:18px;color:var(--muted);transition:.2s}
+.door:hover .go{color:var(--jade)}
+.door.d1::before{background:var(--gold)}.door.d1 .gly{color:var(--gold)}
+.door.d2::before{background:var(--cinnabar)}.door.d2 .gly{color:var(--cinnabar)}
+.door.d3::before{background:var(--jade)}.door.d3 .gly{color:var(--jade)}
+
+/* desktop: split into two columns to fill width */
+@media(min-width:760px) and (min-height:440px){
+  .stage{grid-template-columns:auto auto;grid-template-areas:"brand pyr" "doors pyr";column-gap:clamp(40px,7vw,110px);row-gap:clamp(20px,3vh,34px);align-content:center}
+  #brand{grid-area:brand;text-align:left;align-self:end}
+  #doors{grid-area:doors;align-self:start;width:clamp(280px,26vw,340px)}
+  #pyramid{grid-area:pyr;align-self:center;width:clamp(300px,32vw,400px)}
+  .tier{height:clamp(30px,4.4vh,40px)}
+  .tier .nm{font-size:clamp(19px,2.9vh,26px)}
+}
+.foot{flex:0 0 auto;text-align:center;padding:9px;font-family:var(--sans);font-size:11px;color:var(--muted);letter-spacing:.04em;position:relative;z-index:2;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<nav class="jjnav">
+  <a class="brand on" href="index.html">几境</a>
+  <span class="sp"></span>
+  <a href="realms.html">境界</a>
+  <a href="scripture.html">藏经阁</a>
+  <a href="quiz.html">测一测</a>
+</nav>
+
+<div class="stage">
+  <div id="brand" class="r">
+    <h1>几境</h1>
+    <div class="s">AI 修为天梯 · 你修到第几重</div>
+    <div class="law"><b>作品是法器，不是境界。</b>测的是会不会用 AI。</div>
+  </div>
+
+  <div id="pyramid" class="r" style="animation-delay:.12s">
+    <div class="pyramid">
+      <div class="split">内功 · 影响力</div>
+      <a class="tier t8 lock" href="realms.html#r8"><span class="nm">道祖</span></a>
+      <a class="tier t7 lock" href="realms.html#r7"><span class="nm">合道</span></a>
+      <a class="tier t6 lock" href="realms.html#r6"><span class="nm">返虚</span></a>
+      <div class="split">外功 · 个人修为</div>
+      <a class="tier t5" href="realms.html#r5"><span class="nm">化神</span></a>
+      <a class="tier t4" href="realms.html#r4"><span class="nm">元婴</span></a>
+      <a class="tier t3" href="realms.html#r3"><span class="nm">金丹</span></a>
+      <a class="tier t2" href="realms.html#r2"><span class="nm">筑基</span></a>
+      <a class="tier t1" href="realms.html#r1"><span class="nm">炼气</span></a>
+      <a class="tier t0" href="realms.html#r0"><span class="nm">凡人</span></a>
+    </div>
+  </div>
+
+  <div id="doors" class="r" style="animation-delay:.24s">
+    <a class="door d1" href="realms.html"><span class="gly">境</span><span class="tx"><span class="ttl">境界详解</span><span class="d">逐境拆解</span></span><span class="go">→</span></a>
+    <a class="door d2" href="scripture.html"><span class="gly">藏</span><span class="tx"><span class="ttl">藏经阁</span><span class="d">修行书目</span></span><span class="go">→</span></a>
+    <a class="door d3" href="quiz.html"><span class="gly">测</span><span class="tx"><span class="ttl">测一测</span><span class="d">测你第几境</span></span><span class="go">→</span></a>
+  </div>
+</div>
+
+<div class="foot r" style="animation-delay:.34s">几境 · 修为在人，AI 为器</div>
+</body>
+</html>

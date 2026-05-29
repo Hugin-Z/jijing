@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>境界详解 · 几境</title>
+<style>
+@font-face{font-family:'MaShanLocal';src:url('fonts/mashanzheng.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'SerifLocal';src:url('fonts/notoserifsc.woff2') format('woff2');font-weight:400 500;font-display:swap}
+@font-face{font-family:'SerifLocal';src:url('fonts/notoserifsc-bold.woff2') format('woff2');font-weight:600 700;font-display:swap}
+@font-face{font-family:'SansLocal';src:url('fonts/notosanssc-light.woff2') format('woff2');font-weight:300;font-display:swap}
+@font-face{font-family:'SansLocal';src:url('fonts/notosanssc.woff2') format('woff2');font-weight:400 500;font-display:swap}
+</style>
+<style>
+
+:root{
+  --ink:#0d1115;--panel:#171f25;--panel2:#1c252b;--rice:#ece6d6;--rice-dim:#b8b3a4;--muted:#8b938d;
+  --jade:#5bb295;--jade-d:#3f8f76;--gold:#c9a45c;--gold-l:#e6c074;--cinnabar:#d05f4c;--azure:#6db0c4;
+  --line:rgba(220,210,185,.12);--serif:'SerifLocal','Songti SC','SimSun',serif;--sans:'SansLocal','PingFang SC','Microsoft YaHei',sans-serif;--brush:'MaShanLocal','Songti SC',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-gradient(800px 520px at 75% 26%,rgba(91,178,149,.10),transparent 58%),radial-gradient(700px 460px at 12% 76%,rgba(201,164,92,.07),transparent 55%),linear-gradient(180deg,#0c1014,#0e141a 45%,#0c1014)}/*BGFIX*/
+
+body{color:var(--rice);font-family:var(--serif);-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.jjnav{flex:0 0 auto;display:flex;align-items:center;gap:2px;justify-content:center;padding:9px 12px;border-bottom:1px solid var(--line);font-family:var(--sans);font-size:13px;position:relative;z-index:5}
+.jjnav a{color:var(--rice-dim);text-decoration:none;padding:5px 12px;border-radius:8px;transition:.2s;letter-spacing:.04em}
+.jjnav a:hover{color:var(--rice);background:rgba(255,255,255,.05)}
+.jjnav a.brand{font-family:var(--brush);font-size:20px;color:var(--gold);padding-right:4px}
+.jjnav a.on{color:var(--jade)}
+.jjnav .sp{width:1px;height:15px;background:rgba(220,210,185,.2);margin:0 3px}
+
+.stage{flex:1 0 auto;display:flex;flex-direction:column;min-height:0;position:relative;z-index:2;padding:clamp(8px,1.6vh,16px) 18px clamp(10px,2vh,18px)}
+.tabs{flex:0 0 auto;display:flex;gap:8px;justify-content:center;margin-bottom:clamp(8px,1.8vh,18px)}
+.tab{font-family:var(--sans);font-size:13.5px;color:var(--rice-dim);background:none;border:1px solid var(--line);border-radius:20px;padding:7px 20px;cursor:pointer;transition:.2s;letter-spacing:.08em}
+.tab:hover{color:var(--rice)}
+.tab.on{color:var(--ink);background:var(--jade);border-color:var(--jade);font-weight:500}
+.view{display:none;flex:1 1 auto;min-height:0;animation:fade .35s both}
+.view.on{display:flex}
+
+/* ===== 罗盘 ===== */
+#v-realms{align-items:center;justify-content:center;gap:clamp(18px,4vw,56px);flex-direction:column}
+.luopan{position:relative;width:clamp(258px,46vh,360px);aspect-ratio:1;flex:0 0 auto;touch-action:none;cursor:grab;user-select:none}
+.luopan:active{cursor:grabbing}
+.plate{position:absolute;inset:0;transition:transform .55s cubic-bezier(.34,1.25,.5,1);will-change:transform}
+.plate svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.node{position:absolute;transform-origin:center;font-family:var(--brush);font-size:clamp(14px,2.1vh,18px);color:var(--rice-dim);line-height:1;white-space:nowrap;padding:2px 4px;border-radius:6px;transition:color .2s,text-shadow .2s}
+.node.sel{color:var(--nc);text-shadow:0 0 12px var(--nc)}
+.node.lock{opacity:.55}
+/* 固定层：天心十道 + 指针 + 天池 */
+.overlay{position:absolute;inset:0;pointer-events:none;z-index:5}
+.cross{position:absolute;background:rgba(208,95,76,.35)}
+.cross.v{left:50%;top:4%;bottom:4%;width:1px;transform:translateX(-50%)}
+.cross.h{top:50%;left:4%;right:4%;height:1px;transform:translateY(-50%)}
+.pointer{position:absolute;left:50%;top:-2px;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:13px solid var(--cinnabar);filter:drop-shadow(0 0 5px rgba(208,95,76,.6))}
+.tianchi{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:30%;height:30%;border-radius:50%;background:radial-gradient(circle,#141b21,#0c1015);border:1px solid var(--gold);box-shadow:0 0 0 4px rgba(12,16,21,.9),inset 0 0 18px rgba(0,0,0,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.tianchi .tn{font-family:var(--brush);font-size:clamp(24px,4.4vh,32px);line-height:1;color:var(--cur,var(--jade));text-shadow:0 0 14px color-mix(in srgb,var(--cur,var(--jade)) 50%,transparent)}
+.tianchi .tl{font-family:var(--sans);font-size:9px;letter-spacing:.14em;color:var(--muted);margin-top:4px}
+
+.detail{flex:0 0 auto;width:clamp(280px,92vw,420px)}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:15px;padding:clamp(16px,2.4vh,24px) clamp(18px,3vw,26px);position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cur,var(--jade))}
+.dh{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+.dh .lv{font-family:var(--sans);font-size:10.5px;letter-spacing:.16em;color:var(--muted);border:1px solid var(--line);padding:2px 8px;border-radius:4px}
+.dh .nm{font-family:var(--brush);font-size:clamp(28px,4.6vh,38px);line-height:1;color:var(--cur,var(--jade))}
+.dh .en{font-family:var(--sans);font-size:11.5px;color:var(--muted);letter-spacing:.08em}
+.def{font-size:clamp(15px,2.1vh,17px);color:var(--rice);font-weight:500;margin:10px 0 12px;line-height:1.5}
+.row{display:grid;grid-template-columns:46px 1fr;gap:12px;padding:7px 0;border-top:1px dashed var(--line);font-size:clamp(13px,1.9vh,14.5px)}
+.row .k{font-family:var(--sans);font-size:12px;letter-spacing:.06em}
+.row .v{color:var(--rice-dim);line-height:1.5}.row .v b{color:var(--rice);font-weight:600}
+.row.j .k{color:var(--jade)}.row.c .k{color:var(--cinnabar)}
+.hint{text-align:center;font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:8px;letter-spacing:.04em}
+@media(min-width:780px){#v-realms{flex-direction:row}.luopan{width:clamp(330px,40vh,430px)}.detail{width:clamp(330px,40vw,460px)}}
+
+/* ===== 修心 ===== */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(1turn)}}
+#v-heart{align-items:center;justify-content:center;gap:clamp(14px,3vw,30px);flex-direction:column}
+.col{width:clamp(290px,92vw,420px)}
+.col h3{font-family:var(--brush);font-size:26px;font-weight:400;margin-bottom:13px;text-align:center}
+.col h3::after{content:"";display:block;width:40px;height:2px;margin:8px auto 0;border-radius:2px}
+.col.cure h3{color:var(--jade)}.col.cure h3::after{background:linear-gradient(90deg,transparent,var(--jade),transparent)}
+.col.ward h3{color:var(--cinnabar)}.col.ward h3::after{background:linear-gradient(90deg,transparent,var(--cinnabar),transparent)}
+.arts{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.art{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:13px;padding:15px 16px;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s;opacity:0}
+#v-heart.on .art{animation:rise .55s forwards}
+.art::before{content:attr(data-c);position:absolute;right:-8px;bottom:-22px;font-family:var(--brush);font-size:86px;line-height:1;color:var(--ac);opacity:.08;pointer-events:none;transition:opacity .3s,transform .3s}
+.art:hover{transform:translateY(-5px);border-color:var(--ac)}
+.art:hover::before{opacity:.2;transform:scale(1.08) rotate(-5deg)}
+.art .cn{font-family:var(--brush);font-size:25px;line-height:1;position:relative}
+.art .en{font-family:var(--sans);font-size:9px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-left:6px}
+.art p{color:var(--rice-dim);font-size:12.5px;margin-top:7px;line-height:1.5;position:relative}
+.g1{--ac:var(--gold)}.g1 .cn{color:var(--gold)}
+.g2{--ac:var(--jade)}.g2 .cn{color:var(--jade)}
+.g3{--ac:var(--azure)}.g3 .cn{color:var(--azure)}
+.g4{--ac:var(--cinnabar)}.g4 .cn{color:var(--cinnabar)}
+#v-heart.on .arts .art:nth-child(1){animation-delay:.05s}
+#v-heart.on .arts .art:nth-child(2){animation-delay:.12s}
+#v-heart.on .arts .art:nth-child(3){animation-delay:.19s}
+#v-heart.on .arts .art:nth-child(4){animation-delay:.26s}
+.taiji{width:clamp(44px,9vw,60px);height:clamp(44px,9vw,60px);flex:0 0 auto;animation:spin 28s linear infinite;filter:drop-shadow(0 0 10px rgba(0,0,0,.45))}
+.wards{display:flex;flex-direction:column;gap:8px}
+.demon{display:flex;align-items:center;gap:13px;background:linear-gradient(90deg,rgba(208,95,76,.07),transparent);border:1px solid var(--line);border-left:3px solid var(--cinnabar);border-radius:0 10px 10px 0;padding:9px 15px;opacity:0;transition:transform .25s,border-left-width .25s,box-shadow .25s}
+#v-heart.on .demon{animation:rise .55s forwards}
+.demon:hover{transform:translateX(5px);border-left-width:6px;box-shadow:-6px 0 18px -10px var(--cinnabar)}
+.demon.terr{border-left-color:var(--gold)}.demon.terr:hover{box-shadow:-6px 0 18px -10px var(--gold)}
+.demon .ix{font-family:var(--brush);font-size:22px;color:var(--cinnabar);flex:0 0 auto;line-height:1}.demon.terr .ix{color:var(--gold)}
+.demon h4{font-size:14px;color:var(--rice);font-weight:600}.demon p{color:var(--rice-dim);font-size:12px;font-family:var(--sans)}
+#v-heart.on .wards .demon:nth-child(1){animation-delay:.06s}
+#v-heart.on .wards .demon:nth-child(2){animation-delay:.13s}
+#v-heart.on .wards .demon:nth-child(3){animation-delay:.2s}
+#v-heart.on .wards .demon:nth-child(4){animation-delay:.27s}
+#v-heart.on .wards .demon:nth-child(5){animation-delay:.34s}
+@media(min-width:780px){#v-heart{flex-direction:row;align-items:center}}
+
+.foot{flex:0 0 auto;text-align:center;font-family:var(--sans);font-size:11px;color:var(--muted);padding-top:clamp(8px,1.6vh,14px)}
+.foot a{color:var(--jade);text-decoration:none}
+</style>
+</head>
+<body>
+<nav class="jjnav">
+  <a class="brand" href="index.html">几境</a>
+  <span class="sp"></span>
+  <a class="on" href="realms.html">境界</a>
+  <a href="scripture.html">藏经阁</a>
+  <a href="quiz.html">测一测</a>
+</nav>
+
+<div class="stage">
+  <div class="tabs">
+    <button class="tab on" data-v="realms">九境罗盘</button>
+    <button class="tab" data-v="heart">修心</button>
+  </div>
+
+  <!-- 罗盘 -->
+  <div class="view on" id="v-realms">
+    <div class="luopan" id="luopan">
+      <div class="plate" id="plate"></div>
+      <div class="overlay">
+        <div class="cross v"></div><div class="cross h"></div>
+        <div class="pointer"></div>
+        <div class="tianchi"><div class="tn" id="tName">金丹</div><div class="tl" id="tLv">第 3 重</div></div>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="card" id="card"></div>
+    </div>
+  </div>
+
+  <!-- 修心 -->
+  <div class="view" id="v-heart">
+    <div class="col cure">
+      <h3>内功四诀</h3>
+      <div class="arts">
+        <div class="art g1" data-c="委"><span class="cn">委托</span><span class="en">Delegation</span><p>决定什么交给 AI、什么自己留。</p></div>
+        <div class="art g2" data-c="吐"><span class="cn">吐纳</span><span class="en">Description</span><p>把意图讲清：背景、例子、约束。</p></div>
+        <div class="art g3" data-c="神"><span class="cn">神识</span><span class="en">Discernment</span><p>一眼看出好坏，知道它的能力边界。</p></div>
+        <div class="art g4" data-c="守"><span class="cn">守心</span><span class="en">Diligence</span><p>对结果负全责，人始终在环上。</p></div>
+      </div>
+    </div>
+    <svg class="taiji" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="49" fill="#cf5b46"/>
+      <path d="M50 1 a49 49 0 0 0 0 98 a24.5 24.5 0 0 0 0 -49 a24.5 24.5 0 0 1 0 -49z" fill="#5bb295"/>
+      <circle cx="50" cy="25.5" r="7.5" fill="#cf5b46"/>
+      <circle cx="50" cy="74.5" r="7.5" fill="#5bb295"/>
+      <circle cx="50" cy="50" r="49" fill="none" stroke="#c9a45c" stroke-width="1.2" opacity=".55"/>
+    </svg>
+    <div class="col ward">
+      <h3>心魔录</h3>
+      <div class="wards">
+        <div class="demon"><span class="ix">壹</span><div><h4>法宝 ≠ 修为</h4><p>买一堆工具订阅，不等于功力。</p></div></div>
+        <div class="demon"><span class="ix">贰</span><div><h4>沉睡的车手 · 走火入魔</h4><p>放手却不兜底，把幻觉当真理。最危险。</p></div></div>
+        <div class="demon"><span class="ix">叁</span><div><h4>事必躬亲</h4><p>看得清却不敢放手，事事逐字盯。</p></div></div>
+        <div class="demon"><span class="ix">肆</span><div><h4>道心蒙尘</h4><p>判断也外包，自身能力悄然萎缩。</p></div></div>
+        <div class="demon terr"><span class="ix">险</span><div><h4>险地 · 参差的前沿</h4><p>看着都行，实则一脚天堂一脚地狱。</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">该读什么？去 <a href="scripture.html">藏经阁</a>　·　测自己？去 <a href="quiz.html">测一测</a></div>
+</div>
+
+<script>
+var R={
+ 0:{c:'#9aa39e',lv:'第 0 重',nm:'凡人',en:'未入门',def:'AI 只是新鲜玩具，不进入稳定工作流。',judge:'偶尔问问、复制粘贴，不设防幻觉。',xin:'先承认 AI 会一本正经地胡说。'},
+ 1:{c:'#9fb0a8',lv:'第 1 重',nm:'炼气',en:'初触灵气',def:'用 AI 提升个人效率，但主要在聊天框里。',judge:'低风险任务能稳定做，但没固定流程。',xin:'AI 是副驾驶，不是负责人。',dev:'把幻觉当真而不自知。'},
+ 2:{c:'#5bb295',lv:'第 2 重',nm:'筑基',en:'道基初成',def:'形成个人 AI 工作法，不再随便问。',judge:'同类任务<b>稳定复现</b>，不靠临场。',xin:'提示不是咒语，是工作说明书。',dev:'写顺手就盲信——沉睡的车手。'},
+ 3:{c:'#c9a45c',lv:'第 3 重',nm:'金丹',en:'结丹成流',def:'形成稳定的产出闭环，追可控而非一键。',judge:'一条真实链路<b>反复跑过、持续改进</b>。',xin:'复杂任务不能一口吞，分炉炼丹。',dev:'任务滑出"参差前沿"而不自知。'},
+ 4:{c:'#6db0c4',lv:'第 4 重',nm:'元婴',en:'第二元神',def:'工作法变成别人也能用的工具或系统。',judge:'外部人能<b>照你的说明跑通</b>。',xin:'自己能跑是内功，别人能跑才是法门。',dev:'放手却没兜底 eval＝蒙眼狂奔（最危险）。'},
+ 5:{c:'#ecdfb6',lv:'第 5 重',nm:'化神',en:'神识外放',def:'能力跨场景迁移，沉淀出方法论。',judge:'同套方法在 <b>3+ 不同项目</b>成立。',xin:'做成一个是术，跨项目有效才是法。',dev:'道心蒙尘，自身能力萎缩。'},
+ 6:{c:'#a99cc0',lv:'第 6 重 · 内功',nm:'返虚',en:'组织重塑',def:'方法开始改变一个团队的协作方式。',judge:'真实团队采用并持续运行。',xin:'AI 改变的不是个人效率，是协作结构。'},
+ 7:{c:'#bba6cc',lv:'第 7 重 · 内功',nm:'合道',en:'领域立法',def:'影响一个领域的人怎么理解 AI 工作。',judge:'被同行、社区采用并传播。',xin:'别人开始用我的方式理解 AI。'},
+ 8:{c:'#cdb9d6',lv:'第 8 重 · 传说',nm:'道祖',en:'范式创生',def:'不再是工具或流程，而是创造新范式。',judge:'行业级影响、事实标准、生态。',xin:'重写"工作如何被完成"。'}
+};
+var NS='http://www.w3.org/2000/svg';
+var plate=document.getElementById('plate');
+// --- 构建罗盘装饰 (SVG) ---
+var svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 400 400');
+function circle(r,stroke,w,dash){var c=document.createElementNS(NS,'circle');c.setAttribute('cx',200);c.setAttribute('cy',200);c.setAttribute('r',r);c.setAttribute('fill','none');c.setAttribute('stroke',stroke);c.setAttribute('stroke-width',w);if(dash)c.setAttribute('stroke-dasharray',dash);svg.appendChild(c);}
+function pol(ang,r){var a=(ang-90)*Math.PI/180;return [200+r*Math.cos(a),200+r*Math.sin(a)];}
+function line(ang,r1,r2,stroke,w){var p1=pol(ang,r1),p2=pol(ang,r2);var l=document.createElementNS(NS,'line');l.setAttribute('x1',p1[0]);l.setAttribute('y1',p1[1]);l.setAttribute('x2',p2[0]);l.setAttribute('y2',p2[1]);l.setAttribute('stroke',stroke);l.setAttribute('stroke-width',w);svg.appendChild(l);}
+// 底盘
+var disc=document.createElementNS(NS,'circle');disc.setAttribute('cx',200);disc.setAttribute('cy',200);disc.setAttribute('r',196);disc.setAttribute('fill','#11161b');disc.setAttribute('stroke','#c9a45c');disc.setAttribute('stroke-width',2);svg.appendChild(disc);
+circle(188,'rgba(201,164,92,.55)',1);circle(152,'rgba(201,164,92,.5)',1);circle(150,'rgba(201,164,92,.25)',1);circle(96,'rgba(201,164,92,.45)',1);
+// 24 向刻度
+for(var k=0;k<24;k++){line(k*15,152,144,'rgba(201,164,92,.35)',1);}
+// 9 境主刻度 + 分隔
+for(var i=0;i<9;i++){line(i*40,152,138,'rgba(230,192,116,.8)',1.4);line(i*40,150,96,'rgba(201,164,92,.14)',1);}
+// 八卦环
+var gua=['☰','☴','☵','☶','☷','☱','☲','☳'];
+for(var g=0;g<8;g++){var p=pol(g*45,170);var t=document.createElementNS(NS,'text');t.setAttribute('x',p[0]);t.setAttribute('y',p[1]);t.setAttribute('fill','rgba(201,164,92,.6)');t.setAttribute('font-size','15');t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','central');t.textContent=gua[g];svg.appendChild(t);}
+plate.appendChild(svg);
+// --- 九境节点 (HTML, 半径~120, 径向摆放) ---
+for(var i=0;i<9;i++){
+  var p=pol(i*40,118);
+  var n=document.createElement('div');
+  n.className='node'+(i>=6?' lock':'');
+  n.style.left=(p[0]/4)+'%';n.style.top=(p[1]/4)+'%';
+  n.style.transform='translate(-50%,-50%) rotate('+(i*40)+'deg)';
+  n.style.setProperty('--nc',R[i].c);
+  n.setAttribute('data-r',i);n.textContent=R[i].nm;
+  // 选择交给 pointerup 判定（拖动→吸附，轻点→选中）
+  plate.appendChild(n);
+}
+// --- 旋转与选择 ---
+var rot=0,cur=3,dragging=false,startA=0,startRot=0,moved=false,startTarget=null;
+var luopan=document.getElementById('luopan');
+function angAt(e){var r=luopan.getBoundingClientRect();return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))*180/Math.PI;}
+function apply(anim){plate.style.transition=anim?'':'none';plate.style.transform='rotate('+rot+'deg)';}
+function paint(i){
+  var d=R[i];cur=i;
+  document.getElementById('tName').textContent=d.nm;document.getElementById('tName').style.color=d.c;
+  document.getElementById('tName').parentNode.style.setProperty('--cur',d.c);
+  document.getElementById('tLv').textContent=d.lv.replace(/ · .*/,'');
+  var rows='<div class="row j"><span class="k">判断</span><span class="v">'+d.judge+'</span></div>'+
+           '<div class="row j"><span class="k">心法</span><span class="v">'+d.xin+'</span></div>'+
+           (d.dev?'<div class="row c"><span class="k">走火</span><span class="v">'+d.dev+'</span></div>':'');
+  var card=document.getElementById('card');card.style.setProperty('--cur',d.c);
+  card.innerHTML='<div class="dh"><span class="lv">'+d.lv+'</span><span class="nm">'+d.nm+'</span><span class="en">'+d.en+'</span></div><div class="def">'+d.def+'</div>'+rows;
+  document.querySelectorAll('.node').forEach(function(t){t.classList.toggle('sel',+t.getAttribute('data-r')===i);});
+}
+function select(i,anim){ // 把第 i 境转到顶端（就近）
+  var target=-i*40;while(target-rot>180)target-=360;while(target-rot<-180)target+=360;rot=target;apply(anim);paint(i);
+}
+function snap(){var i=((Math.round(-rot/40)%9)+9)%9;select(i,true);}
+luopan.addEventListener('pointerdown',function(e){dragging=true;moved=false;startTarget=(e.target.closest?e.target.closest('.node'):null);startA=angAt(e);startRot=rot;apply(false);try{luopan.setPointerCapture(e.pointerId);}catch(x){}});
+luopan.addEventListener('pointermove',function(e){if(!dragging)return;var d=angAt(e)-startA;if(Math.abs(d)>2)moved=true;rot=startRot+d;plate.style.transform='rotate('+rot+'deg)';});
+function end(){if(!dragging)return;dragging=false;if(moved){snap();}else if(startTarget){select(+startTarget.getAttribute('data-r'),true);}}
+luopan.addEventListener('pointerup',end);luopan.addEventListener('pointercancel',end);
+document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){
+  var v=this.getAttribute('data-v');
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});this.classList.add('on');
+  document.querySelectorAll('.view').forEach(function(x){x.classList.remove('on');});
+  document.getElementById('v-'+v).classList.add('on');
+});});
+var h=(location.hash.match(/r(\d)/)||[])[1];
+select(h!=null?+h:3,false);
+</script>
+</body>
+</html>
