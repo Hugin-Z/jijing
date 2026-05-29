@@ -255,24 +255,29 @@ var ITEMS=[{kind:"evid",axis:"证据 · 天花板",q:"你能拿出的、最硬�
 PULSE.forEach(function(P){P.qs.forEach(function(Q){ITEMS.push({kind:"pulse",axis:P.key+"脉 · "+P.sub,q:Q.q,opts:Q.opts});});});
 
 /* ===================== 流程控制 ===================== */
-var idx=0, ans=[], CARD=null;
+var idx=0, ans=[], CARD=null, ORDER=[];
+// 选项随机排序：分值绑定在选项本身（原始下标 == 分值），打乱的只是显示位置；
+// 渲染按 ORDER 给出的显示顺序，但 onclick 始终回传「原始下标」，故计分不受位置影响。
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function buildOrder(){ORDER=ITEMS.map(function(it){var base=it.opts.map(function(_,i){return i;});return it.kind==='evid'?base:shuffle(base);});} // 证据题不打乱
 function show(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on')});document.getElementById(id).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}
-function start(){idx=0;ans=[];show('quiz');render();}
+function start(){idx=0;ans=[];buildOrder();show('quiz');render();}
 function render(){
   var it=ITEMS[idx];
+  var ord=ORDER[idx]||it.opts.map(function(_,i){return i;});
   document.getElementById('pnum').textContent=(idx+1)+' / '+ITEMS.length;
   document.getElementById('pfill').style.width=((idx)/ITEMS.length*100)+'%';
   document.getElementById('backBtn').style.display=idx>0?'inline-block':'none';
   var h='<div class="fade"><div class="q-axis'+(it.kind==='evid'?' ev':'')+'">'+it.axis+'</div><div class="q-text">'+it.q+'</div>'+(it.hint?'<div class="q-hint">'+it.hint+'</div>':'<div style="height:8px"></div>')+'<div class="opts">';
   if(it.kind==='evid'){
-    it.opts.forEach(function(o,i){h+='<button class="opt" onclick="pick('+i+')">'+o.t+'<span class="tag">'+o.note+'</span></button>';});
+    ord.forEach(function(oi){var o=it.opts[oi];h+='<button class="opt" onclick="pick('+oi+')">'+o.t+'<span class="tag">'+o.note+'</span></button>';});
   }else{
-    it.opts.forEach(function(o,i){h+='<button class="opt" onclick="pick('+i+')">'+o+'</button>';});
+    ord.forEach(function(oi){h+='<button class="opt" onclick="pick('+oi+')">'+it.opts[oi]+'</button>';});
   }
   h+='</div></div>';
   document.getElementById('qbody').innerHTML=h;
 }
-function pick(i){ans[idx]=i;if(idx<ITEMS.length-1){idx++;render();}else{finish();}}
+function pick(i){ans[idx]=i;if(idx<ITEMS.length-1){idx++;render();}else{finish();}} // i = 原始下标（pulse 即分值；证据题即 EVID 下标）
 function back(){if(idx>0){idx--;render();}}
 
 /* ===================== 判定引擎（严格按规格） ===================== */
@@ -381,7 +386,8 @@ function renderResult(R){
   // 3 八脉雷达
   h+='<div class="res-block"><div class="lab">八脉雷达</div>'+radar(R.P)+'</div>';
   // 4 脉象
-  h+='<div class="res-block"><div class="lab">脉象</div><p>最强三脉：<b>'+R.top3.join(' / ')+'</b><br>当前最大心魔：<b style="color:var(--cinnabar)">'+(R.maxDemon?R.maxDemon.nm:'无 · 渐入正道')+'</b></p></div>';
+  var demonLine=R.maxDemon?('当前最大心魔：<b style="color:var(--cinnabar)">'+R.maxDemon.nm+'</b>'):'当前心魔：<b style="color:var(--jade)">无 · 修行渐入正道</b>';
+  h+='<div class="res-block"><div class="lab">脉象</div><p>最强三脉：<b>'+R.top3.join(' / ')+'</b><br>'+demonLine+'</p></div>';
   // 5 卡境 + 破境
   h+='<div class="res-block"><div class="lab">卡你的坎 · 破境主线</div><p>'+R.kan+'</p><p class="fix">先补最短的「'+R.weakName+'脉」：'+R.fix+'</p></div>';
   // 6 心魔录（1-2）
