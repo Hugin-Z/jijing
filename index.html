@@ -37,16 +37,17 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 
 #brand{text-align:center}
 #brand h1{font-family:var(--brush);font-size:clamp(54px,11vh,104px);font-weight:400;line-height:.88;text-shadow:0 0 50px rgba(91,178,149,.22)}
-#brand .s{font-family:var(--sans);font-size:clamp(12px,1.8vh,15px);letter-spacing:.2em;color:var(--gold-l);font-weight:300;margin-top:12px}
-#brand .law{font-family:var(--sans);font-size:clamp(11px,1.5vh,13px);color:var(--muted);margin-top:10px;letter-spacing:.03em}
-#brand .law b{color:var(--rice-dim);font-weight:400}
+#brand .sub{font-family:var(--sans);font-size:clamp(14px,2.1vh,18px);color:var(--rice-dim);font-weight:300;margin-top:14px;letter-spacing:.02em;line-height:1.5}
+#brand .sub b{color:var(--jade);font-weight:500}
+#brand .creed{display:flex;flex-direction:column;gap:3px;margin-top:13px;font-family:var(--sans);font-size:clamp(10.5px,1.45vh,12.5px);color:var(--muted);letter-spacing:.05em;line-height:1.55}
 
-/* pyramid — explicit width so % tiers compute right */
-#pyramid{justify-self:center;width:clamp(264px,40vh,344px)}
-.pyramid{display:flex;flex-direction:column;align-items:center;gap:clamp(2px,.55vh,5px)}
-.tier{position:relative;text-decoration:none;text-align:center;height:clamp(26px,3.7vh,34px);display:flex;align-items:center;justify-content:center;clip-path:polygon(7% 0,93% 0,100% 100%,0 100%);border-top:1px solid rgba(255,255,255,.05);transition:.22s}
+/* pyramid — secondary, explicit width so % tiers compute right */
+#pyramid{justify-self:center;width:clamp(214px,30vh,272px);opacity:.9}
+.pyr-cap{text-align:center;font-family:var(--sans);font-size:11px;color:var(--muted);letter-spacing:.1em;margin-bottom:9px}
+.pyramid{display:flex;flex-direction:column;align-items:center;gap:clamp(2px,.5vh,4px)}
+.tier{position:relative;text-decoration:none;text-align:center;height:clamp(19px,2.6vh,25px);display:flex;align-items:center;justify-content:center;clip-path:polygon(7% 0,93% 0,100% 100%,0 100%);border-top:1px solid rgba(255,255,255,.05);transition:.22s}
 .tier:hover{filter:brightness(1.2);transform:scale(1.025)}
-.tier .nm{font-family:var(--brush);font-size:clamp(17px,2.5vh,23px);line-height:1;white-space:nowrap;letter-spacing:.08em}
+.tier .nm{font-family:var(--brush);font-size:clamp(13px,1.9vh,17px);line-height:1;white-space:nowrap;letter-spacing:.08em}
 .tier.lock{opacity:.5}
 .t8{width:32%;background:linear-gradient(135deg,#2b2b30,#3a3a40)}.t8 .nm{color:#cdb9d6}
 .t7{width:40%;background:linear-gradient(135deg,#28232e,#3a3242)}.t7 .nm{color:#bba6cc}
@@ -74,15 +75,19 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .door.d1::before{background:var(--gold)}.door.d1 .gly{color:var(--gold)}
 .door.d2::before{background:var(--cinnabar)}.door.d2 .gly{color:var(--cinnabar)}
 .door.d3::before{background:var(--jade)}.door.d3 .gly{color:var(--jade)}
+/* primary — 测一测，最醒目 */
+.door.primary{background:linear-gradient(180deg,rgba(91,178,149,.17),rgba(63,143,118,.10));border-color:rgba(91,178,149,.5);box-shadow:0 10px 26px -12px var(--jade)}
+.door.primary::before{background:var(--jade)}
+.door.primary .gly{color:var(--jade)}
+.door.primary .ttl{color:#e3f4ee;font-size:18px}
+.door.primary:hover{border-color:var(--jade);box-shadow:0 13px 30px -10px var(--jade)}
 
 /* desktop: split into two columns to fill width */
 @media(min-width:760px) and (min-height:440px){
-  .stage{grid-template-columns:auto auto;grid-template-areas:"brand pyr" "doors pyr";column-gap:clamp(40px,7vw,110px);row-gap:clamp(20px,3vh,34px);align-content:center}
-  #brand{grid-area:brand;text-align:left;align-self:end}
-  #doors{grid-area:doors;align-self:start;width:clamp(280px,26vw,340px)}
-  #pyramid{grid-area:pyr;align-self:center;width:clamp(300px,32vw,400px)}
-  .tier{height:clamp(30px,4.4vh,40px)}
-  .tier .nm{font-size:clamp(19px,2.9vh,26px)}
+  .stage{max-width:600px;margin:0 auto}
+  #brand h1{font-size:clamp(72px,13vh,112px)}
+  #doors{width:clamp(330px,42vw,430px)}
+  #pyramid{width:clamp(230px,24vh,290px)}
 }
 .foot{flex:0 0 auto;text-align:center;padding:9px;font-family:var(--sans);font-size:11px;color:var(--muted);letter-spacing:.04em;position:relative;z-index:2;border-top:1px solid var(--line)}
 </style>
@@ -99,11 +104,22 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 <div class="stage">
   <div id="brand" class="r">
     <h1>几境</h1>
-    <div class="s">AI 修为天梯 · 你修到第几重</div>
-    <div class="law"><b>作品是法器，不是境界。</b>测的是会不会用 AI。</div>
+    <div class="sub">你以为你会用 AI？<b>先测测你修到第几重。</b></div>
+    <div class="creed">
+      <span>作品是法器，不是境界。</span>
+      <span>神识，先于放手。</span>
+      <span>修为在人，AI 为器。</span>
+    </div>
   </div>
 
-  <div id="pyramid" class="r" style="animation-delay:.12s">
+  <div id="doors" class="r" style="animation-delay:.14s">
+    <a class="door primary" href="quiz.html"><span class="gly">测</span><span class="tx"><span class="ttl">测一测</span><span class="d">六问定你第几重</span></span><span class="go">→</span></a>
+    <a class="door d1" href="realms.html"><span class="gly">境</span><span class="tx"><span class="ttl">看境界</span><span class="d">九重逐境拆解</span></span><span class="go">→</span></a>
+    <a class="door d2" href="scripture.html"><span class="gly">藏</span><span class="tx"><span class="ttl">进藏经阁</span><span class="d">每境该读的书</span></span><span class="go">→</span></a>
+  </div>
+
+  <div id="pyramid" class="r" style="animation-delay:.26s">
+    <div class="pyr-cap">九重天梯 · 点开看详解</div>
     <div class="pyramid">
       <div class="split">内功 · 影响力</div>
       <a class="tier t8 lock" href="realms.html#r8"><span class="nm">道祖</span></a>
@@ -117,12 +133,6 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
       <a class="tier t1" href="realms.html#r1"><span class="nm">炼气</span></a>
       <a class="tier t0" href="realms.html#r0"><span class="nm">凡人</span></a>
     </div>
-  </div>
-
-  <div id="doors" class="r" style="animation-delay:.24s">
-    <a class="door d1" href="realms.html"><span class="gly">境</span><span class="tx"><span class="ttl">境界详解</span><span class="d">逐境拆解</span></span><span class="go">→</span></a>
-    <a class="door d2" href="scripture.html"><span class="gly">藏</span><span class="tx"><span class="ttl">藏经阁</span><span class="d">修行书目</span></span><span class="go">→</span></a>
-    <a class="door d3" href="quiz.html"><span class="gly">测</span><span class="tx"><span class="ttl">测一测</span><span class="d">测你第几境</span></span><span class="go">→</span></a>
   </div>
 </div>
 

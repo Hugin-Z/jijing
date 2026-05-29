@@ -162,7 +162,13 @@ var DEMON = {
   fire:{nm:"走火入魔",good:false,txt:"你敢放手，却分不清好坏——最容易把幻觉当真理。补「神识」：产出后做系统检查，别让 AI 一个人开车。"},
   guard:{nm:"谨守心神",good:false,txt:"你看得清好坏，却不敢放手，事必躬亲。补「委托」：挑低风险的活，试着定好要求让它自己跑完，你再验收。"},
   novice:{nm:"初心未炼",good:false,txt:"放手和判别都还在养。先从「让 AI 做低风险初稿、再自己逐项核对」开始练。"},
-  way:{nm:"渐入正道",good:true,txt:"放手与神识齐涨，走的是正道。继续把判别标准沉淀成可复用的协议，让神识外放。"}
+  way:{nm:"渐入正道",good:true,txt:"放手与神识齐涨，走的是正道。继续把判别标准沉淀成可复用的协议，让神识外放。"},
+  collect:{nm:"Prompt 收藏癖",good:false,txt:"收藏了 300 个 prompt，却没有一个稳定跑通的工作流。"},
+  framework:{nm:"框架走火",good:false,txt:"LangChain、MCP、Agent、RAG 全学了，没一个真实任务跑穿。"},
+  demo:{nm:"Demo 飞升",good:false,txt:"做出一个 demo，就以为自己已经产品化了。"},
+  feedback:{nm:"幻觉回灌",good:false,txt:"AI 编的内容被你放回知识库，污染了下一轮输出。"},
+  autopilot:{nm:"自动化成瘾",good:false,txt:"本该人工确认的高风险判断，也想让 AI 自动放行。"},
+  idol:{nm:"模型拜物",good:false,txt:"以为换个更强的模型，就能解决业务逻辑上的错误。"}
 };
 
 /* ===================== 题目 ===================== */
@@ -219,7 +225,7 @@ var QS = [
 ];
 
 /* ===================== 流程控制 ===================== */
-var idx=0, ans=[];
+var idx=0, ans=[], CARD=null;
 function show(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on')});document.getElementById(id).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}
 function start(){idx=0;ans=[];show('quiz');render();}
 function render(){
@@ -265,14 +271,27 @@ function finish(){
     mig:"封住你的是【迁移】——你只在一个任务、一个人身上验证过。换个任务、让别人也跑一次。",
     cnt:"封住你的是【次数】——你做到过，但跑得太少。同一套再多跑几轮，让它稳定下来。"
   };
-  // 心魔
-  var demon = (lt===1 && sh<=0)?DEMON.fire : (lt===0 && sh>=1)?DEMON.guard : (lt===0 && sh<=0)?DEMON.novice : DEMON.way;
+  // 心魔：先按具体答案模式抽新增 6 心魔，命中不了再回落到原 4 象限
+  var evIdx=QS[0].opts.indexOf(ans[0]);   // 证据题选了第几项（3=做了个 demo, 2=有模板, >=4 仓库/迁移）
+  var letIdx=QS[5].opts.indexOf(ans[5]);  // 心魔题：2=全然放手不回头
+  var demon =
+      (letIdx===2 && sh<=1)                         ? DEMON.autopilot :  // 全然放手 + 神识不足 → 自动化成瘾
+      (evIdx===3 && caps.adopt<=3)                  ? DEMON.demo :       // 做了 demo + 没被真实采用 → Demo 飞升
+      (evIdx===2 && caps.cnt<=2)                    ? DEMON.collect :    // 攒了模板 + 几乎没跑过 → Prompt 收藏癖
+      (evIdx>=5 && caps.adopt<=3 && caps.mig<=3)    ? DEMON.framework :  // 仓库/高阶证据 + 没采用没迁移 → 框架走火
+      (sh<=0 && lt===1 && evIdx>=4)                 ? DEMON.feedback :   // 放手 + 看不出对错 + 已在跑链路 → 幻觉回灌
+      (caps.shen<=2 && caps.cnt<=2 && evIdx>=3)     ? DEMON.idol :       // 神识弱 + 跑得少 + 做过东西 → 模型拜物
+      (lt===1 && sh<=0)                             ? DEMON.fire :
+      (lt===0 && sh>=1)                             ? DEMON.guard :
+      (lt===0 && sh<=0)                             ? DEMON.novice :
+                                                      DEMON.way;
   renderResult(lvl,stageLabel,binder,binderHint[binder],demon);
 }
 
 function renderResult(lvl,stage,binder,bhint,demon){
   var r=REALM[lvl], col=COLOR[lvl];
   var locked = lvl>=6;
+  CARD={lvl:lvl, realm:r.nm, sub:r.sub, stage:stage, col:col, demon:demon.nm, demonGood:!!demon.good};
   var stageLine = stage ? '<div class="res-stage">'+r.nm+' · '+stage+'</div>' : '';
   // mini 金字塔（外功 0-5 + 内功 6-8 锁）
   var mini='';
@@ -293,11 +312,128 @@ function renderResult(lvl,stage,binder,bhint,demon){
       '<div class="demon-seal'+(demon.good?' good':'')+'"><span class="dn">'+demon.nm+'</span></div>'+
       '<p style="margin-top:12px">'+demon.txt+'</p></div>'+
   '</div>'+
-  '<a class="btn" style="margin-top:18px;text-decoration:none;display:inline-block" href="scripture.html#realm'+(lvl<1?1:(lvl>6?6:lvl))+'">去藏经阁 · 取你这一境的典籍 →</a>'+
-  '<p class="share-tip">截图你的境界 + 心魔，发出来对个号 ↑</p>'+
+  '<button class="btn" id="sealBtn" style="margin-top:18px" onclick="makeSeal(this)">凝练修为法印 · 存图分享</button>'+
+  '<a class="btn ghost" style="margin-top:12px;text-decoration:none;display:inline-block" href="scripture.html#realm'+(lvl<1?1:(lvl>6?6:lvl))+'">去藏经阁 · 取你这一境的典籍 →</a>'+
+  '<p class="share-tip">凝练成「修为法印」图，或直接截图，发出来对个号 ↑</p>'+
   '<button class="btn ghost" onclick="show(\'intro\')">← 重新测一次</button>';
   document.getElementById('result').innerHTML=h;
   show('result');
+}
+
+/* ===================== 修为法印 · 分享卡 ===================== */
+// 圆角矩形路径
+function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath();}
+
+// 纯前端二维码（Version 2 / ECC-M / byte 模式，固定指向 9jing.top；已离线验证可扫）
+function qrEncode(text){
+  var N=25, DATA_CW=28, EC_CW=16;
+  var EXP=new Array(512), LOG=new Array(256);
+  (function(){var x=1;for(var i=0;i<255;i++){EXP[i]=x;LOG[x]=i;x<<=1;if(x&0x100)x^=0x11d;}for(var i=255;i<512;i++)EXP[i]=EXP[i-255];})();
+  function gmul(a,b){return (a===0||b===0)?0:EXP[LOG[a]+LOG[b]];}
+  var bytes=[];for(var i=0;i<text.length;i++)bytes.push(text.charCodeAt(i)&0xff);
+  var bits=[];function pb(v,n){for(var b=n-1;b>=0;b--)bits.push((v>>b)&1);}
+  pb(4,4);pb(bytes.length,8);for(var i=0;i<bytes.length;i++)pb(bytes[i],8);
+  var cap=DATA_CW*8;for(var i=0,t=Math.min(4,cap-bits.length);i<t;i++)bits.push(0);
+  while(bits.length%8)bits.push(0);
+  var data=[];for(var i=0;i<bits.length;i+=8){var v=0;for(var j=0;j<8;j++)v=(v<<1)|bits[i+j];data.push(v);}
+  for(var pad=[0xEC,0x11],pi=0;data.length<DATA_CW;pi++)data.push(pad[pi&1]);
+  function polymul(p,q){var r=new Array(p.length+q.length-1).fill(0);for(var i=0;i<p.length;i++)for(var j=0;j<q.length;j++)r[i+j]^=gmul(p[i],q[j]);return r;}
+  function rsGen(n){var g=[1];for(var i=0;i<n;i++)g=polymul(g,[1,EXP[i]]);return g;}
+  var gen=rsGen(EC_CW);var ec=new Array(EC_CW).fill(0);
+  for(var i=0;i<data.length;i++){var factor=data[i]^ec[0];ec.shift();ec.push(0);for(var j=0;j<EC_CW;j++)ec[j]^=gmul(gen[j+1],factor);}
+  var all=data.concat(ec);
+  var m=[],fn=[];for(var r=0;r<N;r++){m[r]=[];fn[r]=[];for(var c=0;c<N;c++){m[r][c]=0;fn[r][c]=false;}}
+  function finder(r,c){for(var i=-1;i<=7;i++)for(var j=-1;j<=7;j++){var rr2=r+i,cc=c+j;if(rr2<0||rr2>=N||cc<0||cc>=N)continue;var d=(i>=0&&i<=6&&(j===0||j===6))||(j>=0&&j<=6&&(i===0||i===6))||(i>=2&&i<=4&&j>=2&&j<=4);m[rr2][cc]=d?1:0;fn[rr2][cc]=true;}}
+  finder(0,0);finder(0,N-7);finder(N-7,0);
+  for(var i=8;i<N-8;i++){var b=(i%2===0)?1:0;m[6][i]=b;fn[6][i]=true;m[i][6]=b;fn[i][6]=true;}
+  (function(r,c){for(var i=-2;i<=2;i++)for(var j=-2;j<=2;j++){var rr2=r+i,cc=c+j;var ring=Math.max(Math.abs(i),Math.abs(j));m[rr2][cc]=(ring!==1)?1:0;fn[rr2][cc]=true;}})(18,18);
+  for(var i=0;i<=5;i++)fn[i][8]=true;fn[7][8]=true;fn[8][8]=true;fn[8][7]=true;for(var i=9;i<15;i++)fn[8][14-i]=true;for(var i=0;i<8;i++)fn[8][N-1-i]=true;for(var i=8;i<15;i++)fn[N-15+i][8]=true;fn[N-8][8]=true;
+  var db=[];for(var i=0;i<all.length;i++)for(var b=7;b>=0;b--)db.push((all[i]>>b)&1);
+  var di=0,up=true;
+  for(var c=N-1;c>0;c-=2){if(c===6)c=5;for(var tt=0;tt<N;tt++){var row=up?(N-1-tt):tt;for(var ci=0;ci<2;ci++){var cc=c-ci;if(!fn[row][cc]){m[row][cc]=di<db.length?db[di]:0;di++;}}}up=!up;}
+  function mask(k,r,c){switch(k){case 0:return (r+c)%2===0;case 1:return r%2===0;case 2:return c%3===0;case 3:return (r+c)%3===0;case 4:return (((r>>1)+(Math.floor(c/3)))%2)===0;case 5:return ((r*c)%2)+((r*c)%3)===0;case 6:return ((((r*c)%2)+((r*c)%3))%2)===0;default:return ((((r+c)%2)+((r*c)%3))%2)===0;}}
+  var FMT=[0x5412,0x5125,0x5E7C,0x5B4B,0x45F9,0x40CE,0x4F97,0x4AA0];
+  function gb(x,i){return (x>>i)&1;}
+  function placeFmt(M,bb){for(var i=0;i<=5;i++)M[i][8]=gb(bb,i);M[7][8]=gb(bb,6);M[8][8]=gb(bb,7);M[8][7]=gb(bb,8);for(var i=9;i<15;i++)M[8][14-i]=gb(bb,i);for(var i=0;i<8;i++)M[8][N-1-i]=gb(bb,i);for(var i=8;i<15;i++)M[N-15+i][8]=gb(bb,i);M[N-8][8]=1;}
+  function penalty(M){var p=0,i,j,k;
+    for(i=0;i<N;i++){for(var dir=0;dir<2;dir++){var run=1,prev=-1;for(j=0;j<N;j++){var v=dir?M[j][i]:M[i][j];if(v===prev){run++;if(run===5)p+=3;else if(run>5)p+=1;}else{run=1;prev=v;}}}}
+    for(i=0;i<N-1;i++)for(j=0;j<N-1;j++){var v=M[i][j];if(v===M[i][j+1]&&v===M[i+1][j]&&v===M[i+1][j+1])p+=3;}
+    var p1=[1,0,1,1,1,0,1,0,0,0,0],p2=[0,0,0,0,1,0,1,1,1,0,1];
+    function mt(get){for(i=0;i<N;i++)for(j=0;j<=N-11;j++){var o1=true,o2=true;for(k=0;k<11;k++){var v=get(i,j+k);if(v!==p1[k])o1=false;if(v!==p2[k])o2=false;}if(o1)p+=40;if(o2)p+=40;}}
+    mt(function(a,b){return M[a][b];});mt(function(a,b){return M[b][a];});
+    var dark=0;for(i=0;i<N;i++)for(j=0;j<N;j++)if(M[i][j])dark++;
+    p+=Math.floor(Math.abs(dark*100/(N*N)-50)/5)*10;return p;}
+  var best=null,bestP=Infinity;
+  for(var k=0;k<8;k++){var M=[];for(var r=0;r<N;r++)M[r]=m[r].slice();for(var r=0;r<N;r++)for(var c=0;c<N;c++){if(!fn[r][c]&&mask(k,r,c))M[r][c]^=1;}placeFmt(M,FMT[k]);var pp=penalty(M);if(pp<bestP){bestP=pp;best=M;}}
+  return {size:N,matrix:best};
+}
+
+// 把卡片画到 canvas 并导出 PNG Blob
+function drawSeal(card){
+  var W=1080,H=1350;
+  var cv=document.createElement('canvas');cv.width=W;cv.height=H;window.__sealCanvas=cv;
+  var x=cv.getContext('2d');
+  var brush="'MaShanLocal','SerifLocal',serif", sans="'SansLocal',sans-serif", serif="'SerifLocal',serif";
+  // 背景
+  var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0c1014');g.addColorStop(.45,'#0e141a');g.addColorStop(1,'#0c1014');x.fillStyle=g;x.fillRect(0,0,W,H);
+  var rg=x.createRadialGradient(W*.72,H*.24,0,W*.72,H*.24,W*.72);rg.addColorStop(0,'rgba(91,178,149,.14)');rg.addColorStop(1,'rgba(91,178,149,0)');x.fillStyle=rg;x.fillRect(0,0,W,H);
+  var rg2=x.createRadialGradient(W*.2,H*.82,0,W*.2,H*.82,W*.72);rg2.addColorStop(0,'rgba(201,164,92,.10)');rg2.addColorStop(1,'rgba(201,164,92,0)');x.fillStyle=rg2;x.fillRect(0,0,W,H);
+  // 边框
+  x.strokeStyle='rgba(201,164,92,.5)';x.lineWidth=3;rr(x,40,40,W-80,H-80,18);x.stroke();
+  x.strokeStyle='rgba(201,164,92,.16)';x.lineWidth=1.5;rr(x,56,56,W-112,H-112,12);x.stroke();
+  x.textAlign='center';
+  // 品牌
+  x.fillStyle='#c9a45c';x.font='400 92px '+brush;x.shadowColor='rgba(201,164,92,.5)';x.shadowBlur=30;x.fillText('几境',W/2,190);x.shadowBlur=0;
+  x.fillStyle='#8b938d';x.font='300 27px '+sans;x.fillText('AI 修为天梯',W/2,234);
+  x.strokeStyle='rgba(201,164,92,.4)';x.lineWidth=2;x.beginPath();x.moveTo(W/2-120,276);x.lineTo(W/2-26,276);x.moveTo(W/2+26,276);x.lineTo(W/2+120,276);x.stroke();
+  x.fillStyle='#c9a45c';x.font='26px '+brush;x.fillText('❖',W/2,285);
+  // 境界
+  x.fillStyle='#8b938d';x.font='300 31px '+sans;x.fillText('你修到 · 第 '+(card.lvl+1)+' 重',W/2,372);
+  x.fillStyle=card.col;x.font='400 172px '+brush;x.shadowColor=card.col;x.shadowBlur=46;x.fillText(card.realm,W/2,536);x.shadowBlur=0;
+  x.fillStyle='#b8b3a4';x.font='400 34px '+sans;
+  x.fillText(card.stage?(card.sub+' · '+card.stage):card.sub,W/2,592);
+  // 心魔印章
+  x.font='400 56px '+brush;var dw=x.measureText(card.demon).width;var boxW=dw+96,boxH=110,bx=W/2-boxW/2,by=672;
+  x.fillStyle=card.demonGood?'#8b938d':'#8b938d';x.font='300 25px '+sans;x.fillText(card.demonGood?'修行姿态':'你的心魔',W/2,by-20);
+  var sealCol=card.demonGood?'#5bb295':'#d05f4c';
+  x.fillStyle=card.demonGood?'rgba(91,178,149,.10)':'rgba(208,95,76,.12)';x.strokeStyle=sealCol;x.lineWidth=3;rr(x,bx,by,boxW,boxH,14);x.fill();x.stroke();
+  x.fillStyle=card.demonGood?'#a7e0cc':'#f0c4bb';x.font='400 56px '+brush;x.textBaseline='middle';x.fillText(card.demon,W/2,by+boxH/2+3);x.textBaseline='alphabetic';
+  // 信条
+  x.fillStyle='#ece6d6';x.font='400 42px '+serif;x.fillText('作品是法器，不是境界。',W/2,884);
+  x.fillStyle='#8b938d';x.font='300 26px '+sans;x.fillText('神识，先于放手。　修为在人，AI 为器。',W/2,930);
+  // 二维码
+  var qr=qrEncode('https://9jing.top');var qz=4,cell=7,qpx=(qr.size+qz*2)*cell;var qx=W/2-qpx/2,qy=994;
+  x.fillStyle='#ece6d6';rr(x,qx-3,qy-3,qpx+6,qpx+6,14);x.fill();
+  x.fillStyle='#0d1115';
+  for(var r=0;r<qr.size;r++)for(var c=0;c<qr.size;c++){if(qr.matrix[r][c])x.fillRect(qx+(c+qz)*cell,qy+(r+qz)*cell,cell,cell);}
+  x.fillStyle='#b8b3a4';x.font='300 26px '+sans;x.fillText('扫码测你的修为 · 9jing.top',W/2,qy+qpx+40);
+  return new Promise(function(resolve){
+    if(cv.toBlob){cv.toBlob(function(b){resolve(b);},'image/png');}
+    else{try{var d=cv.toDataURL('image/png');var bin=atob(d.split(',')[1]);var arr=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);resolve(new Blob([arr],{type:'image/png'}));}catch(e){resolve(null);}}
+  });
+}
+
+function makeSeal(btn){
+  if(!CARD){return;}
+  var old=btn?btn.textContent:'';
+  function reset(){if(btn){btn.disabled=false;btn.textContent=old||'凝练修为法印 · 存图分享';}}
+  if(btn){btn.disabled=true;btn.textContent='凝练中…';}
+  // 先确保字体加载（失败也不阻断，回退衬线/无衬线）
+  var ready;
+  try{ready=(document.fonts&&document.fonts.load)?Promise.all([document.fonts.load("400 120px 'MaShanLocal'"),document.fonts.load("400 40px 'SerifLocal'"),document.fonts.load("300 30px 'SansLocal'")]).catch(function(){}):Promise.resolve();}
+  catch(e){ready=Promise.resolve();}
+  ready.then(function(){return drawSeal(CARD);}).then(function(blob){
+    if(!blob)throw new Error('no blob');
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');a.href=url;a.download='几境-修为法印.png';document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},4000);
+    reset();
+  }).catch(function(){
+    // 兜底：用 dataURL 在新窗口打开，用户可长按/右键保存
+    try{var c=window.__sealCanvas;if(c){var d=c.toDataURL('image/png');var w=window.open();if(w){w.document.write('<title>几境·修为法印</title><img src="'+d+'" style="width:100%;max-width:540px;display:block;margin:0 auto">');}else{alert('已生成，但浏览器拦截了下载；可直接截图当前页面保存。');}}else{alert('生成失败，可直接截图保存。');}}
+    catch(e){alert('生成失败，可直接截图保存。');}
+    reset();
+  });
 }
 </script>
 
