@@ -2,135 +2,109 @@
 
 # 几境 · Jǐjìng
 
-**AI 修为天梯 —— 你修到第几重？**
-*A cultivation ladder for how well you wield AI — which realm have you reached?*
+### 你以为你会用 AI？来测测你修到第几重。
 
-[**▶ 在线体验 / Live demo → 9jing.top**](https://9jing.top)
+**AI 修为天梯 —— 把"会不会用 AI"修成一套修仙境界**
 
-中文 ｜ [English](#english)
+[**▶ 进去修炼一下 · 9jing.top**](https://9jing.top)
+
+中文 ｜ [English](#english-cross-the-realms)
 
 </div>
 
 ---
 
-## 关于
+## 这是个啥
 
-「几境」把**"会用 AI"** 这件事，做成了一套修仙境界。
+凡人用 AI，问一句答一句，把幻觉当真理，还以为自己很会用。
 
-它测的是**你会不会用 AI**，不是你学没学 AI——不考算法、不考数学，只看你能不能让 AI 稳定、可复现、可迁移地替你把事办成。一个核心信条贯穿始终：**作品是法器，不是境界。** 一件能跑的 demo 证明不了你的内力；真正的修为，是稳定、复现、迁移、让别人也能用。
+**「几境」是一座修仙天梯，量的不是"你学了多少 AI"，而是"你到底会不会用 AI"。**
 
-### 九重境界
+九重境界，从 **凡人** 到 **道祖**，一重一重往上爬：
 
-外功（个人修为，可自测）：
+> 凡人 → 炼气 → 筑基 → 金丹 → 元婴 → 化神 →（内功）返虚 → 合道 → 道祖
 
-> 凡人 → 炼气 → 筑基 → 金丹 → 元婴 → 化神
+爬之前先记住一句话——**作品是法器，不是境界。** 你做出一个能跑的 AI demo，那只是捡到一件法器，证明不了你的内力。真修为是：稳定、能复现、能迁移、还能让别人也跑得通。
 
-内功（影响力，需外部证据解锁）：
+还有一条铁律，破了就**走火入魔**：
 
-> 返虚 → 合道 → 道祖
+> **神识（你判断得了 AI 的好坏）必须先于放手（你敢把活全交给它）。**
+> 还看不出它在胡说就急着放手？那不叫高手，叫蒙着眼狂奔。
 
-其中有一条不可逾越的"脊柱律"：**神识（判别力）必先于放手（自主化）**——还看不出 AI 的对错就急着放手，叫走火入魔。
+## 进去能干嘛
 
-### 四个页面
+🧭 **转罗盘** —— 一只能拖着转的古风修为罗盘，转到哪一境，就给你讲透那一境的判据、心法、和会怎么走火入魔。
 
-- **首页** —— 九重天梯一览，三道门通往各页。
-- **境界详解** —— 一只可**拖动旋转**的古风「修为罗盘」（八卦、二十四向、天池、天心十道），转到哪境右侧出详解；另含「修心」：内功四诀（委托/吐纳/神识/守心）对照心魔录。
-- **藏经阁** —— 一对**向中间推开的双扇门书柜**，按境陈列 **23 本**精选典籍，点书脊即"抽卷"看推荐理由与链接。
-- **测一测** —— **6 问**判定你修到第几重，并诊断你的"心魔"。
+📜 **逛藏经阁** —— 一对推开的双扇门书柜，按境陈列 **23 本** 真·精选典籍（不是凑数，是真懂这条线的人挑的）。中缝压着一道封条：**神识既成，方可放手。** 点书脊抽卷一观。
 
-### 思想来源
+🔮 **测一测** —— 6 问，测出你修到第几重，外加诊断你中了哪只**心魔**（"沉睡的车手"？"事必躬亲"？"道心蒙尘"？对号入座，扎心了别怪我）。测完直接把你这一境该读的典籍甩给你。
 
-读书清单刻意只走"把 AI 用好"这条轴，不混入机器学习内部原理。主要参照：
+## 心魔录（看看你中了几个）
 
-- Anthropic《AI Fluency》4D 框架（Delegation / Description / Discernment / Diligence）
-- Ethan Mollick《Co-Intelligence》《Jagged Frontier》《Centaurs and Cyborgs》
-- Anthropic《Building Effective Agents》《Effective Context Engineering》及 "eval before agent" 主张
-- Hamel Husain 的 evals 系列、Chip Huyen《AI Engineering》等
-
-（以上及更多都收录在「藏经阁」里。）
-
-### 技术
-
-- **纯前端、零框架、零构建**：每页一个独立 HTML，CSS / JS 内联，开箱即跑。
-- **移动优先 · 单屏**：每页控制在一屏内，不强制下滑。
-- **自绘 SVG 古风罗盘**：基于 Pointer Events 实现拖动旋转 + 点选吸附。
-- **CSS 3D 透视**：藏经阁双扇门用 `rotateY` 透视营造"推开门"的进深。
-- **统一冷色设计系统**（墨 / 青 / 金）；毛笔字体仅用于品牌与境界名。
-- **托管**：腾讯云 EdgeOne Pages（海外节点，大陆可直连，无需备案）。
-
-### 本地运行
-
-```bash
-# 进入站点目录后
-python3 -m http.server 8000
-# 浏览器打开 http://localhost:8000
-```
-
-无需安装任何依赖。
+- 🪬 **法宝 ≠ 修为** —— 买了一堆 AI 工具订阅，功力却原地踏步
+- 😴 **沉睡的车手** —— 放手却不兜底，把幻觉当真理（最危险）
+- 🐜 **事必躬亲** —— 看得清却不敢放手，事事逐字盯，累死自己
+- 🌫️ **道心蒙尘** —— 连判断都外包给 AI，自己的能力悄悄萎缩
 
 ---
 
-<a name="english"></a>
+> 👉 **别光看，[进去测一测你修到第几重](https://9jing.top)，截图发出来对个号。**
 
-## English
+---
 
-**Jǐjìng (几境)** turns *being good at using AI* into a cultivation (xianxia) ranking system.
+<details>
+<summary>🛠 给好奇"这玩意儿咋做的"的人（技术彩蛋，点开看）</summary>
 
-It measures **how well you wield AI, not how much AI you've studied** — no algorithms, no math. The only question is whether you can get AI to do real work for you in a way that's stable, reproducible, transferable, and usable by others. One creed runs through it all: **an artifact is a tool, not a rank.** A working demo doesn't prove your "inner power"; true mastery is reproducibility, transfer, and adoption by others.
+<br>
 
-### Nine realms
+- **纯前端、零框架、零构建**：四个独立 HTML，CSS/JS 内联，开箱即跑。
+- **移动优先 · 单屏**：每页一屏装下，背景 fixed 铺满不留白。
+- **自绘 SVG 古风罗盘**：八卦 + 二十四向 + 天池 + 天心十道，Pointer Events 实现拖拽旋转 + 就近吸附 + 轻点选中。
+- **CSS 3D 透视**：藏经阁双扇门用 `rotateY` 做出"推开门"的进深，封条嵌在中缝。
+- **字体本地子集化**：毛笔字 + 正文只打包站内用到的字，国内加载快、不依赖外网。
+- **思想来源**：Anthropic《AI Fluency》4D 框架（委托/吐纳/神识/守心）、Ethan Mollick《Co-Intelligence》《Jagged Frontier》、Anthropic《Building Effective Agents》《Effective Context Engineering》、Hamel Husain evals 系列、Chip Huyen《AI Engineering》等——全收在藏经阁里。
 
-External skill (personal, self-testable):
-
-> Mortal → Qi Refining → Foundation → Golden Core → Nascent Soul → Spirit Severing
-
-Internal skill (influence, unlocked only by external evidence):
-
-> Void Return → Dao Unity → Dao Ancestor
-
-A non-negotiable spine rule holds throughout: **Discernment must precede Autonomy.** Handing tasks off before you can judge the AI's output is "qi deviation" (走火入魔).
-
-### Four pages
-
-- **Home** — the nine-realm ladder at a glance, with three gates into the site.
-- **Realms** — a *drag-to-rotate* Chinese **geomantic compass (luopan)** (trigrams, 24 bearings, central pool, crosshair); spin to a realm to reveal its detail. Plus "Cultivating the Mind": four inner arts vs. the catalog of inner demons.
-- **Scripture Hall** — a pair of **double doors pushed open**, shelving **23 hand-picked readings** by realm; tap a spine to "draw the scroll" for why-to-read and a link.
-- **Quiz** — **6 questions** to place you on the ladder and diagnose your inner demon.
-
-### Built on
-
-The reading list deliberately stays on the *using-AI-well* axis (no ML-internals books). Key influences:
-
-- Anthropic's **AI Fluency** 4D framework (Delegation / Description / Discernment / Diligence)
-- Ethan Mollick — *Co-Intelligence*, *Jagged Frontier*, *Centaurs and Cyborgs*
-- Anthropic — *Building Effective Agents*, *Effective Context Engineering*, and the "eval before agent" stance
-- Hamel Husain's evals writing, Chip Huyen's *AI Engineering*, and more
-
-(All curated inside the Scripture Hall.)
-
-### Tech
-
-- **Pure front-end, no framework, no build step** — each page is a single HTML file with inline CSS/JS; just open and run.
-- **Mobile-first, single-screen** — every page fits one viewport, no forced scrolling.
-- **Hand-drawn SVG luopan** — drag-to-rotate plus tap-to-select via Pointer Events.
-- **CSS 3D perspective** — the Scripture Hall's double doors use `rotateY` for depth.
-- **Cold design system** (ink / jade / gold); the brush typeface is reserved for the brand mark and realm names.
-- **Hosting** — Tencent EdgeOne Pages (overseas nodes; reachable from mainland China, no ICP filing needed).
-
-### Run locally
-
+本地跑：
 ```bash
-python3 -m http.server 8000
-# then open http://localhost:8000
+python3 -m http.server 8000   # 然后开 http://localhost:8000
 ```
 
-No dependencies required.
+</details>
+
+---
+
+<a name="english-cross-the-realms"></a>
+
+## English · Cross the Realms
+
+### You think you're good at AI? Let's see which realm you've actually reached.
+
+**Jǐjìng (几境)** is a cultivation ladder (xianxia-style) that measures **how well you *wield* AI — not how much AI you've studied.**
+
+Nine realms, from **Mortal** to **Dao Ancestor**:
+
+> Mortal → Qi Refining → Foundation → Golden Core → Nascent Soul → Spirit Severing →（inner）Void Return → Dao Unity → Dao Ancestor
+
+One creed before you climb: **an artifact is a tool, not a rank.** A working demo just means you picked up a nice weapon — it doesn't prove your inner power. Real mastery = reproducible, transferable, and usable by others.
+
+And one iron law — break it and you suffer **qi deviation (走火入魔)**:
+
+> **Discernment must come before Autonomy.** Handing everything to the AI before you can judge its output isn't mastery — it's sprinting blindfolded.
+
+**Inside you can:**
+- 🧭 **Spin the compass** — a draggable geomantic luopan; land on a realm to see its criteria, mindset, and failure mode.
+- 📜 **Browse the Scripture Hall** — double doors holding **23 hand-picked readings**, sealed in the middle by *"Discernment before Autonomy."*
+- 🔮 **Take the quiz** — 6 questions to place you on the ladder and diagnose your inner demon.
+
+> 👉 **Stop reading — [go find your realm at 9jing.top](https://9jing.top).**
 
 ---
 
 <div align="center">
 
 **作者 / Author**: Hugin-Z
-**许可 / License**: CC BY-NC 4.0（署名-非商业性使用）
+**许可 / License**: CC BY-NC 4.0（署名-非商业性使用 / Attribution-NonCommercial）
+
+*作品是法器，不是境界。 · An artifact is a tool, not a rank.*
 
 </div>
