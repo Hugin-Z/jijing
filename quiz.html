@@ -99,6 +99,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .demon-seal.good{border-color:var(--jade);color:#a7e0cc;background:rgba(91,178,149,.1)}
 .demon-seal .dn{font-size:20px}
 .share-tip{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:14px;text-align:center}
+.pro-guide{display:inline-block;margin-top:14px;font-family:var(--sans);font-size:12.5px;color:var(--gold-l);text-decoration:none;border:1px solid rgba(201,164,92,.35);border-radius:18px;padding:7px 16px;transition:.2s}
+.pro-guide:hover{background:rgba(201,164,92,.1);border-color:var(--gold);color:#f0d79a}
 </style>
 </head>
 <body>
@@ -315,7 +317,8 @@ function renderResult(lvl,stage,binder,bhint,demon){
   '<button class="btn" id="sealBtn" style="margin-top:18px" onclick="makeSeal(this)">凝练修为法印 · 存图分享</button>'+
   '<a class="btn ghost" style="margin-top:12px;text-decoration:none;display:inline-block" href="scripture.html#realm'+(lvl<1?1:(lvl>6?6:lvl))+'">去藏经阁 · 取你这一境的典籍 →</a>'+
   '<p class="share-tip">凝练成「修为法印」图，或直接截图，发出来对个号 ↑</p>'+
-  '<button class="btn ghost" onclick="show(\'intro\')">← 重新测一次</button>';
+  '<a class="pro-guide" href="quiz-pro.html">想测得更准？→ 进正卷（24 题 · 八脉雷达 · 破境指引）</a>'+
+  '<br><button class="btn ghost" onclick="show(\'intro\')">← 重新测一次</button>';
   document.getElementById('result').innerHTML=h;
   show('result');
 }

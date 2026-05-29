@@ -81,6 +81,9 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .door.primary .gly{color:var(--jade)}
 .door.primary .ttl{color:#e3f4ee;font-size:18px}
 .door.primary:hover{border-color:var(--jade);box-shadow:0 13px 30px -10px var(--jade)}
+/* 正卷 · 深测 次级入口 */
+#prolink{justify-self:center;font-family:var(--sans);font-size:12.5px;color:var(--gold-l);text-decoration:none;border:1px solid rgba(201,164,92,.35);border-radius:20px;padding:7px 17px;letter-spacing:.02em;transition:.2s}
+#prolink:hover{background:rgba(201,164,92,.1);border-color:var(--gold);color:#f0d79a}
 
 /* desktop: split into two columns to fill width */
 @media(min-width:760px) and (min-height:440px){
@@ -118,7 +121,9 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
     <a class="door d2" href="scripture.html"><span class="gly">藏</span><span class="tx"><span class="ttl">进藏经阁</span><span class="d">每境该读的书</span></span><span class="go">→</span></a>
   </div>
 
-  <div id="pyramid" class="r" style="animation-delay:.26s">
+  <a id="prolink" class="r" style="animation-delay:.20s" href="quiz-pro.html">正卷 · 深测 — 24 题 · 八脉雷达 · 破境指引 →</a>
+
+  <div id="pyramid" class="r" style="animation-delay:.30s">
     <div class="pyr-cap">九重天梯 · 点开看详解</div>
     <div class="pyramid">
       <div class="split">内功 · 影响力</div>

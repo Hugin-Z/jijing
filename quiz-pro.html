@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>正卷 · 几境</title>
+<style>
+@font-face{font-family:'MaShanLocal';src:url('fonts/mashanzheng.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'SerifLocal';src:url('fonts/notoserifsc.woff2') format('woff2');font-weight:400 500;font-display:swap}
+@font-face{font-family:'SerifLocal';src:url('fonts/notoserifsc-bold.woff2') format('woff2');font-weight:600 700;font-display:swap}
+@font-face{font-family:'SansLocal';src:url('fonts/notosanssc-light.woff2') format('woff2');font-weight:300;font-display:swap}
+@font-face{font-family:'SansLocal';src:url('fonts/notosanssc.woff2') format('woff2');font-weight:400 500;font-display:swap}
+</style>
+<style>
+
+:root{
+  --ink:#0d1115;--panel:#171f25;--panel2:#1c252b;--rice:#ece6d6;--rice-dim:#b8b3a4;--muted:#8b938d;
+  --jade:#5bb295;--jade-d:#3f8f76;--gold:#c9a45c;--gold-l:#e6c074;--cinnabar:#d05f4c;--azure:#6db0c4;
+  --line:rgba(220,210,185,.12);--serif:'SerifLocal','Songti SC','SimSun',serif;--sans:'SansLocal','PingFang SC','Microsoft YaHei',sans-serif;--brush:'MaShanLocal','Songti SC',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-gradient(800px 520px at 72% 22%,rgba(91,178,149,.10),transparent 58%),radial-gradient(700px 460px at 16% 80%,rgba(201,164,92,.07),transparent 55%),linear-gradient(180deg,#0c1014,#0e141a 45%,#0c1014)}
+
+body{color:var(--rice);font-family:var(--serif);-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fade .5s both}
+
+.jjnav{flex:0 0 auto;display:flex;align-items:center;gap:2px;justify-content:center;padding:9px 12px;border-bottom:1px solid var(--line);font-family:var(--sans);font-size:13px;position:relative;z-index:5}
+.jjnav a{color:var(--rice-dim);text-decoration:none;padding:5px 12px;border-radius:8px;transition:.2s;letter-spacing:.04em}
+.jjnav a:hover{color:var(--rice);background:rgba(255,255,255,.05)}
+.jjnav a.brand{font-family:var(--brush);font-size:20px;color:var(--gold);padding-right:4px}
+.jjnav a.on{color:var(--jade)}
+.jjnav .sp{width:1px;height:15px;background:rgba(220,210,185,.2);margin:0 3px}
+
+.wrap{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0;position:relative;z-index:2;padding:clamp(10px,2vh,20px) 18px clamp(14px,2.4vh,22px)}
+.screen{display:none;width:100%;max-width:560px;flex-direction:column;align-items:center;text-align:center}
+.screen.on{display:flex;animation:fade .4s both}
+
+/* ===== intro ===== */
+.kicker{font-family:var(--sans);font-size:11.5px;letter-spacing:.22em;color:var(--jade);text-transform:uppercase}
+.title{font-family:var(--brush);font-size:clamp(46px,9vh,72px);line-height:1;color:var(--gold-l);text-shadow:0 0 34px rgba(201,164,92,.3);margin-top:8px}
+.title .s{display:block;font-family:var(--sans);font-size:clamp(12px,1.7vh,14px);font-weight:300;letter-spacing:.16em;color:var(--rice-dim);margin-top:11px}
+.ornament{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:13px}
+.ornament .ln{width:clamp(38px,12vw,62px);height:1px;background:linear-gradient(90deg,transparent,rgba(201,164,92,.7))}
+.ornament .ln.r{transform:scaleX(-1)}
+.ornament .dot{color:var(--gold);font-size:13px;text-shadow:0 0 10px rgba(201,164,92,.6)}
+.tagline{font-size:clamp(13px,1.95vh,15px);color:var(--rice-dim);line-height:1.7;margin-top:clamp(12px,2vh,18px)}
+.tagline b{color:var(--jade);font-weight:600}
+.pulses{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:430px;margin:clamp(14px,2.4vh,22px) auto}
+.pulses span{font-family:var(--sans);font-size:12px;color:var(--rice-dim);border:1px solid var(--line);border-radius:14px;padding:5px 12px}
+.pulses span b{color:var(--gold-l);font-weight:500}
+.btn{font-family:var(--sans);font-size:15px;font-weight:500;color:var(--ink);background:linear-gradient(180deg,var(--jade),var(--jade-d));border:none;border-radius:30px;padding:13px 38px;cursor:pointer;letter-spacing:.06em;box-shadow:0 8px 22px -8px var(--jade);transition:.2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px -8px var(--jade)}
+.btn.ghost{background:none;color:var(--rice-dim);border:1px solid var(--line);box-shadow:none;font-size:13px;padding:10px 24px;margin-top:12px}
+.btn.ghost:hover{color:var(--rice);transform:none;border-color:var(--rice-dim)}
+.foot-note{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:14px;letter-spacing:.03em}
+
+/* ===== quiz ===== */
+.prog{width:100%;max-width:480px;display:flex;align-items:center;gap:12px;margin-bottom:clamp(14px,3vh,26px)}
+.prog-txt{font-family:var(--sans);font-size:12px;color:var(--muted);flex:0 0 auto;letter-spacing:.08em}
+.prog-bar{flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;width:0;background:linear-gradient(90deg,var(--jade),var(--gold));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.q-axis{display:inline-block;font-family:var(--sans);font-size:11px;letter-spacing:.14em;color:var(--jade);border:1px solid rgba(91,178,149,.4);border-radius:18px;padding:3px 14px}
+.q-axis.ev{color:var(--gold-l);border-color:rgba(201,164,92,.45)}
+.q-text{font-size:clamp(18px,3vh,23px);font-weight:600;color:var(--rice);line-height:1.45;margin:14px 0 6px}
+.q-hint{font-size:12.5px;color:var(--muted);font-style:italic;margin-bottom:clamp(14px,2.6vh,22px)}
+.opts{display:flex;flex-direction:column;gap:9px;width:100%;max-width:480px}
+.opt{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;font-family:var(--serif);font-size:clamp(13.5px,1.95vh,15px);color:var(--rice);background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:11px;padding:11px 16px;cursor:pointer;transition:.2s;line-height:1.4}
+.opt:hover{border-color:var(--jade);transform:translateX(4px);box-shadow:-5px 0 16px -10px var(--jade)}
+.opt .tag{flex:0 0 auto;font-family:var(--sans);font-size:9.5px;color:var(--muted);letter-spacing:.04em;border:1px solid var(--line);border-radius:5px;padding:2px 7px;white-space:nowrap}
+.back{font-family:var(--sans);font-size:12.5px;color:var(--muted);background:none;border:none;cursor:pointer;margin-top:16px}
+.back:hover{color:var(--rice)}
+
+/* ===== result ===== */
+.res-card{width:100%;max-width:490px;background:linear-gradient(180deg,var(--panel),#12171c);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,2.6vh,26px) clamp(18px,4vw,28px);text-align:left}
+.res-block{text-align:left;margin-top:clamp(12px,2vh,16px);border-top:1px dashed var(--line);padding-top:clamp(10px,1.6vh,13px)}
+.res-block:first-child{border-top:none;padding-top:0}
+.res-block .lab{font-family:var(--sans);font-size:11px;letter-spacing:.12em;color:var(--jade);margin-bottom:6px}
+.res-block .lab.cb{color:var(--cinnabar)}
+.res-block p{font-size:13.5px;color:var(--rice-dim);line-height:1.62}
+.res-block p b{color:var(--rice);font-weight:600}
+.res-block .fix{margin-top:8px;color:#9fe0cc}
+.m-link{display:inline-block;margin-top:12px;font-family:var(--sans);font-size:13px;color:var(--jade);text-decoration:none;border:1px solid rgba(91,178,149,.4);border-radius:8px;padding:8px 17px}
+.m-link:hover{background:rgba(91,178,149,.12)}
+
+.reveal{text-align:center}
+.rv-line{font-family:var(--sans);font-size:12px;color:var(--muted);letter-spacing:.1em}
+.rv-realm{font-family:var(--brush);font-size:clamp(42px,7.4vh,62px);line-height:1.12}
+.rv-realm.dim{color:var(--rice-dim);opacity:.62;font-size:clamp(30px,5vh,44px)}
+.rv-depth{font-family:var(--sans);font-size:15px;color:var(--rice-dim);margin-left:6px}
+.rv-arrow{font-family:var(--sans);font-size:12px;color:var(--gold-l);margin:5px 0;letter-spacing:.08em}
+.rv-risk{display:inline-block;margin-top:9px;font-family:var(--sans);font-size:12px;color:#f0c4bb;border:1px solid rgba(208,95,76,.5);border-radius:14px;padding:3px 13px;background:rgba(208,95,76,.08)}
+.rv-note{font-family:var(--sans);font-size:11.5px;color:var(--muted);margin-top:9px;line-height:1.5}
+
+.radar{display:flex;justify-content:center;margin-top:4px}
+.radar svg{width:min(300px,84vw);height:auto}
+.radar text{font-family:var(--sans)}
+
+.demon-row{display:flex;gap:11px;align-items:baseline;border-top:1px dashed var(--line);padding:9px 0}
+.demon-row:first-of-type{border-top:none;padding-top:2px}
+.demon-row .dn{flex:0 0 auto;font-family:var(--brush);font-size:17px;color:#f0c4bb;white-space:nowrap}
+.demon-row .dt{font-family:var(--sans);font-size:12.5px;color:var(--rice-dim);line-height:1.5}
+
+.share-tip{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:14px;text-align:center}
+</style>
+</head>
+<body>
+<nav class="jjnav">
+  <a class="brand" href="index.html">几境</a>
+  <span class="sp"></span>
+  <a href="realms.html">境界</a>
+  <a href="scripture.html">藏经阁</a>
+  <a href="quiz.html">测一测</a>
+  <a class="on" href="quiz-pro.html">正卷</a>
+</nav>
+
+<div class="wrap">
+<!-- ============ INTRO ============ -->
+<div class="screen on" id="intro">
+  <div class="kicker fade">人机协作 · 进阶修为评定</div>
+  <h1 class="title fade" style="animation-delay:.1s">正卷<span class="s">几境 · 八脉 24 题深测</span></h1>
+  <div class="ornament fade" style="animation-delay:.2s"><span class="ln l"></span><span class="dot">❖</span><span class="ln r"></span></div>
+  <p class="tagline fade" style="animation-delay:.28s">速测定大致段位，<b>正卷</b>测你八条脉络的强弱，并给出<b>破境主线</b>。<br>证据划天花板，神识与守心定成色。</p>
+  <div class="pulses fade" style="animation-delay:.36s">
+    <span><b>委托</b>·任务分派</span><span><b>吐纳</b>·意图表达</span><span><b>蕴藏</b>·上下文</span><span><b>神识</b>·判别校验</span>
+    <span><b>守心</b>·担责兜底</span><span><b>周天</b>·流程闭环</span><span><b>法门</b>·产品复用</span><span><b>传灯</b>·迁移影响</span>
+  </div>
+  <button class="btn fade" style="animation-delay:.5s" onclick="start()">开始正卷 · 共 25 问</button>
+  <div class="foot-note fade" style="animation-delay:.58s">没空？先去 <a href="quiz.html" style="color:var(--rice-dim)">速测（6 问）</a></div>
+</div>
+<!-- ============ QUIZ ============ -->
+<div class="screen" id="quiz">
+  <div class="prog">
+    <span class="prog-txt" id="pnum">1 / 25</span>
+    <div class="prog-bar"><div class="prog-fill" id="pfill"></div></div>
+  </div>
+  <div id="qbody"></div>
+  <button class="back" id="backBtn" onclick="back()" style="display:none">← 上一题</button>
+</div>
+<!-- ============ RESULT ============ -->
+<div class="screen" id="result"></div>
+</div>
+
+<script>
+/* ===================== 境界 / 颜色 ===================== */
+var REALM=["凡人","炼气","筑基","金丹","元婴","化神","返虚","合道","道祖"];
+var SUB  =["未入门","初触灵气","道基初成","结丹成流","第二元神","神识外放","组织重塑","领域立法","范式创生"];
+var COLOR=["#9aa39e","#9fb0a8","#5bb295","#c9a45c","#6db0c4","#ecdfb6","#a99cc0","#bba6cc","#cdb9d6"];
+var PORTRAIT={
+ 0:"你还把 AI 当新鲜玩具，用过但没沉淀。先承认它会一本正经地胡说，再让它替你稳稳做成一件小事。",
+ 1:"你已经会用 AI 提效，但主要还在聊天框里问答、复制结果，没有固定的工作法——它是副驾驶，不是负责人。",
+ 2:"你形成了自己的 AI 工作法，同类任务能稳定复现，不再靠临场发挥。道基已成，接下来是把单点连成闭环。",
+ 3:"你有了稳定的产出闭环，一条真实链路反复跑过、持续改进，追的是可控而非一键。结丹成流，差在让别人也能用。",
+ 4:"你的工作法已能交给别人：有文档、有验收，外部人能照着跑通。自己能跑是内功，别人能跑才是法门。",
+ 5:"你的能力开始跨场景迁移，沉淀出方法论，在多个不同项目里都成立——神识外放。再往上要靠外部证据。"
+};
+
+/* ===================== 证据题（决定天花板） ===================== */
+var EVID=[
+ {t:"只是日常使用，没沉淀",        note:"封顶 · 炼气",       cap:1},
+ {t:"有截图 / 案例 / 样例",         note:"封顶 · 炼气",       cap:1},
+ {t:"有 prompt 模板 / SOP",        note:"封顶 · 筑基",       cap:2},
+ {t:"有稳定跑过的 workflow",        note:"封顶 · 金丹",       cap:3},
+ {t:"有 demo / repo / 工具链",      note:"封顶 · 元婴候选",    cap:4},
+ {t:"有文档、外部人能跑通",         note:"封顶 · 元婴",       cap:4},
+ {t:"团队已稳定采用",              note:"返虚候选 · 内功",    cap:6, internal:"返虚"},
+ {t:"外部同行复用过我的方法",       note:"合道候选 · 内功",    cap:7, internal:"合道"},
+ {t:"形成生态 / 行业范式影响",      note:"道祖候选 · 内功",    cap:8, internal:"道祖"}
+];
+
+/* ===================== 八脉 24 题（选项从上到下 0/1/2/3） ===================== */
+var PULSE=[
+ {key:"委托",sub:"任务分派",qs:[
+   {q:"拿到任务，你怎么决定用不用 AI？",opts:["想到就问，能答就用","凭感觉：简单自己做，复杂丢 AI","先判断 AI 擅不擅长、风险高不高","拆成几块分别判断：哪块交 AI、哪块自己做、哪块必须人工复核"]},
+   {q:"反复使用、已成习惯的 AI 任务有几个？",opts:["基本没有","1–2 个","3–4 个","5 个以上且稳定"]},
+   {q:"面对一个复杂任务，你会？",opts:["一句话全甩给 AI","不行就反复追问","拆成子任务分步喂","拆任务 + 给每步定验收点"]}
+ ]},
+ {key:"吐纳",sub:"意图表达",qs:[
+   {q:"你给 AI 的指令，通常长什么样？",opts:["一句话问题","问题 + 一点背景","背景 + 要求 + 例子","背景 + 约束 + 示例 + 输出格式，像写工作说明书"]},
+   {q:"当 AI 答得不对，你的第一反应是？",opts:["觉得 AI 不行，放弃","换个说法再问","反思是不是自己没讲清，补上下文和示例","能判断问题出在任务定义 / 上下文 / 模型能力 / 验收标准，并据此修正"]},
+   {q:"你有没有可复用的提示模板？",opts:["没有","存了一堆但很少用","有几个常用的","成体系按场景分类，且知道每类适用边界"]}
+ ]},
+ {key:"蕴藏",sub:"上下文",qs:[
+   {q:"你觉得决定 AI 表现的关键是？",opts:["模型够不够强","prompt 写得好不好","给的上下文、资料够不够准","整个上下文状态怎么管理"]},
+   {q:"长任务、多轮对话，你会管理上下文吗？",opts:["不管，一直聊","偶尔重开","有意识给关键信息、删无关","主动构造上下文，当内存来管理"]},
+   {q:"关于知识库 / RAG（检索增强）？",opts:["没概念","听过，觉得就是把资料丢进去","用过，知道资料质量会影响输出","会区分原始资料 / 人工整理 / AI 生成，避免未核验的 AI 内容回灌"]}
+ ]},
+ {key:"神识",sub:"判别校验",qs:[
+   {q:"AI 给了个挺像样的答案，你会？",opts:["直接用","扫一眼，觉得对就用","关键部分会核对","有固定检查方式和验收标准，知道它哪里易错"]},
+   {q:"你能判断 AI 何时在一本正经地胡说吗？",opts:["基本判断不了，它说啥信啥","明显的能看出","大多能看出，会交叉验证","很清楚它的能力边界和典型出错模式"]},
+   {q:"你给 AI 产出做过评测吗？",opts:["没有","凭感觉评好坏","有检查清单或人工验收标准","有固定测试样例、对照基准、评分规则，并按失败案例更新"]}
+ ]},
+ {key:"守心",sub:"担责兜底",qs:[
+   {q:"用 AI 做出来的东西出错，谁负责？",opts:["AI 的锅","平台、模型也有责任","我负责，但常来不及检查","我负责，所以高风险产物必须有复核机制"]},
+   {q:"高风险判断，你会让 AI 自动放行吗？",opts:["会，能自动就自动","看情况","一般人工确认","高风险一律人工确认，AI 只做建议"]},
+   {q:"用 AI 的过程里，你处于什么位置？",opts:["基本旁观，AI 输出什么我接什么","我发指令、它执行","我在环上，关键节点介入","我主导设计与判断，AI 是放大器"]}
+ ]},
+ {key:"周天",sub:"流程闭环",qs:[
+   {q:"有没有跑顺了就能复现的 AI 工作流？",opts:["没有，每次重新摸索","心里有数，没固定","有 1 条比较稳定","有几条，且能稳定复现"]},
+   {q:"最成熟那条流程，跑过多少次、迭代过吗？",opts:["没有这样的流程","跑过 1 次，像 demo","跑过 2–3 次，修过问题","跑过 3 次以上，有记录、有复盘、有版本改进"]},
+   {q:"流程中途失败或跑偏时，你怎么处理？",opts:["重开一轮，靠运气","手工补救，把结果凑出来","能定位是哪步出错，回到对应步骤重做","有失败回退 / 检查点 / 日志，能避免同类问题反复发生"]}
+ ]},
+ {key:"法门",sub:"产品复用",qs:[
+   {q:"你的 AI 工作法，别人能用吗？",opts:["只有我自己会用","能口头教","写过说明，别人能试","有 repo / 文档 / SOP，外部人能照着跑通核心流程"]},
+   {q:"你把某个 AI 能力沉淀过吗？",opts:["没有","只有零散模板","做过自用脚本 / skill / 模板包","做过带说明、样例、边界的可复用工具或流程包"]},
+   {q:"关于「做了个 demo」？",opts:["demo 能跑，就算产品成了","知道 demo 离能用还有距离","会把 demo 推到稳定可用","清楚 demo 到产品要补 eval / 兜底 / 文档"]}
+ ]},
+ {key:"传灯",sub:"迁移影响",qs:[
+   {q:"你的方法，在几个不同类型场景成立过？",opts:["1 个，就当前这个","2 个","3 个不同类型","3 个以上不同类型，且能提炼成方法论"]},
+   {q:"你的方法，对你之外的人产生过影响吗？",opts:["没有","同事问过我、看过我的方法","有人按我方法做过一次，或团队部分采用","团队稳定采用，或外部用户 / 同行实际复用过"]},
+   {q:"关于框架学习？",opts:["学了不少，但没一个真实任务跑穿","学过几个，也在小实验用过","按真实任务需要选框架，用完能说清解决了什么","能判断用不用某框架的收益 / 成本 / 边界，并把选择沉淀成原则"]}
+ ]}
+];
+
+/* 心魔文案（与 quiz.html 同一套；道心蒙尘取自境界录） */
+var DEMON={
+ drowsy:{nm:"沉睡的车手",txt:"你敢放手，却分不清好坏——最容易把幻觉当真理。补「神识」：产出后做系统检查，别让 AI 一个人开车。"},
+ autopilot:{nm:"自动化成瘾",txt:"本该人工确认的高风险判断，也想让 AI 自动放行。"},
+ dust:{nm:"道心蒙尘",txt:"判断也外包，自身能力悄然萎缩。把核心判断重新拿回自己手里。"},
+ feedback:{nm:"幻觉回灌",txt:"AI 编的内容被你放回知识库，污染了下一轮输出。"},
+ idol:{nm:"模型拜物",txt:"以为换个更强的模型，就能解决业务逻辑上的错误。"},
+ framework:{nm:"框架走火",txt:"LangChain、MCP、Agent、RAG 全学了，没一个真实任务跑穿。"},
+ demo:{nm:"Demo 飞升",txt:"做出一个 demo，就以为自己已经产品化了。"},
+ diligent:{nm:"事必躬亲",txt:"你看得清好坏，却不敢放手，事必躬亲。补「委托」：挑低风险的活，定好要求让它自己跑完，你再验收。"},
+ collect:{nm:"Prompt 收藏癖",txt:"收藏了 300 个 prompt，却没有一个稳定跑通的工作流。"}
+};
+
+/* 短板脉 → 先补动作 */
+var FIX={
+ 委托:"先练「哪块交 AI、哪块自己留」——把一个任务显式拆成可委托段和必须自己做的段。",
+ 吐纳:"写一个含「背景 / 约束 / 示例 / 输出格式」的指令模板，别再一句话发问。",
+ 蕴藏:"刻意整理「该给哪些上下文、删哪些」，把上下文当内存来管。",
+ 神识:"给最常做的任务列出它最容易错的 5 个点，每次产出都过一遍。",
+ 守心:"给高风险环节加一道人工确认，AI 只做建议、不自动放行。",
+ 周天:"选一个真实任务拆成 3 阶段，连跑 3 次，记录每次的失败与改进。",
+ 法门:"把你最熟的流程写成「别人能照着跑通」的文档 + 样例。",
+ 传灯:"把你的方法用到一个全新类型的任务上，验证它可迁移。"
+};
+/* 短板脉 → 对应典籍（藏经阁书脊名） */
+var BOOK={
+ 委托:["AI Fluency · 4D 框架","与 AI 共生"],
+ 吐纳:["提示工程官方指南","提示工程正法"],
+ 蕴藏:["上下文工程","情境胜提示"],
+ 神识:["评测真经","以模评模"],
+ 守心:["评测真经","智能体十二律"],
+ 周天:["构建智能体","智能体十二律"],
+ 法门:["构建智能体","技能法门"],
+ 传灯:["组织革新录","AI 经济志"]
+};
+var PNAME=["委托","吐纳","蕴藏","神识","守心","周天","法门","传灯"];
+
+/* ===================== 题目装配 ===================== */
+var ITEMS=[{kind:"evid",axis:"证据 · 天花板",q:"你能拿出的、最硬的那件「作品」是什么？",hint:"作品是法器，不是境界——但它划定你的上限。",opts:EVID}];
+PULSE.forEach(function(P){P.qs.forEach(function(Q){ITEMS.push({kind:"pulse",axis:P.key+"脉 · "+P.sub,q:Q.q,opts:Q.opts});});});
+
+/* ===================== 流程控制 ===================== */
+var idx=0, ans=[], CARD=null;
+function show(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on')});document.getElementById(id).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}
+function start(){idx=0;ans=[];show('quiz');render();}
+function render(){
+  var it=ITEMS[idx];
+  document.getElementById('pnum').textContent=(idx+1)+' / '+ITEMS.length;
+  document.getElementById('pfill').style.width=((idx)/ITEMS.length*100)+'%';
+  document.getElementById('backBtn').style.display=idx>0?'inline-block':'none';
+  var h='<div class="fade"><div class="q-axis'+(it.kind==='evid'?' ev':'')+'">'+it.axis+'</div><div class="q-text">'+it.q+'</div>'+(it.hint?'<div class="q-hint">'+it.hint+'</div>':'<div style="height:8px"></div>')+'<div class="opts">';
+  if(it.kind==='evid'){
+    it.opts.forEach(function(o,i){h+='<button class="opt" onclick="pick('+i+')">'+o.t+'<span class="tag">'+o.note+'</span></button>';});
+  }else{
+    it.opts.forEach(function(o,i){h+='<button class="opt" onclick="pick('+i+')">'+o+'</button>';});
+  }
+  h+='</div></div>';
+  document.getElementById('qbody').innerHTML=h;
+}
+function pick(i){ans[idx]=i;if(idx<ITEMS.length-1){idx++;render();}else{finish();}}
+function back(){if(idx>0){idx--;render();}}
+
+/* ===================== 判定引擎（严格按规格） ===================== */
+function demons(a){
+  var list=[];
+  if(a[10]===0||a[11]===0||a[13]===0) list.push('drowsy');     // 沉睡的车手（降境）
+  if(a[14]===0) list.push('autopilot');                        // 自动化成瘾（降境）
+  if(a[13]<=1 && a[15]<=1) list.push('dust');                  // 道心蒙尘
+  if(a[9]<=1 && a[7]>=2) list.push('feedback');                // 幻觉回灌
+  if(a[7]===0) list.push('idol');                              // 模型拜物
+  if(a[24]===0) list.push('framework');                        // 框架走火
+  if(a[21]===0) list.push('demo');                             // Demo 飞升
+  if((a[10]>=2||a[11]>=2) && a[15]<=1 && a[16]<=1) list.push('diligent'); // 事必躬亲
+  if(a[6]===1) list.push('collect');                           // Prompt 收藏癖
+  return list;
+}
+function compute(){
+  var a=ans;
+  // 八脉均分（顺序：委托吐纳蕴藏神识守心周天法门传灯）
+  var P=[(a[1]+a[2]+a[3])/3,(a[4]+a[5]+a[6])/3,(a[7]+a[8]+a[9])/3,(a[10]+a[11]+a[12])/3,
+         (a[13]+a[14]+a[15])/3,(a[16]+a[17]+a[18])/3,(a[19]+a[20]+a[21])/3,(a[22]+a[23]+a[24])/3];
+  var 神识=P[3],守心=P[4],周天=P[5],法门=P[6],传灯=P[7];
+  // 关键脉封顶（取最严）
+  var abilityCap=5;
+  if(神识<1.5) abilityCap=Math.min(abilityCap,3);
+  if(守心<1.5) abilityCap=Math.min(abilityCap,2);
+  if(周天<2.0) abilityCap=Math.min(abilityCap,2);
+  if(法门<2.0) abilityCap=Math.min(abilityCap,3);
+  if(传灯<2.0) abilityCap=Math.min(abilityCap,4);
+  var abilityRealm=abilityCap;                 // 初判（仅能力，不受证据封顶）
+  // 证据封顶
+  var ev=EVID[a[0]];
+  var evAward=Math.min(ev.cap,5);              // 内功不直接授予，封到化神(5)
+  var finalRealm=Math.min(abilityRealm,evAward);
+  // 降境心魔
+  var highRisk=false;
+  if(a[10]===0||a[11]===0||a[13]===0||a[14]===0){finalRealm=Math.max(0,finalRealm-1);highRisk=true;}
+  // 内功候选注记
+  var internalNote=(ev.cap>=6 && abilityRealm>=5 && !highRisk)?ev.internal:null;
+  if(internalNote){finalRealm=5;}
+  // 同境深浅（八脉均分均匀切三档）
+  var sum=0;for(var i=1;i<=24;i++)sum+=a[i];var avgAll=sum/24;
+  var depth=internalNote?"圆满":(avgAll<1?"早期":avgAll<2?"中期":"圆满");
+  // 心魔
+  var dl=demons(a);
+  var showDemons=dl.slice(0,2).map(function(k){return DEMON[k];});
+  var maxDemon=dl.length?DEMON[dl[0]]:null;
+  // 最强三脉
+  var order=P.map(function(v,i){return {i:i,v:v};}).sort(function(x,y){return y.v-x.v;});
+  var top3=order.slice(0,3).map(function(o){return PNAME[o.i];});
+  // 最短板脉
+  var weak=0;for(var i=1;i<8;i++){if(P[i]<P[weak])weak=i;}
+  var weakName=PNAME[weak];
+  // 破境主线
+  var kan;
+  if(finalRealm<=0) kan="凡人 → 炼气：挑 5 件你常做的事，固定用 AI 来做，先让 AI 进入日常。";
+  else if(finalRealm===1) kan="炼气 → 筑基：给 1 个任务定下固定的「输入 / 步骤 / 输出 / 检查」，把随手问变成工作法。";
+  else if(finalRealm===2){
+    kan="筑基 → 金丹：这道坎在「神识 + 周天」。"+ (P[3]<=P[5]
+      ? "你神识更弱——给最常做的任务列出它最容易错的 5 个点，每次产出都过一遍。"
+      : "你周天更弱——选一个真实任务拆成 3 阶段，连跑 3 次，记录失败与改进。");
+  }
+  else if(finalRealm===3) kan="金丹 → 元婴：把你最熟的那条流程写成文档 / SOP，找 1 个人照着跑通。";
+  else if(finalRealm===4) kan="元婴 → 化神：把你的方法用到一个全新类型的任务上，验证它不只在原地有效。";
+  else kan="化神 → 内功：再往上是返虚 / 合道 / 道祖，需要真实团队、同行、生态的外部证据，自测无法授予。";
+  // 典籍
+  var books=BOOK[weakName]||[];
+  var bookRealm=Math.min(Math.max(finalRealm,1),6);
+  return {P:P,abilityRealm:abilityRealm,finalRealm:finalRealm,depth:depth,highRisk:highRisk,
+          internalNote:internalNote,showDemons:showDemons,maxDemon:maxDemon,top3:top3,
+          weakName:weakName,fix:FIX[weakName],kan:kan,books:books,bookRealm:bookRealm};
+}
+function finish(){document.getElementById('pfill').style.width='100%';renderResult(compute());}
+
+/* ===================== 八脉雷达（纯 SVG） ===================== */
+function radar(P){
+  var lab=PNAME,cx=150,cy=150,R=104;
+  function xy(i,r){var ang=(-90+i*45)*Math.PI/180;return [cx+r*Math.cos(ang),cy+r*Math.sin(ang)];}
+  var rings='';
+  for(var k=1;k<=3;k++){var rp=[];for(var i=0;i<8;i++){var p=xy(i,R*k/3);rp.push(p[0].toFixed(1)+','+p[1].toFixed(1));}rings+='<polygon points="'+rp.join(' ')+'" fill="none" stroke="rgba(201,164,92,'+(k===3?'.5':'.18')+')" stroke-width="1"/>';}
+  var ax='',lb='';
+  for(var i=0;i<8;i++){var p=xy(i,R);ax+='<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="rgba(201,164,92,.16)" stroke-width="1"/>';
+    var lp=xy(i,R+19);var anc=Math.abs(lp[0]-cx)<8?'middle':(lp[0]>cx?'start':'end');
+    lb+='<text x="'+lp[0].toFixed(1)+'" y="'+(lp[1]+4).toFixed(1)+'" fill="#b8b3a4" font-size="12.5" text-anchor="'+anc+'">'+lab[i]+'</text>';}
+  var dp=[],dots='';
+  for(var i=0;i<8;i++){var rr=R*Math.max(0.05,P[i]/3);var p=xy(i,rr);dp.push(p[0].toFixed(1)+','+p[1].toFixed(1));dots+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3" fill="#5bb295"/>';}
+  return '<div class="radar"><svg viewBox="0 0 300 300" aria-label="八脉雷达">'+rings+ax+lb+'<polygon points="'+dp.join(' ')+'" fill="rgba(91,178,149,.22)" stroke="#5bb295" stroke-width="2"/>'+dots+'</svg></div>';
+}
+
+/* ===================== 结果页 ===================== */
+function renderResult(R){
+  var col=COLOR[R.finalRealm];
+  var diff=R.abilityRealm!==R.finalRealm;
+  var h='';
+  // 1 反差揭示
+  h+='<div class="res-block reveal">'
+   +'<div class="rv-line">'+(diff?'看起来你像':'能力与证据相符')+'</div>'
+   +'<div class="rv-realm dim">'+REALM[R.abilityRealm]+'</div>'
+   +'<div class="rv-arrow">↓ '+(diff?'但按你的证据':'落定')+'</div>'
+   +'<div class="rv-realm" style="color:'+col+';text-shadow:0 0 42px '+col+'66">'+REALM[R.finalRealm]+'<span class="rv-depth">· '+R.depth+'</span></div>'
+   +(R.highRisk?'<div class="rv-risk">⚠ 高风险心魔 · 已降一档</div>':'')
+   +(R.internalNote?'<div class="rv-note">'+R.internalNote+'候选 —— 此境属内功，需外部证据，不由自测授予。</div>':'')
+   +'</div>';
+  // 2 境界画像
+  h+='<div class="res-block"><div class="lab">境界画像</div><p>'+PORTRAIT[R.finalRealm]+'</p></div>';
+  // 3 八脉雷达
+  h+='<div class="res-block"><div class="lab">八脉雷达</div>'+radar(R.P)+'</div>';
+  // 4 脉象
+  h+='<div class="res-block"><div class="lab">脉象</div><p>最强三脉：<b>'+R.top3.join(' / ')+'</b><br>当前最大心魔：<b style="color:var(--cinnabar)">'+(R.maxDemon?R.maxDemon.nm:'无 · 渐入正道')+'</b></p></div>';
+  // 5 卡境 + 破境
+  h+='<div class="res-block"><div class="lab">卡你的坎 · 破境主线</div><p>'+R.kan+'</p><p class="fix">先补最短的「'+R.weakName+'脉」：'+R.fix+'</p></div>';
+  // 6 心魔录（1-2）
+  if(R.showDemons.length){h+='<div class="res-block"><div class="lab cb">心魔录</div>';R.showDemons.forEach(function(d){h+='<div class="demon-row"><span class="dn">'+d.nm+'</span><span class="dt">'+d.txt+'</span></div>';});h+='</div>';}
+  // 7 典籍
+  h+='<div class="res-block"><div class="lab">对应典籍 · 正中短板</div><p><b>'+(R.books.join(' 、 ')||'藏经阁各境典籍')+'</b></p><a class="m-link" href="scripture.html#realm'+R.bookRealm+'">去藏经阁取卷 ↗</a></div>';
+
+  var card='<div class="res-card">'+h+'</div>'
+   +'<button class="btn" id="sealBtn" style="margin-top:18px" onclick="makeSeal(this)">凝练修为法印 · 存图分享</button>'
+   +'<p class="share-tip">把你的境界 + 八脉 + 心魔发出来对个号 ↑</p>'
+   +'<a class="btn ghost" href="quiz.html" style="text-decoration:none;display:inline-block">← 回速测</a>'
+   +'<button class="btn ghost" onclick="show(\'intro\')">重测正卷</button>';
+  document.getElementById('result').innerHTML=card;
+  CARD={lvl:R.finalRealm,realm:REALM[R.finalRealm],sub:SUB[R.finalRealm],stage:R.depth,col:col,
+        demon:R.maxDemon?R.maxDemon.nm:'渐入正道',demonGood:!R.maxDemon};
+  show('result');
+}
+
+/* ===================== 修为法印 · 分享卡（与 quiz.html 同一套实现） ===================== */
+function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath();}
+function qrEncode(text){
+  var N=25, DATA_CW=28, EC_CW=16;
+  var EXP=new Array(512), LOG=new Array(256);
+  (function(){var x=1;for(var i=0;i<255;i++){EXP[i]=x;LOG[x]=i;x<<=1;if(x&0x100)x^=0x11d;}for(var i=255;i<512;i++)EXP[i]=EXP[i-255];})();
+  function gmul(a,b){return (a===0||b===0)?0:EXP[LOG[a]+LOG[b]];}
+  var bytes=[];for(var i=0;i<text.length;i++)bytes.push(text.charCodeAt(i)&0xff);
+  var bits=[];function pb(v,n){for(var b=n-1;b>=0;b--)bits.push((v>>b)&1);}
+  pb(4,4);pb(bytes.length,8);for(var i=0;i<bytes.length;i++)pb(bytes[i],8);
+  var cap=DATA_CW*8;for(var i=0,t=Math.min(4,cap-bits.length);i<t;i++)bits.push(0);
+  while(bits.length%8)bits.push(0);
+  var data=[];for(var i=0;i<bits.length;i+=8){var v=0;for(var j=0;j<8;j++)v=(v<<1)|bits[i+j];data.push(v);}
+  for(var pad=[0xEC,0x11],pi=0;data.length<DATA_CW;pi++)data.push(pad[pi&1]);
+  function polymul(p,q){var r=new Array(p.length+q.length-1).fill(0);for(var i=0;i<p.length;i++)for(var j=0;j<q.length;j++)r[i+j]^=gmul(p[i],q[j]);return r;}
+  function rsGen(n){var g=[1];for(var i=0;i<n;i++)g=polymul(g,[1,EXP[i]]);return g;}
+  var gen=rsGen(EC_CW);var ec=new Array(EC_CW).fill(0);
+  for(var i=0;i<data.length;i++){var factor=data[i]^ec[0];ec.shift();ec.push(0);for(var j=0;j<EC_CW;j++)ec[j]^=gmul(gen[j+1],factor);}
+  var all=data.concat(ec);
+  var m=[],fn=[];for(var r=0;r<N;r++){m[r]=[];fn[r]=[];for(var c=0;c<N;c++){m[r][c]=0;fn[r][c]=false;}}
+  function finder(r,c){for(var i=-1;i<=7;i++)for(var j=-1;j<=7;j++){var rr2=r+i,cc=c+j;if(rr2<0||rr2>=N||cc<0||cc>=N)continue;var d=(i>=0&&i<=6&&(j===0||j===6))||(j>=0&&j<=6&&(i===0||i===6))||(i>=2&&i<=4&&j>=2&&j<=4);m[rr2][cc]=d?1:0;fn[rr2][cc]=true;}}
+  finder(0,0);finder(0,N-7);finder(N-7,0);
+  for(var i=8;i<N-8;i++){var b=(i%2===0)?1:0;m[6][i]=b;fn[6][i]=true;m[i][6]=b;fn[i][6]=true;}
+  (function(r,c){for(var i=-2;i<=2;i++)for(var j=-2;j<=2;j++){var rr2=r+i,cc=c+j;var ring=Math.max(Math.abs(i),Math.abs(j));m[rr2][cc]=(ring!==1)?1:0;fn[rr2][cc]=true;}})(18,18);
+  for(var i=0;i<=5;i++)fn[i][8]=true;fn[7][8]=true;fn[8][8]=true;fn[8][7]=true;for(var i=9;i<15;i++)fn[8][14-i]=true;for(var i=0;i<8;i++)fn[8][N-1-i]=true;for(var i=8;i<15;i++)fn[N-15+i][8]=true;fn[N-8][8]=true;
+  var db=[];for(var i=0;i<all.length;i++)for(var b=7;b>=0;b--)db.push((all[i]>>b)&1);
+  var di=0,up=true;
+  for(var c=N-1;c>0;c-=2){if(c===6)c=5;for(var tt=0;tt<N;tt++){var row=up?(N-1-tt):tt;for(var ci=0;ci<2;ci++){var cc=c-ci;if(!fn[row][cc]){m[row][cc]=di<db.length?db[di]:0;di++;}}}up=!up;}
+  function mask(k,r,c){switch(k){case 0:return (r+c)%2===0;case 1:return r%2===0;case 2:return c%3===0;case 3:return (r+c)%3===0;case 4:return (((r>>1)+(Math.floor(c/3)))%2)===0;case 5:return ((r*c)%2)+((r*c)%3)===0;case 6:return ((((r*c)%2)+((r*c)%3))%2)===0;default:return ((((r+c)%2)+((r*c)%3))%2)===0;}}
+  var FMT=[0x5412,0x5125,0x5E7C,0x5B4B,0x45F9,0x40CE,0x4F97,0x4AA0];
+  function gb(x,i){return (x>>i)&1;}
+  function placeFmt(M,bb){for(var i=0;i<=5;i++)M[i][8]=gb(bb,i);M[7][8]=gb(bb,6);M[8][8]=gb(bb,7);M[8][7]=gb(bb,8);for(var i=9;i<15;i++)M[8][14-i]=gb(bb,i);for(var i=0;i<8;i++)M[8][N-1-i]=gb(bb,i);for(var i=8;i<15;i++)M[N-15+i][8]=gb(bb,i);M[N-8][8]=1;}
+  function penalty(M){var p=0,i,j,k;
+    for(i=0;i<N;i++){for(var dir=0;dir<2;dir++){var run=1,prev=-1;for(j=0;j<N;j++){var v=dir?M[j][i]:M[i][j];if(v===prev){run++;if(run===5)p+=3;else if(run>5)p+=1;}else{run=1;prev=v;}}}}
+    for(i=0;i<N-1;i++)for(j=0;j<N-1;j++){var v=M[i][j];if(v===M[i][j+1]&&v===M[i+1][j]&&v===M[i+1][j+1])p+=3;}
+    var p1=[1,0,1,1,1,0,1,0,0,0,0],p2=[0,0,0,0,1,0,1,1,1,0,1];
+    function mt(get){for(i=0;i<N;i++)for(j=0;j<=N-11;j++){var o1=true,o2=true;for(k=0;k<11;k++){var v=get(i,j+k);if(v!==p1[k])o1=false;if(v!==p2[k])o2=false;}if(o1)p+=40;if(o2)p+=40;}}
+    mt(function(a,b){return M[a][b];});mt(function(a,b){return M[b][a];});
+    var dark=0;for(i=0;i<N;i++)for(j=0;j<N;j++)if(M[i][j])dark++;
+    p+=Math.floor(Math.abs(dark*100/(N*N)-50)/5)*10;return p;}
+  var best=null,bestP=Infinity;
+  for(var k=0;k<8;k++){var M=[];for(var r=0;r<N;r++)M[r]=m[r].slice();for(var r=0;r<N;r++)for(var c=0;c<N;c++){if(!fn[r][c]&&mask(k,r,c))M[r][c]^=1;}placeFmt(M,FMT[k]);var pp=penalty(M);if(pp<bestP){bestP=pp;best=M;}}
+  return {size:N,matrix:best};
+}
+function drawSeal(card){
+  var W=1080,H=1350;
+  var cv=document.createElement('canvas');cv.width=W;cv.height=H;window.__sealCanvas=cv;
+  var x=cv.getContext('2d');
+  var brush="'MaShanLocal','SerifLocal',serif", sans="'SansLocal',sans-serif", serif="'SerifLocal',serif";
+  var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0c1014');g.addColorStop(.45,'#0e141a');g.addColorStop(1,'#0c1014');x.fillStyle=g;x.fillRect(0,0,W,H);
+  var rg=x.createRadialGradient(W*.72,H*.24,0,W*.72,H*.24,W*.72);rg.addColorStop(0,'rgba(91,178,149,.14)');rg.addColorStop(1,'rgba(91,178,149,0)');x.fillStyle=rg;x.fillRect(0,0,W,H);
+  var rg2=x.createRadialGradient(W*.2,H*.82,0,W*.2,H*.82,W*.72);rg2.addColorStop(0,'rgba(201,164,92,.10)');rg2.addColorStop(1,'rgba(201,164,92,0)');x.fillStyle=rg2;x.fillRect(0,0,W,H);
+  x.strokeStyle='rgba(201,164,92,.5)';x.lineWidth=3;rr(x,40,40,W-80,H-80,18);x.stroke();
+  x.strokeStyle='rgba(201,164,92,.16)';x.lineWidth=1.5;rr(x,56,56,W-112,H-112,12);x.stroke();
+  x.textAlign='center';
+  x.fillStyle='#c9a45c';x.font='400 92px '+brush;x.shadowColor='rgba(201,164,92,.5)';x.shadowBlur=30;x.fillText('几境',W/2,190);x.shadowBlur=0;
+  x.fillStyle='#8b938d';x.font='300 27px '+sans;x.fillText('AI 修为天梯 · 正卷',W/2,234);
+  x.strokeStyle='rgba(201,164,92,.4)';x.lineWidth=2;x.beginPath();x.moveTo(W/2-120,276);x.lineTo(W/2-26,276);x.moveTo(W/2+26,276);x.lineTo(W/2+120,276);x.stroke();
+  x.fillStyle='#c9a45c';x.font='26px '+brush;x.fillText('❖',W/2,285);
+  x.fillStyle='#8b938d';x.font='300 31px '+sans;x.fillText('你修到 · 第 '+(card.lvl+1)+' 重',W/2,372);
+  x.fillStyle=card.col;x.font='400 172px '+brush;x.shadowColor=card.col;x.shadowBlur=46;x.fillText(card.realm,W/2,536);x.shadowBlur=0;
+  x.fillStyle='#b8b3a4';x.font='400 34px '+sans;x.fillText(card.stage?(card.sub+' · '+card.stage):card.sub,W/2,592);
+  x.font='400 56px '+brush;var dw=x.measureText(card.demon).width;var boxW=dw+96,boxH=110,bx=W/2-boxW/2,by=672;
+  x.fillStyle='#8b938d';x.font='300 25px '+sans;x.fillText(card.demonGood?'修行姿态':'你的心魔',W/2,by-20);
+  var sealCol=card.demonGood?'#5bb295':'#d05f4c';
+  x.fillStyle=card.demonGood?'rgba(91,178,149,.10)':'rgba(208,95,76,.12)';x.strokeStyle=sealCol;x.lineWidth=3;rr(x,bx,by,boxW,boxH,14);x.fill();x.stroke();
+  x.fillStyle=card.demonGood?'#a7e0cc':'#f0c4bb';x.font='400 56px '+brush;x.textBaseline='middle';x.fillText(card.demon,W/2,by+boxH/2+3);x.textBaseline='alphabetic';
+  x.fillStyle='#ece6d6';x.font='400 42px '+serif;x.fillText('作品是法器，不是境界。',W/2,884);
+  x.fillStyle='#8b938d';x.font='300 26px '+sans;x.fillText('神识，先于放手。　修为在人，AI 为器。',W/2,930);
+  var qr=qrEncode('https://9jing.top');var qz=4,cell=7,qpx=(qr.size+qz*2)*cell;var qx=W/2-qpx/2,qy=994;
+  x.fillStyle='#ece6d6';rr(x,qx-3,qy-3,qpx+6,qpx+6,14);x.fill();
+  x.fillStyle='#0d1115';
+  for(var r=0;r<qr.size;r++)for(var c=0;c<qr.size;c++){if(qr.matrix[r][c])x.fillRect(qx+(c+qz)*cell,qy+(r+qz)*cell,cell,cell);}
+  x.fillStyle='#b8b3a4';x.font='300 26px '+sans;x.fillText('扫码测你的修为 · 9jing.top',W/2,qy+qpx+40);
+  return new Promise(function(resolve){
+    if(cv.toBlob){cv.toBlob(function(b){resolve(b);},'image/png');}
+    else{try{var d=cv.toDataURL('image/png');var bin=atob(d.split(',')[1]);var arr=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);resolve(new Blob([arr],{type:'image/png'}));}catch(e){resolve(null);}}
+  });
+}
+function makeSeal(btn){
+  if(!CARD){return;}
+  var old=btn?btn.textContent:'';
+  function reset(){if(btn){btn.disabled=false;btn.textContent=old||'凝练修为法印 · 存图分享';}}
+  if(btn){btn.disabled=true;btn.textContent='凝练中…';}
+  var ready;
+  try{ready=(document.fonts&&document.fonts.load)?Promise.all([document.fonts.load("400 120px 'MaShanLocal'"),document.fonts.load("400 40px 'SerifLocal'"),document.fonts.load("300 30px 'SansLocal'")]).catch(function(){}):Promise.resolve();}
+  catch(e){ready=Promise.resolve();}
+  ready.then(function(){return drawSeal(CARD);}).then(function(blob){
+    if(!blob)throw new Error('no blob');
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');a.href=url;a.download='几境-正卷-修为法印.png';document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},4000);
+    reset();
+  }).catch(function(){
+    try{var c=window.__sealCanvas;if(c){var d=c.toDataURL('image/png');var w=window.open();if(w){w.document.write('<title>几境·修为法印</title><img src="'+d+'" style="width:100%;max-width:540px;display:block;margin:0 auto">');}else{alert('已生成，但浏览器拦截了下载；可直接截图当前页面保存。');}}else{alert('生成失败，可直接截图保存。');}}
+    catch(e){alert('生成失败，可直接截图保存。');}
+    reset();
+  });
+}
+</script>
+</body>
+</html>
