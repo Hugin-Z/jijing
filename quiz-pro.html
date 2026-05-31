@@ -19,6 +19,7 @@
   --line:rgba(220,210,185,.12);--serif:'SerifLocal','Songti SC','SimSun',serif;--sans:'SansLocal','PingFang SC','Microsoft YaHei',sans-serif;--brush:'MaShanLocal','Songti SC',cursive;
 }
 *{margin:0;padding:0;box-sizing:border-box}
+html{background:#0c1014}/*BGFIX:实色兜底——iOS Safari 滚动/回弹露馅也是深色，绝不露白*/
 html::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-gradient(800px 520px at 72% 22%,rgba(91,178,149,.10),transparent 58%),radial-gradient(700px 460px at 16% 80%,rgba(201,164,92,.07),transparent 55%),linear-gradient(180deg,#0c1014,#0e141a 45%,#0c1014)}
 
 body{color:var(--rice);font-family:var(--serif);-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden}
@@ -66,8 +67,9 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .q-text{font-size:clamp(18px,3vh,23px);font-weight:600;color:var(--rice);line-height:1.45;margin:14px 0 6px}
 .q-hint{font-size:12.5px;color:var(--muted);font-style:italic;margin-bottom:clamp(14px,2.6vh,22px)}
 .opts{display:flex;flex-direction:column;gap:9px;width:100%;max-width:480px}
-.opt{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;font-family:var(--serif);font-size:clamp(13.5px,1.95vh,15px);color:var(--rice);background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:11px;padding:11px 16px;cursor:pointer;transition:.2s;line-height:1.4}
-.opt:hover{border-color:var(--jade);transform:translateX(4px);box-shadow:-5px 0 16px -10px var(--jade)}
+.opt{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;font-family:var(--serif);font-size:clamp(13.5px,1.95vh,15px);color:var(--rice);background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:11px;padding:11px 16px;cursor:pointer;transition:.2s;line-height:1.4;-webkit-tap-highlight-color:transparent}
+/* hover 效果只在真有指针悬停的设备生效，避免触屏点击后样式“粘”到下一题同位置的选项 */
+@media(hover:hover){.opt:hover{border-color:var(--jade);transform:translateX(4px);box-shadow:-5px 0 16px -10px var(--jade)}}
 .opt .tag{flex:0 0 auto;font-family:var(--sans);font-size:9.5px;color:var(--muted);letter-spacing:.04em;border:1px solid var(--line);border-radius:5px;padding:2px 7px;white-space:nowrap}
 .back{font-family:var(--sans);font-size:12.5px;color:var(--muted);background:none;border:none;cursor:pointer;margin-top:16px}
 .back:hover{color:var(--rice)}
@@ -103,6 +105,12 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .demon-row .dt{font-family:var(--sans);font-size:12.5px;color:var(--rice-dim);line-height:1.5}
 
 .share-tip{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:14px;text-align:center}
+/* 移动端法印卡预览浮层 */
+.seal-modal{position:fixed;inset:0;z-index:99;background:rgba(8,11,14,.94);display:flex;align-items:center;justify-content:center;padding:18px;overflow:auto}
+.seal-modal .seal-box{display:flex;flex-direction:column;align-items:center;max-width:440px;width:100%}
+.seal-modal img{width:100%;max-width:min(82vw,420px);height:auto;border-radius:12px;box-shadow:0 14px 44px -12px #000;border:1px solid var(--line)}
+.seal-modal p{font-family:var(--sans);font-size:13px;color:var(--gold-l);margin-top:15px;letter-spacing:.04em}
+.seal-modal .seal-close{margin-top:12px;font-family:var(--sans);font-size:13px;color:var(--rice-dim);background:none;border:1px solid var(--line);border-radius:20px;padding:8px 26px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -126,13 +134,13 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
     <span><b>委托</b>·任务分派</span><span><b>吐纳</b>·意图表达</span><span><b>蕴藏</b>·上下文</span><span><b>神识</b>·判别校验</span>
     <span><b>守心</b>·担责兜底</span><span><b>周天</b>·流程闭环</span><span><b>法门</b>·产品复用</span><span><b>传灯</b>·迁移影响</span>
   </div>
-  <button class="btn fade" style="animation-delay:.5s" onclick="start()">开始正卷 · 共 25 问</button>
+  <button class="btn fade" style="animation-delay:.5s" onclick="start()">开始正卷 · 24 题</button>
   <div class="foot-note fade" style="animation-delay:.58s">没空？先去 <a href="quiz.html" style="color:var(--rice-dim)">速测（6 问）</a></div>
 </div>
 <!-- ============ QUIZ ============ -->
 <div class="screen" id="quiz">
   <div class="prog">
-    <span class="prog-txt" id="pnum">1 / 25</span>
+    <span class="prog-txt" id="pnum">定位</span>
     <div class="prog-bar"><div class="prog-fill" id="pfill"></div></div>
   </div>
   <div id="qbody"></div>
@@ -251,7 +259,7 @@ var BOOK={
 var PNAME=["委托","吐纳","蕴藏","神识","守心","周天","法门","传灯"];
 
 /* ===================== 题目装配 ===================== */
-var ITEMS=[{kind:"evid",axis:"证据 · 天花板",q:"你能拿出的、最硬的那件「作品」是什么？",hint:"作品是法器，不是境界——但它划定你的上限。",opts:EVID}];
+var ITEMS=[{kind:"evid",axis:"定位 · 开场",q:"你能拿出的、最硬的那件「作品」是什么？",hint:"凭直觉选最贴近你真实情况的一项就好。",opts:EVID}];
 PULSE.forEach(function(P){P.qs.forEach(function(Q){ITEMS.push({kind:"pulse",axis:P.key+"脉 · "+P.sub,q:Q.q,opts:Q.opts});});});
 
 /* ===================== 流程控制 ===================== */
@@ -265,12 +273,13 @@ function start(){idx=0;ans=[];buildOrder();show('quiz');render();}
 function render(){
   var it=ITEMS[idx];
   var ord=ORDER[idx]||it.opts.map(function(_,i){return i;});
-  document.getElementById('pnum').textContent=(idx+1)+' / '+ITEMS.length;
-  document.getElementById('pfill').style.width=((idx)/ITEMS.length*100)+'%';
+  var isEv=it.kind==='evid';
+  document.getElementById('pnum').textContent=isEv?'定位':(idx+' / 24');   // 证据题为开场定位，不计入题号；能力题 1/24…24/24
+  document.getElementById('pfill').style.width=(isEv?0:(idx/24*100))+'%';
   document.getElementById('backBtn').style.display=idx>0?'inline-block':'none';
   var h='<div class="fade"><div class="q-axis'+(it.kind==='evid'?' ev':'')+'">'+it.axis+'</div><div class="q-text">'+it.q+'</div>'+(it.hint?'<div class="q-hint">'+it.hint+'</div>':'<div style="height:8px"></div>')+'<div class="opts">';
   if(it.kind==='evid'){
-    ord.forEach(function(oi){var o=it.opts[oi];h+='<button class="opt" onclick="pick('+oi+')">'+o.t+'<span class="tag">'+o.note+'</span></button>';});
+    ord.forEach(function(oi){var o=it.opts[oi];h+='<button class="opt" onclick="pick('+oi+')">'+o.t+'</button>';});
   }else{
     ord.forEach(function(oi){h+='<button class="opt" onclick="pick('+oi+')">'+it.opts[oi]+'</button>';});
   }
@@ -480,27 +489,51 @@ function drawSeal(card){
   x.fillStyle='#0d1115';
   for(var r=0;r<qr.size;r++)for(var c=0;c<qr.size;c++){if(qr.matrix[r][c])x.fillRect(qx+(c+qz)*cell,qy+(r+qz)*cell,cell,cell);}
   x.fillStyle='#b8b3a4';x.font='300 26px '+sans;x.fillText('扫码测你的修为 · 9jing.top',W/2,qy+qpx+40);
-  return new Promise(function(resolve){
-    if(cv.toBlob){cv.toBlob(function(b){resolve(b);},'image/png');}
-    else{try{var d=cv.toDataURL('image/png');var bin=atob(d.split(',')[1]);var arr=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);resolve(new Blob([arr],{type:'image/png'}));}catch(e){resolve(null);}}
-  });
+  return cv; // 返回画好的 canvas，下载 / 预览由调用方决定
+}
+// 是否移动端（手机 / 平板）——iOS Safari 不支持 a[download] 存 blob，改用预览长按保存
+function isTouchSave(){
+  try{var ua=navigator.userAgent||'';
+    var iOS=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1);
+    return iOS||/Android/i.test(ua)||/Mobile|HarmonyOS|Silk/i.test(ua);
+  }catch(e){return false;}
+}
+// 移动端：把卡片图放进浮层，提示长按保存到相册
+function showSealPreview(dataURL){
+  var old=document.getElementById('sealModal');if(old)old.remove();
+  var d=document.createElement('div');d.id='sealModal';d.className='seal-modal';
+  d.innerHTML='<div class="seal-box"><img alt="修为法印" src="'+dataURL+'"><p>长按图片 · 保存到相册</p><button type="button" class="seal-close">关闭</button></div>';
+  d.addEventListener('click',function(){d.remove();});
+  d.querySelector('.seal-box').addEventListener('click',function(e){e.stopPropagation();});
+  d.querySelector('.seal-close').addEventListener('click',function(){d.remove();});
+  document.body.appendChild(d);
 }
 function makeSeal(btn){
   if(!CARD){return;}
   var old=btn?btn.textContent:'';
   function reset(){if(btn){btn.disabled=false;btn.textContent=old||'凝练修为法印 · 存图分享';}}
   if(btn){btn.disabled=true;btn.textContent='凝练中…';}
+  var FILE='几境-正卷-修为法印.png';
   var ready;
   try{ready=(document.fonts&&document.fonts.load)?Promise.all([document.fonts.load("400 120px 'MaShanLocal'"),document.fonts.load("400 40px 'SerifLocal'"),document.fonts.load("300 30px 'SansLocal'")]).catch(function(){}):Promise.resolve();}
   catch(e){ready=Promise.resolve();}
-  ready.then(function(){return drawSeal(CARD);}).then(function(blob){
-    if(!blob)throw new Error('no blob');
-    var url=URL.createObjectURL(blob);
-    var a=document.createElement('a');a.href=url;a.download='几境-正卷-修为法印.png';document.body.appendChild(a);a.click();a.remove();
-    setTimeout(function(){URL.revokeObjectURL(url);},4000);
-    reset();
+  ready.then(function(){
+    var cv=drawSeal(CARD);
+    if(isTouchSave()){ showSealPreview(cv.toDataURL('image/png')); reset(); return; } // 移动端：预览 + 长按保存
+    if(cv.toBlob){                                                                     // PC：下载 PNG
+      cv.toBlob(function(b){
+        try{
+          if(!b){showSealPreview(cv.toDataURL('image/png'));reset();return;}
+          var url=URL.createObjectURL(b);var a=document.createElement('a');a.href=url;a.download=FILE;document.body.appendChild(a);a.click();a.remove();
+          setTimeout(function(){URL.revokeObjectURL(url);},4000);
+        }catch(e){try{showSealPreview(cv.toDataURL('image/png'));}catch(e2){}}
+        reset();
+      },'image/png');
+    }else{
+      var a=document.createElement('a');a.href=cv.toDataURL('image/png');a.download=FILE;document.body.appendChild(a);a.click();a.remove();reset();
+    }
   }).catch(function(){
-    try{var c=window.__sealCanvas;if(c){var d=c.toDataURL('image/png');var w=window.open();if(w){w.document.write('<title>几境·修为法印</title><img src="'+d+'" style="width:100%;max-width:540px;display:block;margin:0 auto">');}else{alert('已生成，但浏览器拦截了下载；可直接截图当前页面保存。');}}else{alert('生成失败，可直接截图保存。');}}
+    try{var c=window.__sealCanvas;if(c){showSealPreview(c.toDataURL('image/png'));}else{alert('生成失败，可直接截图保存。');}}
     catch(e){alert('生成失败，可直接截图保存。');}
     reset();
   });

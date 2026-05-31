@@ -19,6 +19,7 @@
   --line:rgba(220,210,185,.12);--serif:'SerifLocal','Songti SC','SimSun',serif;--sans:'SansLocal','PingFang SC','Microsoft YaHei',sans-serif;--brush:'MaShanLocal','Songti SC',cursive;
 }
 *{margin:0;padding:0;box-sizing:border-box}
+html{background:#0c1014}/*BGFIX:实色兜底——iOS Safari 滚动/回弹露馅也是深色，绝不露白*/
 html::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-gradient(800px 520px at 75% 26%,rgba(91,178,149,.10),transparent 58%),radial-gradient(700px 460px at 12% 76%,rgba(201,164,92,.07),transparent 55%),linear-gradient(180deg,#0c1014,#0e141a 45%,#0c1014)}/*BGFIX*/
 
 body{color:var(--rice);font-family:var(--serif);-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden}
