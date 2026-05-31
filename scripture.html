@@ -121,28 +121,28 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
     <!-- 左扇：外功 炼气→元婴（4 层） -->
     <div class="cabinet left">
       <div class="shelf" id="realm1"><div class="tab" style="color:#9fb0a8"><span>炼气</span></div><div class="books">
-        <div class="spine zhen" onclick="pull('b1a')"><span class="t">AI素养四诀</span></div>
-        <div class="spine zen" onclick="pull('b1b')"><span class="t">与AI共生</span></div>
-        <div class="spine xin" onclick="pull('b1c')"><span class="t">半人马赛博格</span></div>
-        <div class="spine xin" onclick="pull('b1d')"><span class="t">一桩妙事</span></div>
+        <div class="spine zhen" onclick="pull('b1a', this)"><span class="t">AI素养四诀</span></div>
+        <div class="spine zen" onclick="pull('b1b', this)"><span class="t">与AI共生</span></div>
+        <div class="spine xin" onclick="pull('b1c', this)"><span class="t">半人马赛博格</span></div>
+        <div class="spine xin" onclick="pull('b1d', this)"><span class="t">一桩妙事</span></div>
       </div></div>
       <div class="shelf" id="realm2"><div class="tab" style="color:#5bb295"><span>筑基</span></div><div class="books">
-        <div class="spine zhen" onclick="pull('b2a')"><span class="t">提示工程官典</span></div>
-        <div class="spine zen" onclick="pull('b2b')"><span class="t">提示工程正法</span></div>
-        <div class="spine zen" onclick="pull('b2d')"><span class="t">提示白皮书</span></div>
-        <div class="spine xin" onclick="pull('b2c')"><span class="t">提示藏经</span></div>
-        <div class="spine xin" onclick="pull('b2e')"><span class="t">提示速成课</span></div>
+        <div class="spine zhen" onclick="pull('b2a', this)"><span class="t">提示工程官典</span></div>
+        <div class="spine zen" onclick="pull('b2b', this)"><span class="t">提示工程正法</span></div>
+        <div class="spine zen" onclick="pull('b2d', this)"><span class="t">提示白皮书</span></div>
+        <div class="spine xin" onclick="pull('b2c', this)"><span class="t">提示藏经</span></div>
+        <div class="spine xin" onclick="pull('b2e', this)"><span class="t">提示速成课</span></div>
       </div></div>
       <div class="shelf" id="realm3"><div class="tab" style="color:#c9a45c"><span>金丹</span></div><div class="books">
-        <div class="spine zhen" onclick="pull('b3a')"><span class="t">上下文工程</span></div>
-        <div class="spine zen" onclick="pull('b3b')"><span class="t">AI工程大典</span></div>
-        <div class="spine xin" onclick="pull('b3c')"><span class="t">LLM即内存</span></div>
-        <div class="spine xin" onclick="pull('b3d')"><span class="t">情境胜提示</span></div>
+        <div class="spine zhen" onclick="pull('b3a', this)"><span class="t">上下文工程</span></div>
+        <div class="spine zen" onclick="pull('b3b', this)"><span class="t">AI工程大典</span></div>
+        <div class="spine xin" onclick="pull('b3c', this)"><span class="t">LLM即内存</span></div>
+        <div class="spine xin" onclick="pull('b3d', this)"><span class="t">情境胜提示</span></div>
       </div></div>
       <div class="shelf" id="realm4"><div class="tab" style="color:#6db0c4"><span>元婴</span></div><div class="books">
-        <div class="spine zhen" onclick="pull('b4a')"><span class="t">评测真经</span></div>
-        <div class="spine zen" onclick="pull('b4c')"><span class="t">系统范式</span></div>
-        <div class="spine xin" onclick="pull('b4b')"><span class="t">以模评模</span></div>
+        <div class="spine zhen" onclick="pull('b4a', this)"><span class="t">评测真经</span></div>
+        <div class="spine zen" onclick="pull('b4c', this)"><span class="t">系统范式</span></div>
+        <div class="spine xin" onclick="pull('b4b', this)"><span class="t">以模评模</span></div>
       </div></div>
     </div>
 
@@ -152,15 +152,15 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
     <!-- 右扇：化神 + 内功返虚（2 层，层更高） -->
     <div class="cabinet right">
       <div class="shelf" id="realm5"><div class="tab" style="color:#ecdfb6"><span>化神</span></div><div class="books">
-        <div class="spine zhen" onclick="pull('b5a')"><span class="t">构建智能体</span></div>
-        <div class="spine xin" onclick="pull('b5b')"><span class="t">智能体食谱</span></div>
-        <div class="spine xin" onclick="pull('b5c')"><span class="t">自主度九品</span></div>
-        <div class="spine xin" onclick="pull('b5d')"><span class="t">技能法门</span></div>
-        <div class="spine xin" onclick="pull('b5e')"><span class="t">智能体十二律</span></div>
+        <div class="spine zhen" onclick="pull('b5a', this)"><span class="t">构建智能体</span></div>
+        <div class="spine xin" onclick="pull('b5b', this)"><span class="t">智能体食谱</span></div>
+        <div class="spine xin" onclick="pull('b5c', this)"><span class="t">自主度九品</span></div>
+        <div class="spine xin" onclick="pull('b5d', this)"><span class="t">技能法门</span></div>
+        <div class="spine xin" onclick="pull('b5e', this)"><span class="t">智能体十二律</span></div>
       </div></div>
       <div class="shelf" id="realm6"><div class="tab nei"><span>返虚🔒</span></div><div class="books">
-        <div class="spine zhen" onclick="pull('b6a')"><span class="t">组织革新录</span></div>
-        <div class="spine zen" onclick="pull('b6b')"><span class="t">AI经济志</span></div>
+        <div class="spine zhen" onclick="pull('b6a', this)"><span class="t">组织革新录</span></div>
+        <div class="spine zen" onclick="pull('b6b', this)"><span class="t">AI经济志</span></div>
       </div></div>
     </div>
   </div>
@@ -204,11 +204,11 @@ var D={
  b5c:{g:'xin',realm:'化神 · 心法',xinfa:'跨项目仍有效，才是法',title:'Levels of Autonomy for AI Agents（L0–L5）',en:'仿自动驾驶 SAE 的自主度分级',au:'arXiv 2506.12469 等',why:'给"放手程度"一把尺：从 Operator 到 Observer。当下生产天花板是 L3、"在环上"治理——别盲目追 L5。',link:'https://arxiv.org/abs/2506.12469'},
  b5d:{g:'xin',realm:'化神 · 心法',xinfa:'跨项目仍有效，才是法',title:'agent-skills',en:'把可复用能力封装成 skill 的格式参考',au:'addyosmani / GitHub',why:'想把方法"工具化"给别人用时，照它的格式组织 SKILL 文件。从"自己会跑"走向"别人能跑"。',link:'https://github.com/addyosmani/agent-skills'},
  b5e:{g:'xin',realm:'化神 · 心法',xinfa:'跨项目仍有效，才是法',title:'12-Factor Agents',en:'可靠 LLM 应用的十二条工程原则',au:'Dex Horthy · HumanLayer · 2025',why:'一句话戳破幻觉："好 agent 大多是普通软件，LLM 只在关键处点睛。"自己掌控状态与控制流，才稳得住。',link:'https://github.com/humanlayer/12-factor-agents'},
- b6a:{g:'zhen',realm:'返虚 · 心法（内功）',xinfa:'AI 改变的不是个人效率，是协作结构',title:'How AI Is Transforming Work at Anthropic',en:'真实组织里的人机分工实况',au:'Anthropic（Huang 等）',why:'数据说话：真实团队里"完全委托"只占 0–20%，高层设计始终归人。返虚不是更狠地自动化，而是重构协作结构。',link:'https://www.anthropic.com/'},
+ b6a:{g:'zhen',realm:'返虚 · 心法（内功）',xinfa:'AI 改变的不是个人效率，是协作结构',title:'How AI Is Transforming Work at Anthropic',en:'真实组织里的人机分工实况',au:'Anthropic（Huang 等）',why:'数据说话：真实团队里"完全委托"只占 0–20%，高层设计始终归人。返虚不是更狠地自动化，而是重构协作结构。',link:'https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic'},
  b6b:{g:'zen',realm:'返虚 · 心法（内功）',xinfa:'AI 改变的不是个人效率，是协作结构',title:'Anthropic Economic Index',en:'AI 正在如何改变真实工作与经济',au:'Anthropic',why:'从大规模真实使用数据看 AI 在各行业、各职能里究竟替代或增强了什么。判断"组织级影响"的实证地基。',link:'https://www.anthropic.com/economic-index'}
 };
 var lastSpine=null;
-function pull(id){
+function pull(id,el){
   var d=D[id];if(!d)return;
   var rib=document.getElementById('m-rib');rib.className='ribbon '+G[d.g][0];rib.textContent=G[d.g][1];
   document.getElementById('m-realm').textContent=d.realm;
@@ -220,7 +220,7 @@ function pull(id){
   document.getElementById('m-act').innerHTML=d.link?'<a class="m-link" href="'+d.link+'" target="_blank">前往研习 ↗</a>':'<span class="m-none">纸质 / 视频典籍 · 各书店或网络可寻</span>';
   document.getElementById('scrim').classList.add('on');
   if(lastSpine)lastSpine.classList.remove('active');
-  lastSpine=event.currentTarget;lastSpine.classList.add('active');
+  lastSpine=el;if(lastSpine)lastSpine.classList.add('active'); // 显式传入被点元素，不依赖全局 event（Firefox/Safari 兼容）
 }
 function closeM(){document.getElementById('scrim').classList.remove('on');if(lastSpine){lastSpine.classList.remove('active');lastSpine=null;}}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM();});
