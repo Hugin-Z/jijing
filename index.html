@@ -20,6 +20,10 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{background:#0c1014}/*BGFIX:实色兜底——iOS Safari 滚动/回弹露馅也是深色，绝不露白*/
+/* 站点统一作者署名（低调，五页一致） */
+.site-by{flex:0 0 auto;text-align:center;font-family:var(--sans);font-size:10.5px;color:var(--muted);letter-spacing:.04em;padding:9px 12px 13px;position:relative;z-index:2}
+.site-by a{color:var(--rice-dim);text-decoration:none;border-bottom:1px solid rgba(184,179,164,.32)}
+.site-by a:hover{color:var(--rice)}
 html::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-gradient(800px 520px at 72% 30%,rgba(91,178,149,.12),transparent 58%),radial-gradient(720px 460px at 18% 70%,rgba(201,164,92,.08),transparent 55%),linear-gradient(180deg,#0c1014,#0e141a 45%,#0c1014)}/*BGFIX*/
 
 body{color:var(--rice);font-family:var(--serif);-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden}
@@ -144,5 +148,6 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 </div>
 
 <div class="foot r" style="animation-delay:.34s">几境 · 修为在人，AI 为器</div>
+<footer class="site-by">作者 Hugin-Z · <a href="https://github.com/Hugin-Z" target="_blank" rel="noopener">GitHub</a></footer>
 </body>
 </html>
