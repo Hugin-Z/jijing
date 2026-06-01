@@ -14,11 +14,11 @@
 <meta property="og:title" content="正卷 · 几境">
 <meta property="og:description" content="正卷 · 24 题深测：八脉雷达 + 破境指引，精准定位你与 AI 协作的修为，并给出下一步主线。">
 <meta property="og:url" content="https://9jing.top/quiz-pro.html">
-<meta property="og:image" content="https://9jing.top/preview.png">
+<meta property="og:image" content="https://9jing.top/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="正卷 · 几境">
 <meta name="twitter:description" content="正卷 · 24 题深测：八脉雷达 + 破境指引，精准定位你与 AI 协作的修为，并给出下一步主线。">
-<meta name="twitter:image" content="https://9jing.top/preview.png">
+<meta name="twitter:image" content="https://9jing.top/og.png">
 <title>正卷 · 几境</title>
 <style>
 @font-face{font-family:'MaShanLocal';src:url('fonts/mashanzheng.woff2') format('woff2');font-display:swap}
@@ -501,11 +501,11 @@ function drawSeal(card){
   x.fillStyle='#8b938d';x.font='300 31px '+sans;x.fillText('你修到 · 第 '+(card.lvl+1)+' 重',W/2,372);
   x.fillStyle=card.col;x.font='400 172px '+brush;x.shadowColor=card.col;x.shadowBlur=46;x.fillText(card.realm,W/2,536);x.shadowBlur=0;
   x.fillStyle='#b8b3a4';x.font='400 34px '+sans;x.fillText(card.stage?(card.sub+' · '+card.stage):card.sub,W/2,592);
-  x.font='400 56px '+brush;var dw=x.measureText(card.demon).width;var boxW=dw+96,boxH=110,bx=W/2-boxW/2,by=672;
+  var _max=W-150,_df=56;x.font='400 '+_df+'px '+brush;while(x.measureText(card.demon).width+96>_max&&_df>20){_df-=3;x.font='400 '+_df+'px '+brush;}var dw=x.measureText(card.demon).width;var boxW=dw+96,boxH=110,bx=W/2-boxW/2,by=672;
   x.fillStyle='#8b938d';x.font='300 25px '+sans;x.fillText(card.demonGood?'修行姿态':'你的心魔',W/2,by-20);
   var sealCol=card.demonGood?'#5bb295':'#d05f4c';
   x.fillStyle=card.demonGood?'rgba(91,178,149,.10)':'rgba(208,95,76,.12)';x.strokeStyle=sealCol;x.lineWidth=3;rr(x,bx,by,boxW,boxH,14);x.fill();x.stroke();
-  x.fillStyle=card.demonGood?'#a7e0cc':'#f0c4bb';x.font='400 56px '+brush;x.textBaseline='middle';x.fillText(card.demon,W/2,by+boxH/2+3);x.textBaseline='alphabetic';
+  x.fillStyle=card.demonGood?'#a7e0cc':'#f0c4bb';x.font='400 '+_df+'px '+brush;x.textBaseline='middle';x.fillText(card.demon,W/2,by+boxH/2+3);x.textBaseline='alphabetic';
   x.fillStyle='#ece6d6';x.font='400 42px '+serif;x.fillText('作品是法器，不是境界。',W/2,884);
   x.fillStyle='#8b938d';x.font='300 26px '+sans;x.fillText('神识，先于放手。　修为在人，AI 为器。',W/2,930);
   var qr=qrEncode('https://9jing.top');var qz=4,cell=7,qpx=(qr.size+qz*2)*cell;var qx=W/2-qpx/2,qy=994;

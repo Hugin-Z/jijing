@@ -14,11 +14,11 @@
 <meta property="og:title" content="Quiz · Nine Realms">
 <meta property="og:description" content="Take the quiz — 6 questions to place you on the AI cultivation ladder and diagnose your inner demon.">
 <meta property="og:url" content="https://9jing.top/en/quiz.html">
-<meta property="og:image" content="https://9jing.top/preview.png">
+<meta property="og:image" content="https://9jing.top/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Quiz · Nine Realms">
 <meta name="twitter:description" content="Take the quiz — 6 questions to place you on the AI cultivation ladder and diagnose your inner demon.">
-<meta name="twitter:image" content="https://9jing.top/preview.png">
+<meta name="twitter:image" content="https://9jing.top/og.png">
 <title>Quiz · Nine Realms</title>
 <style>
 @font-face{font-family:'MaShanLocal';src:url('../fonts/mashanzheng.woff2') format('woff2');font-display:swap}
@@ -132,9 +132,9 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .seal-modal .seal-close{margin-top:12px;font-family:var(--sans);font-size:13px;color:var(--rice-dim);background:none;border:1px solid var(--line);border-radius:20px;padding:8px 26px;cursor:pointer}
 /* ===== EN 排版适配 ===== */
 .res-realm{font-family:var(--serif);font-weight:700;font-size:clamp(26px,5.6vh,42px);line-height:1.14;white-space:normal}
-.tier{height:auto;min-height:clamp(22px,3.1vh,30px);display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;column-gap:8px;row-gap:0}
-.tier .nm{justify-self:auto;text-align:center;font-family:var(--sans);font-weight:500;font-size:clamp(10px,2.5vw,14px);white-space:nowrap}
-.tier .es{justify-self:auto;text-align:center;font-size:clamp(8px,2vw,10px);white-space:nowrap}
+.tier{height:auto;min-height:clamp(22px,3.1vh,30px);display:grid;grid-template-columns:1fr 1fr;align-items:center;column-gap:10px}
+.tier .nm{justify-self:end;text-align:right;font-family:var(--sans);font-weight:600;font-size:clamp(9px,2.4vw,13px);line-height:1.15;white-space:normal}
+.tier .es{justify-self:start;text-align:left;font-family:var(--sans);font-size:clamp(8px,2vw,10px);color:var(--muted);line-height:1.15;white-space:normal}
 .mt{height:auto;min-height:clamp(15px,2.05vh,19px);white-space:normal;font-size:8.5px;line-height:1.15;padding:2px 5px;text-align:center}
 .mt.here{font-size:9.5px}
 .demon-seal .dn{font-family:var(--serif);font-size:15px;font-weight:600}
@@ -436,11 +436,11 @@ function drawSeal(card){
   x.fillStyle='#b8b3a4';x.font='400 34px '+sans;
   x.fillText(card.stage?(card.sub+' · '+card.stage):card.sub,W/2,592);
   // 心魔印章
-  x.font='400 56px '+brush;var dw=x.measureText(card.demon).width;var boxW=dw+96,boxH=110,bx=W/2-boxW/2,by=672;
+  var _max=W-150,_df=56;x.font='400 '+_df+'px '+brush;while(x.measureText(card.demon).width+96>_max&&_df>20){_df-=3;x.font='400 '+_df+'px '+brush;}var dw=x.measureText(card.demon).width;var boxW=dw+96,boxH=110,bx=W/2-boxW/2,by=672;
   x.fillStyle=card.demonGood?'#8b938d':'#8b938d';x.font='300 25px '+sans;x.fillText(card.demonGood?'Your Stance':'Your Inner Demon',W/2,by-20);
   var sealCol=card.demonGood?'#5bb295':'#d05f4c';
   x.fillStyle=card.demonGood?'rgba(91,178,149,.10)':'rgba(208,95,76,.12)';x.strokeStyle=sealCol;x.lineWidth=3;rr(x,bx,by,boxW,boxH,14);x.fill();x.stroke();
-  x.fillStyle=card.demonGood?'#a7e0cc':'#f0c4bb';x.font='400 56px '+brush;x.textBaseline='middle';x.fillText(card.demon,W/2,by+boxH/2+3);x.textBaseline='alphabetic';
+  x.fillStyle=card.demonGood?'#a7e0cc':'#f0c4bb';x.font='400 '+_df+'px '+brush;x.textBaseline='middle';x.fillText(card.demon,W/2,by+boxH/2+3);x.textBaseline='alphabetic';
   // 信条
   x.fillStyle='#ece6d6';x.font='400 42px '+serif;x.fillText('Artifacts are tools, not attainment.',W/2,884);
   x.fillStyle='#8b938d';x.font='300 26px '+sans;x.fillText('Discernment before delegation.　The cultivator matters; AI is the tool.',W/2,930);
