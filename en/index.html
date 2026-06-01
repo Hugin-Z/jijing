@@ -3,6 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Nine Realms — a xianxia-inspired self-assessment for how well you work with AI. From Mortal to Dao Ancestor, find out which realm you are actually in.">
+<link rel="canonical" href="https://9jing.top/en/">
+<link rel="alternate" hreflang="zh-Hans" href="https://9jing.top/">
+<link rel="alternate" hreflang="en" href="https://9jing.top/en/">
+<link rel="alternate" hreflang="x-default" href="https://9jing.top/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="几境 · Nine Realms">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Nine Realms · AI Cultivation Ladder">
+<meta property="og:description" content="Nine Realms — a xianxia-inspired self-assessment for how well you work with AI. From Mortal to Dao Ancestor, find out which realm you are actually in.">
+<meta property="og:url" content="https://9jing.top/en/">
+<meta property="og:image" content="https://9jing.top/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nine Realms · AI Cultivation Ladder">
+<meta name="twitter:description" content="Nine Realms — a xianxia-inspired self-assessment for how well you work with AI. From Mortal to Dao Ancestor, find out which realm you are actually in.">
+<meta name="twitter:image" content="https://9jing.top/preview.png">
 <title>Nine Realms · An AI Cultivation Ladder</title>
 <style>
 @font-face{font-family:'MaShanLocal';src:url('../fonts/mashanzheng.woff2') format('woff2');font-display:swap}
@@ -99,6 +115,10 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
   #pyramid{width:clamp(230px,24vh,290px)}
 }
 .foot{flex:0 0 auto;text-align:center;padding:9px;font-family:var(--sans);font-size:11px;color:var(--muted);letter-spacing:.04em;position:relative;z-index:2;border-top:1px solid var(--line)}
+/* ===== EN 排版适配：英文长境界名 ===== */
+#pyramid{width:min(360px,94vw)}
+.tier{clip-path:none;border-radius:4px;height:auto;min-height:clamp(20px,2.7vh,26px);padding:2px 6px}
+.tier .nm{font-family:var(--sans);font-weight:500;font-size:clamp(9px,2.5vw,12px);letter-spacing:.01em;white-space:nowrap}
 </style>
 </head>
 <body>

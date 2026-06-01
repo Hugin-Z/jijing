@@ -3,6 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="True Scroll — a 24-question deep assessment with an eight-meridian radar and breakthrough guidance for your AI cultivation.">
+<link rel="canonical" href="https://9jing.top/en/quiz-pro.html">
+<link rel="alternate" hreflang="zh-Hans" href="https://9jing.top/quiz-pro.html">
+<link rel="alternate" hreflang="en" href="https://9jing.top/en/quiz-pro.html">
+<link rel="alternate" hreflang="x-default" href="https://9jing.top/quiz-pro.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="几境 · Nine Realms">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="True Scroll · Nine Realms">
+<meta property="og:description" content="True Scroll — a 24-question deep assessment with an eight-meridian radar and breakthrough guidance for your AI cultivation.">
+<meta property="og:url" content="https://9jing.top/en/quiz-pro.html">
+<meta property="og:image" content="https://9jing.top/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="True Scroll · Nine Realms">
+<meta name="twitter:description" content="True Scroll — a 24-question deep assessment with an eight-meridian radar and breakthrough guidance for your AI cultivation.">
+<meta name="twitter:image" content="https://9jing.top/preview.png">
 <title>True Scroll · Nine Realms</title>
 <style>
 @font-face{font-family:'MaShanLocal';src:url('../fonts/mashanzheng.woff2') format('woff2');font-display:swap}
@@ -115,6 +131,11 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .seal-modal img{width:100%;max-width:min(82vw,420px);height:auto;border-radius:12px;box-shadow:0 14px 44px -12px #000;border:1px solid var(--line)}
 .seal-modal p{font-family:var(--sans);font-size:13px;color:var(--gold-l);margin-top:15px;letter-spacing:.04em}
 .seal-modal .seal-close{margin-top:12px;font-family:var(--sans);font-size:13px;color:var(--rice-dim);background:none;border:1px solid var(--line);border-radius:20px;padding:8px 26px;cursor:pointer}
+/* ===== EN 排版适配 ===== */
+.rv-realm{font-family:var(--serif);font-weight:700;font-size:clamp(26px,5.4vh,44px);line-height:1.14;white-space:normal}
+.rv-realm.dim{font-size:clamp(20px,4vh,32px)}
+.radar text{font-size:10px}
+.demon-row .dn{font-family:var(--serif);font-size:14px}
 </style>
 </head>
 <body>
@@ -378,10 +399,10 @@ function radar(P){
   var ax='',lb='';
   for(var i=0;i<8;i++){var p=xy(i,R);ax+='<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="rgba(201,164,92,.16)" stroke-width="1"/>';
     var lp=xy(i,R+19);var anc=Math.abs(lp[0]-cx)<8?'middle':(lp[0]>cx?'start':'end');
-    lb+='<text x="'+lp[0].toFixed(1)+'" y="'+(lp[1]+4).toFixed(1)+'" fill="#b8b3a4" font-size="12.5" text-anchor="'+anc+'">'+lab[i]+'</text>';}
+    lb+='<text x="'+lp[0].toFixed(1)+'" y="'+(lp[1]+4).toFixed(1)+'" fill="#b8b3a4" font-size="10" text-anchor="'+anc+'">'+lab[i]+'</text>';}
   var dp=[],dots='';
   for(var i=0;i<8;i++){var rr=R*Math.max(0.05,P[i]/3);var p=xy(i,rr);dp.push(p[0].toFixed(1)+','+p[1].toFixed(1));dots+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3" fill="#5bb295"/>';}
-  return '<div class="radar"><svg viewBox="0 0 300 300" aria-label="Eight-Meridian Radar">'+rings+ax+lb+'<polygon points="'+dp.join(' ')+'" fill="rgba(91,178,149,.22)" stroke="#5bb295" stroke-width="2"/>'+dots+'</svg></div>';
+  return '<div class="radar"><svg viewBox="-58 -12 416 326" aria-label="Eight-Meridian Radar">'+rings+ax+lb+'<polygon points="'+dp.join(' ')+'" fill="rgba(91,178,149,.22)" stroke="#5bb295" stroke-width="2"/>'+dots+'</svg></div>';
 }
 
 /* ===================== 结果页 ===================== */
@@ -483,7 +504,7 @@ function drawSeal(card){
   x.strokeStyle='rgba(201,164,92,.4)';x.lineWidth=2;x.beginPath();x.moveTo(W/2-120,276);x.lineTo(W/2-26,276);x.moveTo(W/2+26,276);x.lineTo(W/2+120,276);x.stroke();
   x.fillStyle='#c9a45c';x.font='26px '+brush;x.fillText('❖',W/2,285);
   x.fillStyle='#8b938d';x.font='300 31px '+sans;x.fillText('You cultivated to · Realm '+(card.lvl+1),W/2,372);
-  x.fillStyle=card.col;x.font='400 172px '+brush;x.shadowColor=card.col;x.shadowBlur=46;x.fillText(card.realm,W/2,536);x.shadowBlur=0;
+  x.fillStyle=card.col;var _rf=172;x.font='700 '+_rf+'px '+serif;while(x.measureText(card.realm).width>900&&_rf>40){_rf-=6;x.font='700 '+_rf+'px '+serif;}x.shadowColor=card.col;x.shadowBlur=46;x.fillText(card.realm,W/2,536);x.shadowBlur=0;
   x.fillStyle='#b8b3a4';x.font='400 34px '+sans;x.fillText(card.stage?(card.sub+' · '+card.stage):card.sub,W/2,592);
   x.font='400 56px '+brush;var dw=x.measureText(card.demon).width;var boxW=dw+96,boxH=110,bx=W/2-boxW/2,by=672;
   x.fillStyle='#8b938d';x.font='300 25px '+sans;x.fillText(card.demonGood?'Cultivation stance':'Your inner demon',W/2,by-20);

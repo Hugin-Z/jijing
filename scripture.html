@@ -195,10 +195,10 @@ var D={
  b1b:{g:'zen',realm:'炼气 · 心法',xinfa:'AI 是副驾驶，不是负责人',title:'Co-Intelligence《与 AI 共生》',en:'Living and Working with AI',au:'Ethan Mollick · 2024',why:'不讲技术，讲心态——把 AI 当协作者而非工具，破除"它会取代我"的迷障。',link:''},
  b1c:{g:'xin',realm:'炼气 · 心法',xinfa:'AI 是副驾驶，不是负责人',title:'Centaurs and Cyborgs on the Jagged Frontier',en:'半人马、赛博格，与"参差的前沿"',au:'Ethan Mollick · One Useful Thing',why:'两种成功的人机协作姿态，外加"沉睡的车手"警示。后面所有心魔之说，源头在此。',link:'https://www.oneusefulthing.org/'},
  b1d:{g:'xin',realm:'炼气 · 心法',xinfa:'AI 是副驾驶，不是负责人',title:'One Useful Thing（一桩妙事）',en:'Ethan Mollick 的每周通讯',au:'Ethan Mollick',why:'面向普通人的 AI 上手通讯，更新快、不堆术语。想保持"知道现在到底能拿 AI 做什么"，订它准没错。',link:'https://www.oneusefulthing.org/'},
- b2a:{g:'zhen',realm:'筑基 · 心法',xinfa:'提示不是咒语，是工作说明书',title:'Prompt Engineering 官方指南',en:'清晰 · 上下文 · 示例 · 分步 · 指定格式',au:'Anthropic Docs',why:'把"提问"升级成"描述任务"的标准手册。短、准、可立刻照做。',link:'https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview'},
+ b2a:{g:'zhen',realm:'筑基 · 心法',xinfa:'提示不是咒语，是工作说明书',title:'Prompt Engineering 官方指南',en:'清晰 · 上下文 · 示例 · 分步 · 指定格式',au:'Anthropic Docs',why:'把"提问"升级成"描述任务"的标准手册。短、准、可立刻照做。',link:'https://github.com/anthropics/courses'},
  b2b:{g:'zen',realm:'筑基 · 心法',xinfa:'提示不是咒语，是工作说明书',title:'Prompt Engineering for LLMs',en:'The Art and Science of Building LLM-Based Applications',au:"John Berryman & Albert Ziegler（Copilot 创始工程师）· O'Reilly 2024",why:'从模型如何"读"你的话讲起，系统建立提示策略。两位是 Copilot 奠基者，经验之谈不是炒概念。',link:''},
  b2d:{g:'zen',realm:'筑基 · 心法',xinfa:'提示不是咒语，是工作说明书',title:'Prompt Engineering 白皮书',en:'系统讲透各类提示技巧（免费）',au:'Lee Boonstra · Google · 2024',why:'把 temperature、few-shot、思维链、结构化输出讲得很全的免费白皮书。和 Anthropic 官典对照着读，跨厂商通吃。',link:''},
- b2c:{g:'xin',realm:'筑基 · 心法',xinfa:'提示不是咒语，是工作说明书',title:'Anthropic Prompt Library',en:'现成的高质量提示范例库',au:'Anthropic',why:'照着抄、照着改——最快建立"好提示长什么样"的手感。',link:'https://docs.claude.com/en/resources/prompt-library/library'},
+ b2c:{g:'xin',realm:'筑基 · 心法',xinfa:'提示不是咒语，是工作说明书',title:'Anthropic Prompt Library',en:'现成的高质量提示范例库',au:'Anthropic',why:'照着抄、照着改——最快建立"好提示长什么样"的手感。',link:'https://github.com/anthropics/anthropic-cookbook'},
  b2e:{g:'xin',realm:'筑基 · 心法',xinfa:'提示不是咒语，是工作说明书',title:'ChatGPT Prompt Engineering for Developers',en:'DeepLearning.AI × OpenAI 免费短课',au:'Isa Fulford & Andrew Ng',why:'一两个小时跑完的动手短课，边写边学。最快把提示从"碰运气"练成"有套路"。',link:'https://www.deeplearning.ai/'},
  b3a:{g:'zhen',realm:'金丹 · 心法',xinfa:'决定性能的是你往"内存"里装了什么',title:'Effective Context Engineering for AI Agents',en:'上下文工程：提示工程的自然演进',au:'Anthropic Applied AI · 2025.09',why:'官方把重心从"写好一句 prompt"挪到"管理好整个上下文状态"。从筑基迈向金丹的关键一跃。',link:'https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents'},
  b3b:{g:'zen',realm:'金丹 · 心法',xinfa:'决定性能的是你往"内存"里装了什么',title:'AI Engineering《AI 工程》',en:'Building Applications with Foundation Models',au:"Chip Huyen · O'Reilly 2025",why:'横跨数关：提示、上下文、RAG、评测、agent 全成体系讲透，且重评测。若只读一本系统典籍，就它。官方配套资源在 GitHub（aie-book）。',link:'https://github.com/chiphuyen/aie-book'},
@@ -225,7 +225,7 @@ function pull(id,el){
   document.getElementById('m-en').textContent=d.en;
   document.getElementById('m-au').textContent=d.au;
   document.getElementById('m-why').textContent=d.why;
-  document.getElementById('m-act').innerHTML=d.link?'<a class="m-link" href="'+d.link+'" target="_blank">前往研习 ↗</a>':'<span class="m-none">纸质 / 视频典籍 · 各书店或网络可寻</span>';
+  document.getElementById('m-act').innerHTML=d.link?'<a class="m-link" href="'+d.link+'" target="_blank" rel="noopener noreferrer">前往研习 ↗</a>':'<span class="m-none">纸质 / 视频典籍 · 各书店或网络可寻</span>';
   document.getElementById('scrim').classList.add('on');
   if(lastSpine)lastSpine.classList.remove('active');
   lastSpine=el;if(lastSpine)lastSpine.classList.add('active'); // 显式传入被点元素，不依赖全局 event（Firefox/Safari 兼容）

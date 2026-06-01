@@ -3,6 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Take the quiz — 6 questions to place you on the AI cultivation ladder and diagnose your inner demon.">
+<link rel="canonical" href="https://9jing.top/en/quiz.html">
+<link rel="alternate" hreflang="zh-Hans" href="https://9jing.top/quiz.html">
+<link rel="alternate" hreflang="en" href="https://9jing.top/en/quiz.html">
+<link rel="alternate" hreflang="x-default" href="https://9jing.top/quiz.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="几境 · Nine Realms">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Quiz · Nine Realms">
+<meta property="og:description" content="Take the quiz — 6 questions to place you on the AI cultivation ladder and diagnose your inner demon.">
+<meta property="og:url" content="https://9jing.top/en/quiz.html">
+<meta property="og:image" content="https://9jing.top/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Quiz · Nine Realms">
+<meta name="twitter:description" content="Take the quiz — 6 questions to place you on the AI cultivation ladder and diagnose your inner demon.">
+<meta name="twitter:image" content="https://9jing.top/preview.png">
 <title>Quiz · Nine Realms</title>
 <style>
 @font-face{font-family:'MaShanLocal';src:url('../fonts/mashanzheng.woff2') format('woff2');font-display:swap}
@@ -114,6 +130,14 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .seal-modal img{width:100%;max-width:min(82vw,420px);height:auto;border-radius:12px;box-shadow:0 14px 44px -12px #000;border:1px solid var(--line)}
 .seal-modal p{font-family:var(--sans);font-size:13px;color:var(--gold-l);margin-top:15px;letter-spacing:.04em}
 .seal-modal .seal-close{margin-top:12px;font-family:var(--sans);font-size:13px;color:var(--rice-dim);background:none;border:1px solid var(--line);border-radius:20px;padding:8px 26px;cursor:pointer}
+/* ===== EN 排版适配 ===== */
+.res-realm{font-family:var(--serif);font-weight:700;font-size:clamp(26px,5.6vh,42px);line-height:1.14;white-space:normal}
+.tier{height:auto;min-height:clamp(22px,3.1vh,30px);display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;column-gap:8px;row-gap:0}
+.tier .nm{justify-self:auto;text-align:center;font-family:var(--sans);font-weight:500;font-size:clamp(10px,2.5vw,14px);white-space:nowrap}
+.tier .es{justify-self:auto;text-align:center;font-size:clamp(8px,2vw,10px);white-space:nowrap}
+.mt{height:auto;min-height:clamp(15px,2.05vh,19px);white-space:normal;font-size:8.5px;line-height:1.15;padding:2px 5px;text-align:center}
+.mt.here{font-size:9.5px}
+.demon-seal .dn{font-family:var(--serif);font-size:15px;font-weight:600}
 </style>
 </head>
 <body>
@@ -408,7 +432,7 @@ function drawSeal(card){
   x.fillStyle='#c9a45c';x.font='26px '+brush;x.fillText('❖',W/2,285);
   // 境界
   x.fillStyle='#8b938d';x.font='300 31px '+sans;x.fillText('Realm '+(card.lvl+1),W/2,372);
-  x.fillStyle=card.col;x.font='400 172px '+brush;x.shadowColor=card.col;x.shadowBlur=46;x.fillText(card.realm,W/2,536);x.shadowBlur=0;
+  x.fillStyle=card.col;var _rf=172;x.font='700 '+_rf+'px '+serif;while(x.measureText(card.realm).width>900&&_rf>40){_rf-=6;x.font='700 '+_rf+'px '+serif;}x.shadowColor=card.col;x.shadowBlur=46;x.fillText(card.realm,W/2,536);x.shadowBlur=0;
   x.fillStyle='#b8b3a4';x.font='400 34px '+sans;
   x.fillText(card.stage?(card.sub+' · '+card.stage):card.sub,W/2,592);
   // 心魔印章
