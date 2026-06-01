@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scripture Pavilion · Nine Realms</title>
+<style>
+@font-face{font-family:'MaShanLocal';src:url('fonts/mashanzheng.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'SerifLocal';src:url('fonts/notoserifsc.woff2') format('woff2');font-weight:400 500;font-display:swap}
+@font-face{font-family:'SerifLocal';src:url('fonts/notoserifsc-bold.woff2') format('woff2');font-weight:600 700;font-display:swap}
+@font-face{font-family:'SansLocal';src:url('fonts/notosanssc-light.woff2') format('woff2');font-weight:300;font-display:swap}
+@font-face{font-family:'SansLocal';src:url('fonts/notosanssc.woff2') format('woff2');font-weight:400 500;font-display:swap}
+.shelf.hl{animation:shelfglow 2.4s ease}@keyframes shelfglow{0%,100%{box-shadow:0 4px 8px -2px rgba(0,0,0,.55)}30%{box-shadow:0 0 0 2px var(--gold),0 0 24px rgba(201,164,92,.5)}}
+</style>
+<style>
+
+:root{
+  --ink:#0d1115;--panel:#171f25;--panel2:#1c252b;--rice:#ece6d6;--rice-dim:#b8b3a4;--muted:#8b938d;
+  --jade:#5bb295;--jade-d:#3f8f76;--gold:#c9a45c;--gold-l:#e6c074;--cinnabar:#d05f4c;--azure:#6db0c4;
+  --line:rgba(220,210,185,.12);--serif:'SerifLocal','Songti SC','SimSun',serif;--sans:'SansLocal','PingFang SC','Microsoft YaHei',sans-serif;--brush:'MaShanLocal','Songti SC',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:#0c1014}/*BGFIX:实色兜底——iOS Safari 滚动/回弹露馅也是深色，绝不露白*/
+/* 站点统一作者署名（低调，五页一致） */
+.site-by{flex:0 0 auto;text-align:center;font-family:var(--sans);font-size:10.5px;color:var(--muted);letter-spacing:.04em;padding:9px 12px 13px;position:relative;z-index:2}
+.site-by a{color:var(--rice-dim);text-decoration:none;border-bottom:1px solid rgba(184,179,164,.32)}
+.site-by a:hover{color:var(--rice)}
+html::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-gradient(820px 520px at 50% -6%,rgba(201,164,92,.10),transparent 60%),radial-gradient(700px 460px at 84% 36%,rgba(91,178,149,.06),transparent 58%),linear-gradient(180deg,#0c1014,#0e141a 45%,#0c1014)}/*BGFIX*/
+
+body{color:var(--rice);font-family:var(--serif);-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.r{opacity:0;animation:rise .6s cubic-bezier(.2,.7,.2,1) forwards}
+
+.jjnav{flex:0 0 auto;display:flex;align-items:center;gap:2px;justify-content:center;padding:9px 12px;border-bottom:1px solid var(--line);font-family:var(--sans);font-size:13px;position:relative;z-index:5}
+.jjnav a{color:var(--rice-dim);text-decoration:none;padding:5px 12px;border-radius:8px;transition:.2s;letter-spacing:.04em}
+.jjnav a:hover{color:var(--rice);background:rgba(255,255,255,.05)}
+.jjnav a.brand{font-family:var(--brush);font-size:20px;color:var(--gold);padding-right:4px}
+.jjnav a.on{color:var(--jade)}
+.jjnav .sp{width:1px;height:15px;background:rgba(220,210,185,.2);margin:0 3px}
+
+.stage{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:0;position:relative;z-index:2;padding:clamp(10px,2vh,20px) 18px clamp(12px,2vh,20px)}
+.head{text-align:center;flex:0 0 auto}
+.head h1{font-family:var(--brush);font-size:clamp(32px,5.6vh,50px);color:var(--gold-l);line-height:1;text-shadow:0 0 26px rgba(201,164,92,.28)}
+.head .s{font-family:var(--sans);font-size:11.5px;letter-spacing:.14em;color:var(--rice-dim);margin-top:7px}
+.legend{display:flex;gap:14px;justify-content:center;margin-top:9px;font-family:var(--sans);font-size:11px;color:var(--rice-dim)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.lg-z i{background:linear-gradient(120deg,#2a2615,#caa24e);border:1px solid var(--gold)}
+.lg-r i{background:linear-gradient(120deg,#1b2f28,#3f8f76);border:1px solid rgba(91,178,149,.6)}
+.lg-x i{background:linear-gradient(120deg,#222a31,#3a4754);border:1px solid var(--line)}
+
+/* ===== 双扇门书柜 ===== */
+.shelves{perspective:1500px;display:flex;align-items:stretch;justify-content:center;width:100%;max-width:840px;height:clamp(420px,74vh,600px);margin-top:clamp(12px,2.2vh,20px)}
+.cabinet{flex:1 1 0;min-width:0;display:flex;flex-direction:column;background:linear-gradient(180deg,#12181e,#0f141a);border:7px solid;border-image:linear-gradient(150deg,#3a3118,#1c1a12) 1;box-shadow:0 22px 50px rgba(0,0,0,.6),inset 0 0 44px rgba(0,0,0,.5),0 0 0 1px rgba(201,164,92,.2);overflow:hidden;position:relative}
+.cabinet.left{transform-origin:right center;transform:rotateY(12deg);border-radius:8px 3px 3px 8px}
+.cabinet.right{transform-origin:left center;transform:rotateY(-12deg);border-radius:3px 8px 8px 3px}
+.cabinet::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4}
+.cabinet.left::after{background:linear-gradient(90deg,rgba(0,0,0,.5),transparent 42%)}
+.cabinet.right::after{background:linear-gradient(270deg,rgba(0,0,0,.5),transparent 42%)}
+
+.shelf{flex:1 1 0;min-height:0;display:flex;align-items:stretch;border-bottom:1px solid rgba(201,164,92,.22);box-shadow:0 4px 8px -2px rgba(0,0,0,.55)}
+.shelf:last-child{border-bottom:none;box-shadow:none}
+.tab{flex:0 0 28px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.28);border-right:1px solid rgba(201,164,92,.12)}
+.tab span{writing-mode:vertical-rl;text-orientation:upright;font-family:var(--brush);font-size:clamp(14px,2vh,18px);letter-spacing:.08em}
+.tab.nei span{color:#a99cc0}
+.books{flex:1;display:flex;align-items:flex-end;gap:clamp(6px,1.4vw,10px);overflow-x:auto;scrollbar-width:none;padding:0 10px;min-width:0}
+.books::-webkit-scrollbar{display:none}
+
+.spine{position:relative;writing-mode:vertical-rl;text-orientation:upright;cursor:pointer;flex:0 0 auto;display:flex;align-items:center;justify-content:center;border-radius:3px 3px 1px 1px;border:1px solid;font-family:var(--serif);font-weight:500;letter-spacing:.06em;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s;user-select:none}
+.spine .t{font-size:clamp(13px,1.85vh,16px);line-height:1.14}
+.spine::after{content:"";position:absolute;left:3px;right:3px;top:5px;height:1px;background:currentColor;opacity:.22}
+.spine:hover,.spine.active{transform:translateY(-9px)}
+.zhen{width:clamp(40px,5.8vw,54px);height:96%;background:linear-gradient(100deg,#1c2129,#2c2614 52%,#1c2129);border-color:var(--gold);color:var(--gold-l);box-shadow:inset 0 0 12px rgba(0,0,0,.5),0 0 12px rgba(201,164,92,.14)}
+.zhen:hover{box-shadow:0 12px 20px rgba(0,0,0,.5),0 0 20px rgba(201,164,92,.34)}
+.zen{width:clamp(36px,5.2vw,49px);height:88%;background:linear-gradient(100deg,#141f1b,#1c302a 52%,#141f1b);border-color:rgba(91,178,149,.5);color:#8fd9bf;box-shadow:inset 0 0 11px rgba(0,0,0,.45)}
+.xin{width:clamp(34px,4.8vw,45px);height:80%;background:linear-gradient(100deg,#171c22,#232b33 52%,#171c22);border-color:rgba(220,210,185,.22);color:var(--rice-dim);box-shadow:inset 0 0 10px rgba(0,0,0,.4)}
+
+/* 中缝封条 */
+.seal{flex:0 0 clamp(36px,5.2vw,48px);align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;background:repeating-linear-gradient(45deg,rgba(208,95,76,.22),rgba(208,95,76,.22) 8px,rgba(208,95,76,.07) 8px,rgba(208,95,76,.07) 16px);border:1px solid rgba(208,95,76,.45);border-radius:3px;z-index:6;transform:translateZ(44px);box-shadow:0 14px 30px rgba(0,0,0,.55)}
+.seal .wax{font-family:var(--brush);font-size:15px;color:#fff;background:var(--cinnabar);border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;transform:rotate(-7deg);box-shadow:0 2px 7px rgba(0,0,0,.45)}
+.seal .st{writing-mode:vertical-rl;text-orientation:upright;font-family:var(--brush);font-size:clamp(15px,2.2vh,19px);color:#f6e2da;letter-spacing:.16em;text-shadow:0 0 9px rgba(208,95,76,.45)}
+
+/* 抽卷弹层 */
+.scrim{position:fixed;inset:0;background:rgba(8,11,14,.8);backdrop-filter:blur(3px);z-index:50;display:none;align-items:center;justify-content:center;padding:24px}
+.scrim.on{display:flex;animation:rise .25s both}
+.modal{max-width:430px;width:100%;background:linear-gradient(180deg,var(--panel),#12171c);border:1px solid var(--line);border-radius:14px;padding:26px 24px;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.6);max-height:86vh;overflow-y:auto}
+.modal .x{position:absolute;top:13px;right:15px;font-family:var(--sans);font-size:21px;color:var(--muted);cursor:pointer;background:none;border:none;line-height:1}
+.modal .x:hover{color:var(--rice)}
+.ribbon{display:inline-block;font-family:var(--sans);font-size:11px;letter-spacing:.16em;padding:4px 12px;border-radius:18px;border:1px solid}
+.ribbon.gz{color:var(--gold-l);border-color:rgba(201,164,92,.5);background:rgba(201,164,92,.08)}
+.ribbon.gzn{color:var(--jade);border-color:rgba(91,178,149,.45);background:rgba(91,178,149,.07)}
+.ribbon.gx{color:var(--rice-dim);border-color:rgba(220,210,185,.28);background:rgba(220,210,185,.05)}
+.m-realm{font-family:var(--sans);font-size:12px;color:var(--muted);letter-spacing:.06em;margin:13px 0 2px}
+.m-xinfa{font-family:var(--brush);font-size:19px;color:var(--rice);line-height:1.3;margin-bottom:15px}
+.m-title{font-size:19px;color:#fff;font-weight:600;line-height:1.35}
+.m-en{font-family:var(--sans);font-size:12.5px;color:var(--rice-dim);margin-top:3px}
+.m-au{font-family:var(--sans);font-size:12px;color:var(--muted);margin-top:4px}
+.m-why{color:var(--rice-dim);font-size:14.5px;line-height:1.7;margin-top:13px;border-top:1px dashed var(--line);padding-top:13px}
+.m-link{display:inline-block;margin-top:15px;font-family:var(--sans);font-size:13px;color:var(--jade);text-decoration:none;border:1px solid rgba(91,178,149,.4);border-radius:8px;padding:8px 17px}
+.m-link:hover{background:rgba(91,178,149,.12)}
+.m-none{display:inline-block;margin-top:15px;font-family:var(--sans);font-size:12px;color:var(--muted)}
+
+@media(max-width:560px){.cabinet.left{transform:rotateY(9deg)}.cabinet.right{transform:rotateY(-9deg)}.tab{flex-basis:24px}}
+</style>
+</head>
+<body>
+<nav class="jjnav">
+  <a class="brand" href="index.html">几境</a>
+  <span class="sp"></span>
+  <a href="realms.html">Realms</a>
+  <a class="on" href="scripture.html">Scripture</a>
+  <a href="quiz.html">Quiz</a>
+  <span class="sp"></span>
+  <a href="../scripture.html">中</a>
+</nav>
+
+<div class="stage">
+  <div class="head r">
+    <h1>Scripture Pavilion</h1>
+    <div class="s">The texts to read at each realm · Click a spine to draw a scroll</div>
+    <div class="legend">
+      <span class="lg-z"><i></i>Cornerstone</span><span class="lg-r"><i></i>Core Teaching</span><span class="lg-x"><i></i>Inner Transmission</span>
+    </div>
+  </div>
+
+  <div class="shelves r" style="animation-delay:.12s">
+    <!-- 左扇：外功 炼气→元婴（4 层） -->
+    <div class="cabinet left">
+      <div class="shelf" id="realm1"><div class="tab" style="color:#9fb0a8"><span>Qi Refining</span></div><div class="books">
+        <div class="spine zhen" onclick="pull('b1a', this)"><span class="t">AI Fluency</span></div>
+        <div class="spine zen" onclick="pull('b1b', this)"><span class="t">Co-Intelligence</span></div>
+        <div class="spine xin" onclick="pull('b1c', this)"><span class="t">Centaurs & Cyborgs</span></div>
+        <div class="spine xin" onclick="pull('b1d', this)"><span class="t">One Useful Thing</span></div>
+      </div></div>
+      <div class="shelf" id="realm2"><div class="tab" style="color:#5bb295"><span>Foundation</span></div><div class="books">
+        <div class="spine zhen" onclick="pull('b2a', this)"><span class="t">Prompt Guide</span></div>
+        <div class="spine zen" onclick="pull('b2b', this)"><span class="t">Prompt Engineering</span></div>
+        <div class="spine zen" onclick="pull('b2d', this)"><span class="t">Prompt Whitepaper</span></div>
+        <div class="spine xin" onclick="pull('b2c', this)"><span class="t">Prompt Library</span></div>
+        <div class="spine xin" onclick="pull('b2e', this)"><span class="t">Prompt Crash Course</span></div>
+      </div></div>
+      <div class="shelf" id="realm3"><div class="tab" style="color:#c9a45c"><span>Golden Core</span></div><div class="books">
+        <div class="spine zhen" onclick="pull('b3a', this)"><span class="t">Context Engineering</span></div>
+        <div class="spine zen" onclick="pull('b3b', this)"><span class="t">AI Engineering</span></div>
+        <div class="spine xin" onclick="pull('b3c', this)"><span class="t">LLM as Memory</span></div>
+        <div class="spine xin" onclick="pull('b3d', this)"><span class="t">Context over Prompts</span></div>
+      </div></div>
+      <div class="shelf" id="realm4"><div class="tab" style="color:#6db0c4"><span>Nascent Soul</span></div><div class="books">
+        <div class="spine zhen" onclick="pull('b4a', this)"><span class="t">Evals</span></div>
+        <div class="spine zen" onclick="pull('b4c', this)"><span class="t">System Patterns</span></div>
+        <div class="spine xin" onclick="pull('b4b', this)"><span class="t">LLM as Judge</span></div>
+      </div></div>
+    </div>
+
+    <!-- 中缝封印：神识既成，方可言放手 -->
+    <div class="seal"><div class="wax">Seal</div><div class="st">Discernment attained, then delegate</div></div>
+
+    <!-- 右扇：化神 + 内功返虚（2 层，层更高） -->
+    <div class="cabinet right">
+      <div class="shelf" id="realm5"><div class="tab" style="color:#ecdfb6"><span>Spirit Transformation</span></div><div class="books">
+        <div class="spine zhen" onclick="pull('b5a', this)"><span class="t">Building Agents</span></div>
+        <div class="spine xin" onclick="pull('b5b', this)"><span class="t">Agent Cookbook</span></div>
+        <div class="spine xin" onclick="pull('b5c', this)"><span class="t">Levels of Autonomy</span></div>
+        <div class="spine xin" onclick="pull('b5d', this)"><span class="t">Agent Skills</span></div>
+        <div class="spine xin" onclick="pull('b5e', this)"><span class="t">12-Factor Agents</span></div>
+      </div></div>
+      <div class="shelf" id="realm6"><div class="tab nei"><span>Return to Void🔒</span></div><div class="books">
+        <div class="spine zhen" onclick="pull('b6a', this)"><span class="t">Transforming Work</span></div>
+        <div class="spine zen" onclick="pull('b6b', this)"><span class="t">AI Economic Index</span></div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-by">Author Hugin-Z · <a href="https://github.com/Hugin-Z" target="_blank" rel="noopener">GitHub</a></footer>
+
+<div class="scrim" id="scrim" onclick="if(event.target===this)closeM()">
+  <div class="modal">
+    <button class="x" onclick="closeM()">✕</button>
+    <span class="ribbon" id="m-rib"></span>
+    <div class="m-realm" id="m-realm"></div>
+    <div class="m-xinfa" id="m-xinfa"></div>
+    <div class="m-title" id="m-title"></div>
+    <div class="m-en" id="m-en"></div>
+    <div class="m-au" id="m-au"></div>
+    <div class="m-why" id="m-why"></div>
+    <div id="m-act"></div>
+  </div>
+</div>
+
+<script>
+var G={zhen:['gz','Cornerstone Work'],zen:['gzn','Core Teaching'],xin:['gx','Inner Transmission']};
+var D={
+ b1a:{g:'zhen',realm:'Qi Refining · Method',xinfa:'AI is a co-pilot, not the one in charge',title:'AI Fluency · 4D Framework',en:'Delegation / Description / Discernment / Diligence — free official course',au:'Anthropic × Dakan & Feller',why:'Breaks "knowing how to use AI" into four trainable abilities — the master outline for the whole inner art. Set the framework first.',link:'https://www.anthropic.com/ai-fluency'},
+ b1b:{g:'zen',realm:'Qi Refining · Method',xinfa:'AI is a co-pilot, not the one in charge',title:'Co-Intelligence',en:'Living and Working with AI',au:'Ethan Mollick · 2024',why:'Not about tech, but about mindset — treat AI as a collaborator, not a tool, and dispel the delusion that "it will replace me."',link:''},
+ b1c:{g:'xin',realm:'Qi Refining · Method',xinfa:'AI is a co-pilot, not the one in charge',title:'Centaurs and Cyborgs on the Jagged Frontier',en:'Centaurs, cyborgs, and the "jagged frontier"',au:'Ethan Mollick · One Useful Thing',why:'Two successful stances for human-AI collaboration, plus the "sleeping driver" warning. The source of every inner-demon idea that follows.',link:'https://www.oneusefulthing.org/'},
+ b1d:{g:'xin',realm:'Qi Refining · Method',xinfa:'AI is a co-pilot, not the one in charge',title:'One Useful Thing',en:'Ethan Mollick’s weekly newsletter',au:'Ethan Mollick',why:'An AI onboarding newsletter for everyday people — frequent updates, no jargon pileup. To keep knowing "what AI can actually do right now," subscribe and you won’t go wrong.',link:'https://www.oneusefulthing.org/'},
+ b2a:{g:'zhen',realm:'Foundation Establishment · Method',xinfa:'A prompt is not an incantation, it’s a work order',title:'Prompt Engineering Official Guide',en:'Clear · Context · Examples · Step-by-step · Specify format',au:'Anthropic Docs',why:'The standard manual for upgrading "asking questions" into "describing tasks." Short, precise, and ready to follow at once.',link:'https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview'},
+ b2b:{g:'zen',realm:'Foundation Establishment · Method',xinfa:'A prompt is not an incantation, it’s a work order',title:'Prompt Engineering for LLMs',en:'The Art and Science of Building LLM-Based Applications',au:"John Berryman & Albert Ziegler (founding engineers of Copilot) · O'Reilly 2024",why:'Starts from how the model "reads" your words and builds prompting strategy systematically. Both authors are Copilot founders — hard-won experience, not hype.',link:''},
+ b2d:{g:'zen',realm:'Foundation Establishment · Method',xinfa:'A prompt is not an incantation, it’s a work order',title:'Prompt Engineering Whitepaper',en:'A thorough survey of every kind of prompting technique (free)',au:'Lee Boonstra · Google · 2024',why:'A free whitepaper that covers temperature, few-shot, chain-of-thought, and structured output very thoroughly. Read it alongside the Anthropic guide for cross-vendor coverage.',link:''},
+ b2c:{g:'xin',realm:'Foundation Establishment · Method',xinfa:'A prompt is not an incantation, it’s a work order',title:'Anthropic Prompt Library',en:'A ready-made library of high-quality prompt examples',au:'Anthropic',why:'Copy them, adapt them — the fastest way to build a feel for "what a good prompt looks like."',link:'https://docs.claude.com/en/resources/prompt-library/library'},
+ b2e:{g:'xin',realm:'Foundation Establishment · Method',xinfa:'A prompt is not an incantation, it’s a work order',title:'ChatGPT Prompt Engineering for Developers',en:'A free short course from DeepLearning.AI × OpenAI',au:'Isa Fulford & Andrew Ng',why:'A hands-on short course you can finish in an hour or two, learning as you write. The fastest way to turn prompting from "rolling the dice" into "having a method."',link:'https://www.deeplearning.ai/'},
+ b3a:{g:'zhen',realm:'Golden Core · Method',xinfa:'What decides performance is what you load into "memory"',title:'Effective Context Engineering for AI Agents',en:'Context engineering: the natural evolution of prompt engineering',au:'Anthropic Applied AI · 2025.09',why:'The official shift of focus from "writing one good prompt" to "managing the entire context state." The key leap from Foundation Establishment toward Golden Core.',link:'https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents'},
+ b3b:{g:'zen',realm:'Golden Core · Method',xinfa:'What decides performance is what you load into "memory"',title:'AI Engineering',en:'Building Applications with Foundation Models',au:"Chip Huyen · O'Reilly 2025",why:'Spans several barriers: prompting, context, RAG, evals, and agents are all explained as a system, with heavy emphasis on evals. If you read only one systematic text, read this one. Official companion resources are on GitHub (aie-book).',link:'https://github.com/chiphuyen/aie-book'},
+ b3c:{g:'xin',realm:'Golden Core · Method',xinfa:'What decides performance is what you load into "memory"',title:'"The LLM is the OS, the context window is the memory"',en:'A metaphor that makes context engineering click instantly',au:'Andrej Karpathy · talk / Software 3.0',why:'A prompt is just one command typed into the system; what truly decides the result is what you load into "memory." A single line that wakes you up.',link:'https://www.bilibili.com/video/BV1SHKczUEzi'},
+ b3d:{g:'xin',realm:'Golden Core · Method',xinfa:'What decides performance is what you load into "memory"',title:"The New Skill in AI is Not Prompting, It's Context Engineering",en:'The new skill is not prompting, but context',au:'Philipp Schmid · 2025',why:'The cleanest short piece on "why the focus shifts from prompting to context." It complements the Anthropic article — read this one first to warm up.',link:'https://www.philschmid.de/context-engineering'},
+ b4a:{g:'zhen',realm:'Nascent Soul · Method',xinfa:'Running it yourself is inner skill; others running it is the method',title:'Your AI Product Needs Evals',en:'Look at your own data, write assertion-style tests, then add automated judging',au:'Hamel Husain',why:'The master outline for cultivating "Discernment": swap "I feel it’s about right" for "I have a measurable standard." Almost every failed AI product failed for lack of evals.',link:'https://hamel.dev/blog/posts/evals/'},
+ b4c:{g:'zen',realm:'Nascent Soul · Method',xinfa:'Running it yourself is inner skill; others running it is the method',title:'Patterns for Building LLM-based Systems & Products',en:'Engineering patterns for building LLM systems and products',au:'Eugene Yan',why:'Systematically organizes the patterns that "keep output under control" — evals, RAG, guardrails, caching, UX. A panorama of Discernment landing in engineering.',link:'https://eugeneyan.com/writing/llm-patterns/'},
+ b4b:{g:'xin',realm:'Nascent Soul · Method',xinfa:'Running it yourself is inner skill; others running it is the method',title:'Creating a LLM-as-a-Judge That Drives Results',en:'Using a model as judge: how to calibrate it to be trustworthy',au:'Hamel Husain',why:'Drop the vague 1–5 scale; use "did it meet the goal + comments" instead, and calibrate the model judge against humans. A concrete move for projecting Discernment outward.',link:'https://hamel.dev/blog/posts/llm-judge/'},
+ b5a:{g:'zhen',realm:'Spirit Transformation · Method',xinfa:'Only what still works across projects is the method',title:'Building Effective Agents',en:'Workflow vs. agent · from simple to complex',au:'Erik Schluntz & Barry Zhang · Anthropic 2024.12',why:'The anchor of agentic work: start with a simple solution + thorough evaluation, and add autonomy only when that isn’t enough. Teaches several composable patterns.',link:'https://www.anthropic.com/engineering/building-effective-agents'},
+ b5b:{g:'xin',realm:'Spirit Transformation · Method',xinfa:'Only what still works across projects is the method',title:'anthropic-cookbook · patterns/agents',en:'Runnable reference implementations of the piece above',au:'anthropics / GitHub',why:'Turns the patterns from "Building Effective Agents" into code that runs. Once you’ve finished the theory, come here to copy the implementation.',link:'https://github.com/anthropics/anthropic-cookbook/tree/main/patterns/agents'},
+ b5c:{g:'xin',realm:'Spirit Transformation · Method',xinfa:'Only what still works across projects is the method',title:'Levels of Autonomy for AI Agents (L0–L5)',en:'Autonomy levels modeled on SAE self-driving',au:'arXiv 2506.12469 etc.',why:'A ruler for "how much to delegate": from Operator to Observer. Today’s production ceiling is L3, "human-on-the-loop" governance — don’t blindly chase L5.',link:'https://arxiv.org/abs/2506.12469'},
+ b5d:{g:'xin',realm:'Spirit Transformation · Method',xinfa:'Only what still works across projects is the method',title:'agent-skills',en:'A format reference for packaging reusable abilities into skills',au:'addyosmani / GitHub',why:'When you want to "tool-ize" a method for others to use, organize your SKILL files in this format. Moving from "I can run it" to "others can run it."',link:'https://github.com/addyosmani/agent-skills'},
+ b5e:{g:'xin',realm:'Spirit Transformation · Method',xinfa:'Only what still works across projects is the method',title:'12-Factor Agents',en:'Twelve engineering principles for reliable LLM applications',au:'Dex Horthy · HumanLayer · 2025',why:'A line that punctures the hype: "A good agent is mostly ordinary software; the LLM only adds the finishing touch at key points." You stay stable by controlling state and control flow yourself.',link:'https://github.com/humanlayer/12-factor-agents'},
+ b6a:{g:'zhen',realm:'Return to Void · Method (Inner Art)',xinfa:'What AI changes is not individual efficiency, but the structure of collaboration',title:'How AI Is Transforming Work at Anthropic',en:'How human-AI division of labor really plays out in a real organization',au:'Anthropic (Huang et al.)',why:'The data speaks: in real teams "full delegation" is only 0–20%, and high-level design always stays with humans. Return to Void is not fiercer automation, but restructuring how people collaborate.',link:'https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic'},
+ b6b:{g:'zen',realm:'Return to Void · Method (Inner Art)',xinfa:'What AI changes is not individual efficiency, but the structure of collaboration',title:'Anthropic Economic Index',en:'How AI is changing real work and the economy',au:'Anthropic',why:'Looks at what AI actually replaces or augments across industries and job functions, from large-scale real-usage data. The empirical foundation for judging "organization-level impact."',link:'https://www.anthropic.com/economic-index'}
+};
+var lastSpine=null;
+function pull(id,el){
+  var d=D[id];if(!d)return;
+  var rib=document.getElementById('m-rib');rib.className='ribbon '+G[d.g][0];rib.textContent=G[d.g][1];
+  document.getElementById('m-realm').textContent=d.realm;
+  document.getElementById('m-xinfa').textContent='“'+d.xinfa+'”';
+  document.getElementById('m-title').textContent=d.title;
+  document.getElementById('m-en').textContent=d.en;
+  document.getElementById('m-au').textContent=d.au;
+  document.getElementById('m-why').textContent=d.why;
+  document.getElementById('m-act').innerHTML=d.link?'<a class="m-link" href="'+d.link+'" target="_blank">Go study ↗</a>':'<span class="m-none">Print / video text · find it at bookstores or online</span>';
+  document.getElementById('scrim').classList.add('on');
+  if(lastSpine)lastSpine.classList.remove('active');
+  lastSpine=el;if(lastSpine)lastSpine.classList.add('active'); // 显式传入被点元素，不依赖全局 event（Firefox/Safari 兼容）
+}
+function closeM(){document.getElementById('scrim').classList.remove('on');if(lastSpine){lastSpine.classList.remove('active');lastSpine=null;}}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM();});
+
+// 从测一测跳来：#realmN 滚动到对应书架并高亮
+(function(){
+  var m=(location.hash.match(/realm(\d)/)||[])[1];
+  if(!m)return;
+  var el=document.getElementById('realm'+m);
+  if(!el)return;
+  setTimeout(function(){
+    el.scrollIntoView({behavior:'smooth',block:'center'});
+    el.classList.add('hl');
+    setTimeout(function(){el.classList.remove('hl');},2600);
+  },300);
+})();
+</script>
+</body>
+</html>
