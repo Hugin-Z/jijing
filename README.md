@@ -83,6 +83,8 @@ python3 -m http.server 8000   # 然后开 http://localhost:8000
 
 ### You think you're good at AI? Let's see which realm you've actually reached.
 
+<div align="center"><img src="./og.png" alt="Nine Realms · 几境 — an AI cultivation ladder" width="380"></div>
+
 **Jǐjìng (几境)** is a cultivation ladder (xianxia-style) that measures **how well you *wield* AI — not how much AI you've studied.**
 
 Nine realms, from **Mortal** to **Dao Ancestor**:
@@ -100,7 +102,7 @@ And one iron law — break it and you suffer **qi deviation (走火入魔)**:
 - 📜 **Browse the Scripture Hall** — double doors holding **23 hand-picked readings**, sealed in the middle by *"Discernment before Autonomy."*
 - 🔮 **Take the quiz** — 6 questions to place you on the ladder and diagnose your inner demon.
 
-> 👉 **Stop reading — [go find your realm at 9jing.top](https://9jing.top).**
+> 👉 **Stop reading — [go find your realm at 9jing.top/en](https://9jing.top/en).**
 
 ---
 
