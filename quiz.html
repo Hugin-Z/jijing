@@ -262,16 +262,19 @@ var QS = [
 ];
 
 /* ===================== 流程控制 ===================== */
-var idx=0, ans=[], CARD=null;
+var idx=0, ans=[], CARD=null, ORDER=[];
+// 选项随机排序：分值绑定在选项本身（onclick 回传原始下标），打乱仅改显示位置；证据题(Q0)不打乱
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function buildOrder(){ORDER=QS.map(function(q,qi){var base=q.opts.map(function(_,i){return i;});return qi===0?base:shuffle(base);});}
 function show(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on')});document.getElementById(id).classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}
-function start(){idx=0;ans=[];show('quiz');render();}
+function start(){idx=0;ans=[];buildOrder();show('quiz');render();}
 function render(){
   var q=QS[idx];
   document.getElementById('pnum').textContent=(idx+1)+' / '+QS.length;
   document.getElementById('pfill').style.width=((idx)/QS.length*100)+'%';
   document.getElementById('backBtn').style.display=idx>0?'inline-block':'none';
   var h='<div class="fade"><div class="q-axis">'+q.axis+'</div><div class="q-text">'+q.q+'</div><div class="q-hint">'+q.hint+'</div><div class="opts">';
-  q.opts.forEach(function(o,i){h+='<button class="opt" onclick="pick('+i+')">'+o.t+'</button>';}); // 不显示 tag（封顶/境界提示会泄题）；评分仍由 o.cap/o.sh/o.let 决定
+  (ORDER[idx]||q.opts.map(function(_,i){return i;})).forEach(function(oi){var o=q.opts[oi];h+='<button class="opt" onclick="pick('+oi+')">'+o.t+'</button>';}); // 选项随机显示；onclick 回传原始下标，分值绑定选项内容
   h+='</div></div>';
   document.getElementById('qbody').innerHTML=h;
 }
